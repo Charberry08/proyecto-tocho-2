@@ -4,6 +4,7 @@ let numRes = 0;
 let numTemp = 0;
 let setPunto = false;
 let setOperacion = false;
+let setSegundoSigno = false;
 let setSegundoNumero = false;
 let setAnteriorIgual = false;
 
@@ -17,6 +18,7 @@ function toggleMusica()
 
 function insertarElemento(numP)
 {
+    setSegundoSigno = false;
     document.getElementById("sonidoBoton").currentTime = 0.05;
     document.getElementById("sonidoBoton").play();
     if(setOperacion)
@@ -56,7 +58,7 @@ function operacion(numP)
     setPunto = false;
     document.getElementById("sonidoBoton").currentTime = 0.05;
     document.getElementById("sonidoBoton").play();
-    if(setSegundoNumero)
+    if(setSegundoNumero && !setSegundoSigno)
     {
         var realizarOperacion = Module.cwrap(
             "realizarOperacion",
@@ -68,6 +70,7 @@ function operacion(numP)
     }
     if(numP != "=")
     {
+        setSegundoSigno = true;
         setOperacion = true;
         numRes = Number(document.getElementById("pantalla").value);
         signo = numP;
