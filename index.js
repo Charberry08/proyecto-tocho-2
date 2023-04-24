@@ -11,7 +11,6 @@ function toggleMusica()
 {
     document.getElementById("botonMusica").style.backgroundColor = "rgb(110, 255, 171)";
     document.getElementById("botonMusica").style.borderColor = "rgb(85, 196, 131";
-    document.getElementById("botonMusica")
     document.getElementById("botonMusica").innerHTML = "Music - ON";
     document.getElementById("musicaFondo").play();
 }
@@ -87,7 +86,6 @@ function eliminarElemento()
     document.getElementById("sonidoBoton").play();
     if(setOperacion)
     {
-        setSegundoNumero = true;
         setOperacion = false;
         document.getElementById("pantalla").value = "";
     }

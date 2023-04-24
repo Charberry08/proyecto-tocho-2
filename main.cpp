@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 #include <emscripten.h>
 
 EMSCRIPTEN_KEEPALIVE
