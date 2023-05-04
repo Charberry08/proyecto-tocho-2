@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesca Tocha</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel = "icon" href = "https://static-00.iconduck.com/assets.00/fishing-pole-and-fish-emoji-482x512-pa9749t9.png" type = "image/x-icon">
+</head>
+<body id="fondo" name="fondo">
+    <audio loop id="musicaInicio" name="musicaInicio" src="audio/title_screen_music.mp3"></audio>
+    <audio loop id="musicaPescaDiaLarga" name="musicaPescaDiaLarga" src="audio/background_day_fishing_music_long.mp3"></audio>
+    <audio loop id="musicaPescaDiaCorta" name="musicaPescaDiaCorta" src="audio/background_day_fishing_music_short.mp3"></audio>
+    <audio loop id="musicaPescaAtardecer" name="musicaPescaAtardecer" src="audio/background_sunset_fishing_music.mp3"></audio>
+    <audio loop id="musicaPescaNoche" name="musicaPescaNoche" src="audio/background_night_fishing_music.mp3"></audio>
+    <audio loop id="musicaPescaAmanecer" name="musicaPescaAmanecer" src="audio/background_sunrise_fishing_music.mp3"></audio>
+    <form id="pantallaNegra" name="pantallaNegra">
+        <div onclick="iniciarPantallaInicio()" type="button" id="botonPantallaNegra" name="botonPantallaNegra"></div>
+    </form>
+    <form id="pantallaTitulo" name="pantallaTitulo">
+        <div id="tituloLogo" name="tituloLogo"></div>
+        <div onclick="iniciarJuego()" type="button" id="pressStart" name="pressStart"></div>
+        <div id="copyright" name="copyright"></div>
+    </form>
+    <form id="juegoPesca" name="juegoPesca">
+        <div id="estanque" name="estanque">
+            <button onclick="lanzarAnzuelo()" type="button" id="areaPesca" name="areaPesca">
+                <div id="peces" name="peces"></div>
+                <div id="cuerda" name="cuerda"></div>
+                <div id="anzuelo" name="anzuelo"></div>
+            </button>
+        </div>
+        <div id="cania" name="cania">
+            <div id="puntera" name="puntera"></div>
+            <div id="mango" name="mango"></div>
+        </div>
+    </form>
+    <script src="index.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

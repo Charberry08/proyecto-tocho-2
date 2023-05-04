@@ -1,0 +1,113 @@
+body
+{
+    background-image:url(images/fondo/black_screen.webp);
+    background-repeat:no-repeat;
+    background-attachment: fixed;
+    background-position:center;
+    background-size:cover;
+}
+
+#botonPantallaNegra
+{
+    position:absolute;
+    border:none;
+    width:90%;
+    height:90%;
+    cursor:pointer;
+}
+
+#pantallaTitulo
+{
+    display:none;
+}
+
+#juegoPesca
+{
+    display:none;
+}
+#tituloLogo
+{
+    position:absolute;
+    background-image:url(images/pantalla_incio/logo_pesca_tocha.png);
+    width:60%;
+    height:72%;
+    left:20%;
+    background-repeat:no-repeat;
+    background-size:100%;
+}
+#pressStart
+{
+    position:absolute;
+    background-image:url(images/pantalla_incio/press_start.png);
+    width:40%;
+    height:9.5%;
+    background-size:100%;
+    left:30%;
+    top:80%;
+    background-repeat:no-repeat;
+    cursor:pointer;
+}
+#copyright
+{
+    position:absolute;
+    background-image:url(images/pantalla_incio/copyright.png);
+    width:20%;
+    height:6%;
+    background-size:100%;
+    bottom:0px;
+    left:40%;
+    background-repeat:no-repeat;
+}
+
+#cania
+{
+    position:absolute;
+    bottom:0px;
+    left:60%;
+}
+#cuerda
+{
+    position:absolute;
+    background-image:url(images/cania/cuerda.png);
+    height:7px;
+    width:50px;
+    bottom:515px;
+    transform-origin: bottom left;
+    rotate:-90deg;
+}
+#puntera
+{
+    position:relative;
+    background-image:url(images/cania/puntera.png);
+    height:180px;
+    width:94px;
+    left:206px;
+    bottom:-6px;
+}
+#anzuelo
+{
+    position:absolute;
+    background-image:url(images/cania/anzuelo.png);
+    height:19px;
+    width:19px;
+    bottom:500px;
+}
+#mango
+{
+    position:relative;
+    background-image:url(images/cania/mango.png);
+    height:391px;
+    width:218px;
+}
+
+#areaPesca
+{
+    position:absolute;
+    bottom:0px;
+    left:21.5%;
+    background-color:#36c5f4;
+    height:40%;
+    width:60%;
+    cursor:pointer;
+    border:none;
+}

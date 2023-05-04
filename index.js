@@ -80,6 +80,10 @@ function operacion(numP)
         setSegundoNumero = false;
         setOperacion = false;
         setAnteriorIgual = true;
+        if(document.getElementById("pantalla").value == "69420")
+        {
+            window.location.href="pescaTocha/index.html";
+        }
     }
 }
 
