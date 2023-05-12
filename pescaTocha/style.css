@@ -97,6 +97,7 @@ body
     width:19px;
     bottom:500px;
     pointer-events: none;
+    z-index: 3;
 }
 #mango
 {
@@ -104,6 +105,7 @@ body
     background-image:url(images/cania/mango.png);
     height:391px;
     width:218px;
+    z-index: 3;
 }
 
 #areaPesca
