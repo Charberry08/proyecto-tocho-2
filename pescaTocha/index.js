@@ -822,7 +822,7 @@ function spawnearPeces()
                         btrn.style.top = distanciaArriba - 10 + "px";
                         btrn.style.backgroundColor = "#36C5F4";
                         btrn.style.border = "none";
-                        btrn.style.zIndex = "1";
+                        btrn.style.zIndex = "0";
 
                         if(direccionPez == 1)
                         {
