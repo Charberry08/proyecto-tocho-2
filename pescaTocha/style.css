@@ -64,6 +64,8 @@ body
     position:absolute;
     bottom:0px;
     left:60%;
+    pointer-events: none;
+    z-index: 3;
 }
 #cuerda
 {
@@ -74,6 +76,8 @@ body
     bottom:515px;
     transform-origin: bottom left;
     rotate:-90deg;
+    pointer-events: none;
+    z-index: 3;
 }
 #puntera
 {
@@ -83,6 +87,7 @@ body
     width:94px;
     left:206px;
     bottom:-6px;
+    z-index: 3;
 }
 #anzuelo
 {
@@ -91,6 +96,7 @@ body
     height:19px;
     width:19px;
     bottom:500px;
+    pointer-events: none;
 }
 #mango
 {
@@ -105,9 +111,98 @@ body
     position:absolute;
     bottom:0px;
     left:21.5%;
-    background-color:#36c5f4;
+    background-color:#36C5F4;
     height:40%;
     width:60%;
     cursor:pointer;
     border:none;
+}
+
+#pantallaPesca
+{
+    display:none;
+}
+#fondoMadera
+{
+    position:absolute;
+    background-image:url(images/elements/wood_plank.png);
+    height:621px;
+    width:1178px;
+    background-size:100%;
+    cursor:pointer;
+    z-index: 3;
+}
+#modeloPez
+{
+    z-index: 3;
+}
+.maderaTrasparente
+{
+    pointer-events: none;
+}
+.maderaTexto
+{
+    position:absolute;
+    color:white;
+    background-color: transparent;
+    font-family: "Darumadrop One", "Consolas";
+    border:none;
+}
+#pesoPez
+{
+    left:200px;
+    height:40px;
+    width:400px;
+    font-size:40px;
+    bottom:50px;
+}
+#tamanioPez
+{
+    left:500px;
+    height:40px;
+    width:300px;
+    font-size:40px;
+    bottom:50px;
+}
+#dineroPez
+{
+    left:770px;
+    height:80px;
+    width:300px;
+    font-size:80px;
+    bottom:40px;
+}
+
+#fondoDineroTotal
+{
+    background-image: url(images/elements/small_wood_plank.png);
+    height:135px;
+    width:290px;
+    background-size:100%;
+    background-repeat: no-repeat;
+}
+#monedaOro
+{
+    position:absolute;  
+    background-image:url(images/elements/gold_coin.png);
+    height:80px;
+    width:80px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    left:20px;
+    top:40px;
+}
+#dineroTotal
+{
+    position:absolute;
+    color:gold;
+    background-color: transparent;
+    font-family: "Darumadrop One", "Consolas";
+    border:none;
+    height:80px;
+    width:170px;
+    font-size:80px;
+    text-align: center;
+    left:110px;
+    top:25px;
 }

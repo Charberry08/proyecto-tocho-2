@@ -6,8 +6,7 @@ EMSCRIPTEN_KEEPALIVE
 int main()
 {
     srand(time(0));
-    std::cout << "Welcome to my worldBI!" << std::endl;
-    std::cout << "Man I love stacks" << std::endl;
+    std::cout << "Man, I love Stacks" << std::endl;
 
     return 0;
 }
