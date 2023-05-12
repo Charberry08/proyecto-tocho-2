@@ -1693,8 +1693,6 @@ function desaparecerPez()
     document.getElementById("pez_" + idPezActual).remove();
     document.getElementById("boton_" + idPezActual).remove();
     arregloEspacios[idPezActual - 1] = false;
-
-    console.log("des");
 }
 
 function atraparPez()
@@ -1705,8 +1703,6 @@ function atraparPez()
     document.getElementById("pez_" + idPezActual).remove();
     document.getElementById("boton_" + idPezActual).remove();
     arregloEspacios[idPezActual - 1] = false;
-
-    console.log("ap");
 }
 
 function mostrarPez()
