@@ -237,7 +237,7 @@ function spawnearPeces()
         if(contadorPeces < 10)
         {
             encontrarEspacio();
-            switch(0)
+            switch(getNumeroRandom(3))
             {
             case 0:
                 switchRandomPool1();
