@@ -1,16 +1,21 @@
-#include <iostream>
-#include <emscripten/bind.h>
-#include "cania.cpp"
+#include <iostream> 
+#include "cania.h"
+#include "../anzuelo_inheritance/ligero/ligero.h"
+#include "../anzuelo_inheritance/mediano/mediano.h"
+#include "../anzuelo_inheritance/pesado/pesado.h"
 
+extern "C"{
 Cania :: Cania()
 {
-    tiempoMas = 0;
+  tiempoMas = 0;
+  caniaActual = 1;
+  anzueloPtr = &anzueloLigero;
 }
 Cania :: ~Cania(){}
 
-void Cania :: setTiempoMas(int tiempoMenos)
+void Cania :: setTiempoMas(int tiempoMas)
 {
-    this -> tiempoMenos = tiempoMenos;
+    this -> tiempoMas = tiempoMas;
 }
 int Cania :: getTiempoMas()
 {
@@ -20,29 +25,33 @@ int Cania :: getTiempoMas()
 void Cania :: setCaniaActual(int caniaActual)
 {
     this -> caniaActual = caniaActual;
+  
+    switch(caniaActual)
+      {
+        case 1: 
+          anzueloPtr = &anzueloLigero;
+          break;
+        case 2:
+          anzueloPtr = &anzueloMediano;
+          break;
+        case 3:
+          anzueloPtr = &anzueloPesado;
+          break;
+      }
 }
+
 int Cania :: getCaniaActual()
 {
     return caniaActual;
 }
 
-void Cania :: lanzarCania(int id)
+void Cania :: capturaExitosa(int id)
 {
-    switch(caniaActual)
-    {
-        case 1:
-            anzueloLigero.atraparPez(id)
-            break;
-        case 2:
-            anzueloMediano.atraparPez(id)
-            break;
-        case 3:
-            anzueloPesado.atraparPez(id);
-            break;
-    }
+    anzueloPtr -> atraparPez(id);
 }
 
 void Cania :: mejorarCania()
 {
     tiempoMas+=200;
+}
 }

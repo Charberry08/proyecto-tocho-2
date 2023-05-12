@@ -1,11 +1,11 @@
 #include <iostream>
 #include "peces.h"
 
-Peces :: Peces(int tamanio, int peso, int tiempo)
+Peces :: Peces()
 {
-    this -> tamanio = tamanio;
-    this -> peso = peso;
-    this -> tiempo = tiempo;
+    this -> tamanio = 0;
+    this -> peso = 0;
+    this -> tiempo = 0;
 }
 Peces :: ~Peces(){}
 
@@ -52,4 +52,13 @@ void Peces :: setPesoEstanque(int pesoEstanque)
 int Peces :: getPesoEstanque()
 {
     return pesoEstanque;
+}
+
+void Peces :: setDinero(int dinero)
+{
+    this -> dinero = dinero;
+}
+int Peces :: getDinero()
+{
+    return dinero;
 }

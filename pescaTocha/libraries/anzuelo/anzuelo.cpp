@@ -1,7 +1,5 @@
 #include <iostream>
-#include <emscripten/bind.h>
-
-using namespace empscripten;
+#include "anzuelo.h"
 
 Anzuelo :: Anzuelo(){}
 Anzuelo :: ~Anzuelo(){}

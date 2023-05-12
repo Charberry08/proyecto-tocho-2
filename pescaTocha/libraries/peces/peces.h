@@ -9,10 +9,11 @@ protected:
     int tiempo;
     int pesoEstanque;
     int id;
+    int dinero;
 
 public:
-    Peces(int tamanio, int peso, int tiempo){}
-    ~Peces(){}
+    Peces();
+    ~Peces();
     void setTamanio(int tamanio);
     int getTamanio();
 
@@ -28,8 +29,8 @@ public:
     void setPesoEstanque(int pesoEstanque);
     int getPesoEstanque();
 
-    int calculatePoints();
+    void setDinero(int dinero);
+    int getDinero();
 };
 
-#include "peces.cpp"
 #endif

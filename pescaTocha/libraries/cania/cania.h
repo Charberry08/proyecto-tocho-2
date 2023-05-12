@@ -1,33 +1,34 @@
 #ifndef CANIA_H
 #define CANIA_H
-#include "anzuelo.h"
-#include "ligero.h"
-#include "mediano.h"
-#include "pesado.h"
-#include <empscripten.h>
+#include "../anzuelo_inheritance/ligero/ligero.h"
+#include "../anzuelo_inheritance/mediano/mediano.h"
+#include "../anzuelo_inheritance/pesado/pesado.h"
 
+extern "C"
+{
 class Cania
 {
 private:
     int tiempoMas;
     int caniaActual;
-    Ligero anzueloLigero();
-    Mediano anzueloMediano();
-    Pesado anzueloPesado();
 
 public:
     Cania();
     ~Cania();
+    Ligero anzueloLigero;
+    Mediano anzueloMediano;
+    Pesado anzueloPesado;
+    Anzuelo *anzueloPtr;
 
     void setTiempoMas(int tiempoMas);
     int getTiempoMas();
 
-    void setCaniaActual();
+    void setCaniaActual(int caniaActual);
     int getCaniaActual();
     
-    void lanzarCania();
+    void capturaExitosa(int id);
     void mejorarCania();
 };
+}
 
-#include "cania.cpp"
 #endif
