@@ -221,7 +221,7 @@ function cambiarTiempo()
 
 const peces = document.getElementById("peces");
 
-const spawnInterval = setInterval(spawnearPeces, 100)
+const spawnInterval = setInterval(spawnearPeces, 6000)
 
 function spawnearPeces()
 {    
@@ -234,10 +234,10 @@ function spawnearPeces()
         var distanciaArriba = 0;
         var distanciaIzquierda = 0;
 
-        if(contadorPeces < 100)
+        if(contadorPeces < 10)
         {
             encontrarEspacio();
-            switch(2)
+            switch(getNumeroRandom(3))
             {
             case 0:
                 switchRandomPool1();
