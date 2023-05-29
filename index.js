@@ -82,7 +82,7 @@ function operacion(numP)
         setAnteriorIgual = true;
         if(document.getElementById("pantalla").value == "69420")
         {
-            window.location.href="/pescaTocha";
+            window.location.href="pescaTocha/index.html";
         }
     }
 }
