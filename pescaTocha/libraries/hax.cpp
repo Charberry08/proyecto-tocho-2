@@ -1,4 +1,5 @@
 #include <emscripten/bind.h>
+#include <emscripten.h>
 //librerias de los peces
 #include "peces/peces.h"
 #include "peces_inheritance/anchoa/anchoa.h"
@@ -28,9 +29,12 @@
 #include "peces_inheritance/tortuga/tortuga.h"
 #include "peces_inheritance/trucha/trucha.h"
 //libreria de la cania
-//#include "cania/cania.h"
-//em++ libraries/peces/peces.cpp libraries/peces_inheritance/anchoa/anchoa.cpp libraries/peces_inheritance/atun/atun.cpp libraries/peces_inheritance/bagre/bagre.cpp libraries/peces_inheritance/ballena_azul_antartica/ballenaAzulAntartica.cpp libraries/peces_inheritance/cachalote/cachalote.cpp libraries/peces_inheritance/cangrejo/cangrejo.cpp libraries/peces_inheritance/cangrejo_rio/cangrejoRio.cpp libraries/peces_inheritance/carpa/carpa.cpp libraries/peces_inheritance/char/char.cpp libraries/peces_inheritance/esturion/esturion.cpp libraries/peces_inheritance/goldfish/goldfish.cpp libraries/peces_inheritance/koi/koi.cpp libraries/peces_inheritance/lubina/lubina.cpp libraries/peces_inheritance/magikarp/magikarp.cpp libraries/peces_inheritance/mojarra/mojarra.cpp libraries/peces_inheritance/pez_espada/pezEspada.cpp libraries/peces_inheritance/pez_globo/pezGlobo.cpp libraries/peces_inheritance/pez_payaso/pezPayaso.cpp libraries/peces_inheritance/pez_rape/pezRape.cpp libraries/peces_inheritance/pirania/pirania.cpp libraries/peces_inheritance/rana/rana.cpp libraries/peces_inheritance/salmon/salmon.cpp libraries/peces_inheritance/tetra_neon/tetraNeon.cpp libraries/peces_inheritance/tiburon_blanco/tiburonBlanco.cpp libraries/peces_inheritance/tortuga/tortuga.cpp libraries/peces_inheritance/trucha/trucha.cpp libraries/hax.cpp main.cpp -o main.js -s WASM=1 --bind
-//libraries/cania/cania.h
+#include "cania/cania.h"
+#include "anzuelo/anzuelo.h"
+#include "anzuelo_inheritance/ligero/ligero.h"
+#include "anzuelo_inheritance/mediano/mediano.h"
+#include "anzuelo_inheritance/pesado/pesado.h"
+//em++ libraries/anzuelo/anzuelo.cpp libraries/anzuelo_inheritance/ligero/ligero.cpp libraries/anzuelo_inheritance/mediano/mediano.cpp libraries/anzuelo_inheritance/pesado/pesado.cpp libraries/cania/cania.cpp libraries/peces/peces.cpp libraries/peces_inheritance/anchoa/anchoa.cpp libraries/peces_inheritance/atun/atun.cpp libraries/peces_inheritance/bagre/bagre.cpp libraries/peces_inheritance/ballena_azul_antartica/ballenaAzulAntartica.cpp libraries/peces_inheritance/cachalote/cachalote.cpp libraries/peces_inheritance/cangrejo/cangrejo.cpp libraries/peces_inheritance/cangrejo_rio/cangrejoRio.cpp libraries/peces_inheritance/carpa/carpa.cpp libraries/peces_inheritance/char/char.cpp libraries/peces_inheritance/esturion/esturion.cpp libraries/peces_inheritance/goldfish/goldfish.cpp libraries/peces_inheritance/koi/koi.cpp libraries/peces_inheritance/lubina/lubina.cpp libraries/peces_inheritance/magikarp/magikarp.cpp libraries/peces_inheritance/mojarra/mojarra.cpp libraries/peces_inheritance/pez_espada/pezEspada.cpp libraries/peces_inheritance/pez_globo/pezGlobo.cpp libraries/peces_inheritance/pez_payaso/pezPayaso.cpp libraries/peces_inheritance/pez_rape/pezRape.cpp libraries/peces_inheritance/pirania/pirania.cpp libraries/peces_inheritance/rana/rana.cpp libraries/peces_inheritance/salmon/salmon.cpp libraries/peces_inheritance/tetra_neon/tetraNeon.cpp libraries/peces_inheritance/tiburon_blanco/tiburonBlanco.cpp libraries/peces_inheritance/tortuga/tortuga.cpp libraries/peces_inheritance/trucha/trucha.cpp libraries/hax.cpp main.cpp -o main.js -s WASM=1 --bind
 using namespace emscripten;
 
 EMSCRIPTEN_BINDINGS(Peces) {
@@ -96,16 +100,25 @@ EMSCRIPTEN_BINDINGS(Peces) {
     .constructor<>();
   class_<Trucha, base<Peces>>("Trucha")
     .constructor<>();
-}
 
-/*
-EMSCRIPTEN_BINDINGS(Cania) {
   class_<Cania>("Cania")
-    .constructor<>(allow_raw_pointers())
-    .function("setCaniaActual", &Cania::setCaniaActual, allow_raw_pointers())
+    .constructor<>()
+    .function("setCaniaActual", &Cania::setCaniaActual)
     .function("getCaniaActual", &Cania::getCaniaActual)
-    .function("capturaExitosa", &Cania::capturaExitosa, allow_raw_pointers())
-    .function("mejorarCania", &Cania::mejorarCania);
-}
-*/
+    .function("capturaExitosa", &Cania::capturaExitosa)
+    .function("mejorarCania", &Cania::mejorarCania)
+    .function("getTiempoMas", &Cania::getTiempoMas)
+    .function("setTiempoMas", &Cania::setTiempoMas)
+    .function("getTamanioVector", &Cania::getTamanioVector)
+    .function("getIndexVector", &Cania::getIndexVector);
 
+  class_<Anzuelo>("Anzuelo")
+    .constructor<>()
+    .function("atraparPez", &Anzuelo::atraparPez);
+  class_<Ligero, base<Anzuelo>>("Ligero")
+    .constructor<>();
+  class_<Mediano, base<Anzuelo>>("Mediano")
+    .constructor<>();
+  class_<Pesado, base<Anzuelo>>("Pesado")
+    .constructor<>();
+}

@@ -3,8 +3,8 @@
 #include "../anzuelo_inheritance/ligero/ligero.h"
 #include "../anzuelo_inheritance/mediano/mediano.h"
 #include "../anzuelo_inheritance/pesado/pesado.h"
+#include <vector>
 
-extern "C"{
 Cania :: Cania()
 {
   tiempoMas = 0;
@@ -54,4 +54,39 @@ void Cania :: mejorarCania()
 {
     tiempoMas+=200;
 }
+
+int Cania :: getTamanioVector(int opcion)
+{
+    int temp;
+    switch(opcion)
+    {
+        case 1:
+          temp = anzueloPtr -> catalogoLigero.size();
+          break;
+        case 2:
+          temp = anzueloPtr -> catalogoMediano.size();
+          break;
+        case 3:
+          temp = anzueloPtr -> catalogoPesado.size();
+          break;
+    }
+    return temp;
+}
+
+int Cania :: getIndexVector(int opcion, int index)
+{
+  int temp;
+  switch(opcion)
+  {
+    case 1: 
+      temp = anzueloPtr -> catalogoLigero[index];
+      break;
+    case 2:
+      temp = anzueloPtr -> catalogoMediano[index];
+      break;
+    case 3:
+      temp = anzueloPtr -> catalogoPesado[index];
+      break;
+  }
+  return temp;
 }

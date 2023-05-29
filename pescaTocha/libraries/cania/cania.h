@@ -28,6 +28,8 @@ public:
     
     void capturaExitosa(int id);
     void mejorarCania();
+    int getTamanioVector(int opcion);
+    int getIndexVector(int, int);
 };
 }
 

@@ -1,6 +1,9 @@
+let click = document.getElementById("sonidoClick");
+
 let numeroTiempo = 0;
 
 let contadorPeces = 0;
+let contadorAvancesTutorial = 0;
 
 let pescaCoordX = 0;
 let pescaCoordY = 0;
@@ -8,6 +11,8 @@ let pescaCoordY = 0;
 let coordX = 0;
 let coordY = 0;
 
+let estadoTutorialInicial = false;
+let estadoPasadoAnzuelo = false;
 let estadoAnzuelo = false;
 let estadoPantallaNegra = false;
 let estadoJuegoPesca = false;
@@ -16,24 +21,58 @@ let estadoReaccionAnzuelo = false;
 let estadoReiniciadoAnzuelo = false;
 let estadoJuegoReaccion = false;
 let estadoDelayReaccion = false;
+let estadoHablarDick = false;
+let estadoTerminarHablar = false;
+let estadoSonidoDesaparecer = false;
+let estadoDificultadDificil = false;
+let estadoBloquearMovimientoAnzuelo = false;
 let estadoPermitirPesca = true;
+let estadoPezGlobo = true;
+
+let textoBurbuja = document.getElementById("textoHablarDick");
+let textoTutorial = document.getElementById("textoTutorial");
+
+let opcionTienda = 0;
+
+let anzueloActual = 0;
+let caniaObjetoActual = 0;
 
 let cania = document.getElementById("cania");
 let anzuelo = document.getElementById("anzuelo");
 let cuerda = document.getElementById("cuerda");
 
+let mango = document.getElementById("mango");
+let puntera = document.getElementById("puntera");
+
 let areaPesca = document.getElementById("areaPesca");
 let modeloPez = document.getElementById("modeloPez");
+
+let nombrePezCatalogo = document.getElementById("nombrePezCatalogo");
+let anzueloPezCatalogo = document.getElementById("anzueloPezCatalogo");
+let descripcionPezCatalogo = document.getElementById("descripcionPezCatalogo");
+let cantidadPescadosCatalogo = document.getElementById("cantidadPescadosCatalogo");
 
 let dineroTotal = 0;
 let dineroActualPez = 0;
 
+let dineroNecesarioCompra = 0;
+
+let numeroVozDickPasado = 0;
+let numeroDialogoPasado = 0;
+let idPasadoCatalogo = 0;
+let idFotoDescubrir = 0;
+let idCompra = 0;
+let idCatalogo = 0;
 let idPez = 0;
 let idPezActual = 0;
 let idDesignado = 0;
 let arregloPecesActivos = new Array(8);
 const arregloEspacios = [false, false, false, false, false, false, false, false, false, false];
 const arregloTipoPeces = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+const estadoAnzuelosTienda = [true, false, false, false];
+const estadoCaniasTienda = [true, false, false, false, false];
+const arregloContadorPeces = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+const arregloMostrarCartaCompleta = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 
 let numeroRandomSwitch = 0;
 
@@ -46,6 +85,15 @@ function startup()
     document.getElementById("fondoMadera").style.left= (window.innerWidth - 1178) / 2 + "px";
     document.getElementById("fondoMadera").style.top= (window.innerHeight - 621) / 2 + "px";
     document.getElementById("dineroTotal").value = dineroTotal;
+    document.getElementById("fondoTienda").style.left= (window.innerWidth - 959) / 2 + "px";
+    document.getElementById("fondoOpciones").style.top=(window.innerHeight - 370) / 2 + "px";
+    document.getElementById("fondoOpciones").style.left=(window.innerWidth - 1099) / 2 + "px";
+    document.getElementById("fondoSeguroRegresar").style.top=(window.innerHeight - 370) / 2 + "px";
+    document.getElementById("fondoSeguroRegresar").style.left=(window.innerWidth - 1099) / 2 + "px";
+    document.getElementById("dickTutorial").style.left=(window.innerWidth - 382) / 2 + "px";
+    document.getElementById("burbujaTutorial").style.left=(window.innerWidth - 469) / 2 + "px";
+    document.getElementById("fondoCatalogo").style.top=(window.innerHeight - 630) / 2 + "px";
+    document.getElementById("fondoCatalogo").style.left=(window.innerWidth - 1120) / 2 + "px";
 }
 
 function getNumeroRandom(maximo)
@@ -64,6 +112,10 @@ function iniciarPantallaInicio()
 
 function iniciarJuego()
 {
+    click.play();
+    caniaObjeto = new Module.Cania();
+    caniaObjetoActual = caniaObjeto;
+    caniaObjetoActual.setCaniaActual(1);
     estadoPantallaNegra = true;
     estadoJuegoPesca = true;
     document.getElementById("musicaInicio").pause();
@@ -71,7 +123,81 @@ function iniciarJuego()
     document.getElementById("fondo").style.backgroundImage="url(images/fondo/background_day.png)";
     numeroTiempo = 3;
     document.getElementById("pantallaTitulo").style.display = "none";
+
+    iniciarTutorial();
+}
+
+function iniciarTutorial()
+{
+    document.getElementById("tutorial").style.display="inline";
+    if(!estadoTutorialInicial)
+    {
+        sonidoDick();
+        textoTutorial.innerHTML = "<br>Bienvenido mocoso, hoy te enseñaré a pescar como un verdadero profesional.";
+    }
+}
+
+function avanzarTutorial()
+{
+    switch(contadorAvancesTutorial)
+    {
+    case 0:
+        sonidoDick();
+        textoTutorial.innerHTML = "<br>Para comenzar, deberas tirar el anzuelo al estanque, este deberá estar cerca de la boca del pez que deseas atrapar.";
+        break;
+    case 1:
+        sonidoDick();
+        textoTutorial.innerHTML = "<br>Una vez tirado el anzuelo, sabrás que el pez lo vió cuando este intente morderlo.";
+        break;
+    case 2:
+        sonidoDick();
+        textoTutorial.innerHTML = "<br>Cuando escuches o veas que el pez lo ha mordido por completo, haz click en tu anzuelo para pescarlo.";
+        break;
+    case 3:
+        sonidoDick();
+        textoTutorial.innerHTML = "Pero ojo, este podrá escaparse si no jalas el anzuelo rápido, o si lo jalas antes de que el pez lo muerda por completo.";
+        break
+    case 4:
+        sonidoDick();
+        textoTutorial.innerHTML = "No pasa nada si no pescas un pez a la primera, tengo mejoras y anzuelos nuevos que puedo venderte a cambio de monedas de oro.";
+        break
+    case 5:
+        sonidoDick();
+        textoTutorial.innerHTML = "<br>Eso sería todo, disfruta tu estancia en el estanque tocho.";
+        break
+    case 6:
+        terminarTutorial()
+        break;
+    }
+
+    if(estadoTutorialInicial && contadorAvancesTutorial == 4)
+    {
+        contadorAvancesTutorial++;
+    }
+    contadorAvancesTutorial++;
+}
+
+function terminarTutorial()
+{
+    contadorAvancesTutorial = 0;
+    document.getElementById("tutorial").style.display="none";
     document.getElementById("juegoPesca").style.display = "inline";
+    document.getElementById("tienda").style.display = "inline";
+    estadoTutorialInicial = true;
+    subirTiendaFinal();
+}
+
+function regresarTutorial()
+{
+    click.play();
+    salirOpciones();
+    subirTienda();
+    subirTiendaFinal()
+    document.getElementById("tienda").style.display = "none";
+    document.getElementById("juegoPesca").style.display = "none";
+    iniciarTutorial();
+    sonidoDick();
+    textoTutorial.innerHTML = "<br>Para comenzar, deberas tirar el anzuelo al estanque, este deberá estar cerca de la boca del pez que deseas atrapar.";
 }
 
 document.addEventListener('mousemove', function(e){
@@ -113,7 +239,7 @@ function lanzarAnzuelo()
         }
         if(estadoJuegoReaccion)
         {
-            desaparecerPez();
+            desaparecerPez(true);
             estadoReaccionAnzuelo = false;
             estadoPermitirPesca = false;
             estadoReiniciadoAnzuelo = true;
@@ -141,7 +267,10 @@ function lanzarAnzuelo()
             cuerda.style.width = "50px";
         }
 
-        estadoAnzuelo = false;
+        if(!estadoBloquearMovimientoAnzuelo)
+        {
+            estadoAnzuelo = false;
+        }
     }
     else
     {
@@ -237,7 +366,7 @@ function spawnearPeces()
         if(contadorPeces < 10)
         {
             encontrarEspacio();
-            switch(getNumeroRandom(3))
+            switch(caniaObjetoActual.getCaniaActual()- 1)
             {
             case 0:
                 switchRandomPool1();
@@ -265,6 +394,20 @@ function spawnearPeces()
                         mo.style.top = distanciaArriba + "px";
                         mo.style.left = distanciaIzquierda + "px";
                         mo.style.zIndex = "1";
+
+                        if(direccionPez == 1)
+                        {
+                            mo.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            mo.style.animation="morderDerecha";
+                        }
+                        
+                        mo.style.animationPlayState="paused";
+                        mo.style.animationIterationCount="infinite";
+                        mo.style.animationDuration="0.5s";
+                        mo.style.animationDirection="alternate";
                         
                         const btmo = document.createElement('button');
                         btmo.setAttribute('id', 'boton_' + idDesignado);
@@ -276,7 +419,18 @@ function spawnearPeces()
                         btmo.style.position = "absolute";
                         btmo.style.cursor = "pointer";
                         btmo.style.top = distanciaArriba + alturaPez - 10 + "px";
-                        btmo.style.backgroundColor = "#36C5F4";
+
+                        if(estadoDificultadDificil)
+                        {
+                            btmo.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btmo.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btmo.style.backgroundSize = "100%";
+                            btmo.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btmo.style.border = "none";
                         btmo.style.zIndex = "0";
 
@@ -314,6 +468,20 @@ function spawnearPeces()
                         lu.style.left = distanciaIzquierda + "px";
                         lu.style.zIndex = "1";
                         
+                        if(direccionPez == 1)
+                        {
+                            lu.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            lu.style.animation="morderDerecha";
+                        }
+                        
+                        lu.style.animationPlayState="paused";
+                        lu.style.animationIterationCount="infinite";
+                        lu.style.animationDuration="0.5s";
+                        lu.style.animationDirection="alternate";
+                        
                         const btlu = document.createElement('button');
                         btlu.setAttribute('id', 'boton_' + idDesignado);
                         btlu.setAttribute('type', 'button');
@@ -324,7 +492,18 @@ function spawnearPeces()
                         btlu.style.position = "absolute";
                         btlu.style.cursor = "pointer";
                         btlu.style.top = distanciaArriba + alturaPez - 10 + "px";
-                        btlu.style.backgroundColor = "#36C5F4";
+
+                        if(estadoDificultadDificil)
+                        {
+                            btlu.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btlu.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btlu.style.backgroundSize = "100%";
+                            btlu.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btlu.style.border = "none";
                         btlu.style.zIndex = "0";
 
@@ -362,6 +541,20 @@ function spawnearPeces()
                         pp.style.left = distanciaIzquierda + "px";
                         pp.style.zIndex = "1";
                         
+                        if(direccionPez == 1)
+                        {
+                            pp.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            pp.style.animation="morderDerecha";
+                        }
+                        
+                        pp.style.animationPlayState="paused";
+                        pp.style.animationIterationCount="infinite";
+                        pp.style.animationDuration="0.5s";
+                        pp.style.animationDirection="alternate";
+                        
                         const btpp = document.createElement('button');
                         btpp.setAttribute('id', 'boton_' + idDesignado);
                         btpp.setAttribute('type', 'button');
@@ -372,7 +565,18 @@ function spawnearPeces()
                         btpp.style.position = "absolute";
                         btpp.style.cursor = "pointer";
                         btpp.style.top = distanciaArriba + alturaPez - 10 + "px";
-                        btpp.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btpp.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btpp.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btpp.style.backgroundSize = "100%";
+                            btpp.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btpp.style.border = "none";
                         btpp.style.zIndex = "0";
 
@@ -409,6 +613,20 @@ function spawnearPeces()
                         cp.style.top = distanciaArriba + "px";
                         cp.style.left = distanciaIzquierda + "px";
                         cp.style.zIndex = "1";
+                        
+                        if(direccionPez == 1)
+                        {
+                            cp.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            cp.style.animation="morderDerecha";
+                        }
+                        
+                        cp.style.animationPlayState="paused";
+                        cp.style.animationIterationCount="infinite";
+                        cp.style.animationDuration="0.5s";
+                        cp.style.animationDirection="alternate";
 
                         const btcp = document.createElement('button');
                         btcp.setAttribute('id', 'boton_' + idDesignado);
@@ -420,7 +638,18 @@ function spawnearPeces()
                         btcp.style.position = "absolute";
                         btcp.style.cursor = "pointer";
                         btcp.style.top = distanciaArriba + alturaPez - 20 + "px";
-                        btcp.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btcp.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btcp.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btcp.style.backgroundSize = "100%";
+                            btcp.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btcp.style.border = "none";
                         btcp.style.zIndex = "0";
 
@@ -457,6 +686,20 @@ function spawnearPeces()
                         an.style.top = distanciaArriba + "px";
                         an.style.left = distanciaIzquierda + "px";
                         an.style.zIndex = "1";
+                        
+                        if(direccionPez == 1)
+                        {
+                            an.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            an.style.animation="morderDerecha";
+                        }
+                        
+                        an.style.animationPlayState="paused";
+                        an.style.animationIterationCount="infinite";
+                        an.style.animationDuration="0.5s";
+                        an.style.animationDirection="alternate";
 
                         const btan = document.createElement('button');
                         btan.setAttribute('id', 'boton_' + idDesignado);
@@ -468,7 +711,18 @@ function spawnearPeces()
                         btan.style.position = "absolute";
                         btan.style.cursor = "pointer";
                         btan.style.top = distanciaArriba + alturaPez - 10 + "px";
-                        btan.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btan.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btan.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btan.style.backgroundSize = "100%";
+                            btan.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btan.style.border = "none";
                         btan.style.zIndex = "0";
 
@@ -505,6 +759,20 @@ function spawnearPeces()
                         ko.style.top = distanciaArriba + "px";
                         ko.style.left = distanciaIzquierda + "px";
                         ko.style.zIndex = "1";
+                        
+                        if(direccionPez == 1)
+                        {
+                            ko.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            ko.style.animation="morderDerecha";
+                        }
+                        
+                        ko.style.animationPlayState="paused";
+                        ko.style.animationIterationCount="infinite";
+                        ko.style.animationDuration="0.5s";
+                        ko.style.animationDirection="alternate";
 
                         const btko = document.createElement('button');
                         btko.setAttribute('id', 'boton_' + idDesignado);
@@ -516,7 +784,18 @@ function spawnearPeces()
                         btko.style.position = "absolute";
                         btko.style.cursor = "pointer";
                         btko.style.top = distanciaArriba + alturaPez - 20 + "px";
-                        btko.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btko.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btko.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btko.style.backgroundSize = "100%";
+                            btko.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btko.style.border = "none";
                         btko.style.zIndex = "0";
 
@@ -552,6 +831,20 @@ function spawnearPeces()
                         gf.style.top = distanciaArriba + "px";
                         gf.style.left = distanciaIzquierda + "px";
                         gf.style.zIndex = "1";
+                        
+                        if(direccionPez == 1)
+                        {
+                            gf.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            gf.style.animation="morderDerecha";
+                        }
+                        
+                        gf.style.animationPlayState="paused";
+                        gf.style.animationIterationCount="infinite";
+                        gf.style.animationDuration="0.5s";
+                        gf.style.animationDirection="alternate";
 
                         const btgf = document.createElement('button');
                         btgf.setAttribute('id', 'boton_' + idDesignado);
@@ -563,7 +856,18 @@ function spawnearPeces()
                         btgf.style.position = "absolute";
                         btgf.style.cursor = "pointer";
                         btgf.style.top = distanciaArriba + alturaPez - 10 + "px";
-                        btgf.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btgf.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btgf.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btgf.style.backgroundSize = "100%";
+                            btgf.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btgf.style.border = "none";
                         btgf.style.zIndex = "0";
 
@@ -601,6 +905,20 @@ function spawnearPeces()
                         pg.style.left = distanciaIzquierda + "px";
                         pg.style.zIndex = "1";
                         
+                        if(direccionPez == 1)
+                        {
+                            pg.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            pg.style.animation="morderDerecha";
+                        }
+                        
+                        pg.style.animationPlayState="paused";
+                        pg.style.animationIterationCount="infinite";
+                        pg.style.animationDuration="0.5s";
+                        pg.style.animationDirection="alternate";
+                        
                         const btpg = document.createElement('button');
                         btpg.setAttribute('id', 'boton_' + idDesignado);
                         btpg.setAttribute('type', 'button');
@@ -611,7 +929,18 @@ function spawnearPeces()
                         btpg.style.position = "absolute";
                         btpg.style.cursor = "pointer";
                         btpg.style.top = distanciaArriba + alturaPez - 10 + "px";
-                        btpg.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btpg.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btpg.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btpg.style.backgroundSize = "100%";
+                            btpg.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btpg.style.border = "none";
                         btpg.style.zIndex = "0";
 
@@ -648,6 +977,20 @@ function spawnearPeces()
                         at.style.top = distanciaArriba + "px";
                         at.style.left = distanciaIzquierda + "px";
                         at.style.zIndex = "1";
+                        
+                        if(direccionPez == 1)
+                        {
+                            at.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            at.style.animation="morderDerecha";
+                        }
+                        
+                        at.style.animationPlayState="paused";
+                        at.style.animationIterationCount="infinite";
+                        at.style.animationDuration="0.5s";
+                        at.style.animationDirection="alternate";
 
                         const btat = document.createElement('button');
                         btat.setAttribute('id', 'boton_' + idDesignado);
@@ -659,7 +1002,18 @@ function spawnearPeces()
                         btat.style.position = "absolute";
                         btat.style.cursor = "pointer";
                         btat.style.top = distanciaArriba + alturaPez - 30 + "px";
-                        btat.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btat.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btat.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btat.style.backgroundSize = "100%";
+                            btat.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btat.style.border = "none";
                         btat.style.zIndex = "0";
 
@@ -703,6 +1057,20 @@ function spawnearPeces()
                         tn.style.left = distanciaIzquierda + "px";
                         tn.style.zIndex = "1";
                         
+                        if(direccionPez == 1)
+                        {
+                            tn.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            tn.style.animation="morderDerecha";
+                        }
+                        
+                        tn.style.animationPlayState="paused";
+                        tn.style.animationIterationCount="infinite";
+                        tn.style.animationDuration="0.5s";
+                        tn.style.animationDirection="alternate";
+                        
                         const bttn = document.createElement('button');
                         bttn.setAttribute('id', 'boton_' + idDesignado);
                         bttn.setAttribute('type', 'button');
@@ -713,7 +1081,18 @@ function spawnearPeces()
                         bttn.style.position = "absolute";
                         bttn.style.cursor = "pointer";
                         bttn.style.top = distanciaArriba + alturaPez - 10 + "px";
-                        bttn.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            bttn.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            bttn.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            bttn.style.backgroundSize = "100%";
+                            bttn.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         bttn.style.border = "none";
                         bttn.style.zIndex = "0";
 
@@ -750,6 +1129,20 @@ function spawnearPeces()
                         to.style.top = distanciaArriba + "px";
                         to.style.left = distanciaIzquierda + "px";
                         to.style.zIndex = "1";
+                        
+                        if(direccionPez == 1)
+                        {
+                            to.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            to.style.animation="morderDerecha";
+                        }
+                        
+                        to.style.animationPlayState="paused";
+                        to.style.animationIterationCount="infinite";
+                        to.style.animationDuration="0.5s";
+                        to.style.animationDirection="alternate";
 
                         const btto = document.createElement('button');
                         btto.setAttribute('id', 'boton_' + idDesignado);
@@ -761,7 +1154,18 @@ function spawnearPeces()
                         btto.style.position = "absolute";
                         btto.style.cursor = "pointer";
                         btto.style.top = distanciaArriba + alturaPez - 20 + "px";
-                        btto.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btto.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btto.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btto.style.backgroundSize = "100%";
+                            btto.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btto.style.border = "none";
                         btto.style.zIndex = "0";
 
@@ -809,6 +1213,20 @@ function spawnearPeces()
                         rn.style.top = distanciaArriba + "px";
                         rn.style.left = distanciaIzquierda + "px";
                         rn.style.zIndex = "1";
+                        
+                        if(direccionPez == 1)
+                        {
+                            rn.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            rn.style.animation="morderDerecha";
+                        }
+                        
+                        rn.style.animationPlayState="paused";
+                        rn.style.animationIterationCount="infinite";
+                        rn.style.animationDuration="0.5s";
+                        rn.style.animationDirection="alternate";
 
                         const btrn = document.createElement('button');
                         btrn.setAttribute('id', 'boton_' + idDesignado);
@@ -820,7 +1238,18 @@ function spawnearPeces()
                         btrn.style.position = "absolute";
                         btrn.style.cursor = "pointer";
                         btrn.style.top = distanciaArriba - 10 + "px";
-                        btrn.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btrn.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btrn.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btrn.style.backgroundSize = "100%";
+                            btrb.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btrn.style.border = "none";
                         btrn.style.zIndex = "0";
 
@@ -855,6 +1284,20 @@ function spawnearPeces()
                         tr.style.top = distanciaArriba + "px";
                         tr.style.left = distanciaIzquierda + "px";
                         tr.style.zIndex = "1";
+                        
+                        if(direccionPez == 1)
+                        {
+                            tr.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            tr.style.animation="morderDerecha";
+                        }
+                        
+                        tr.style.animationPlayState="paused";
+                        tr.style.animationIterationCount="infinite";
+                        tr.style.animationDuration="0.5s";
+                        tr.style.animationDirection="alternate";
 
                         const bttr = document.createElement('button');
                         bttr.setAttribute('id', 'boton_' + idDesignado);
@@ -866,7 +1309,18 @@ function spawnearPeces()
                         bttr.style.position = "absolute";
                         bttr.style.cursor = "pointer";
                         bttr.style.top = distanciaArriba + alturaPez - 20 + "px";
-                        bttr.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            bttr.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            bttr.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            bttr.style.backgroundSize = "100%";
+                            bttr.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         bttr.style.border = "none";
                         bttr.style.zIndex = "0";
 
@@ -903,6 +1357,20 @@ function spawnearPeces()
                         bg.style.top = distanciaArriba + "px";
                         bg.style.left = distanciaIzquierda + "px";
                         bg.style.zIndex = "1";
+                        
+                        if(direccionPez == 1)
+                        {
+                            bg.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            bg.style.animation="morderDerecha";
+                        }
+                        
+                        bg.style.animationPlayState="paused";
+                        bg.style.animationIterationCount="infinite";
+                        bg.style.animationDuration="0.5s";
+                        bg.style.animationDirection="alternate";
 
                         const btbg = document.createElement('button');
                         btbg.setAttribute('id', 'boton_' + idDesignado);
@@ -914,7 +1382,18 @@ function spawnearPeces()
                         btbg.style.position = "absolute";
                         btbg.style.cursor = "pointer";
                         btbg.style.top = distanciaArriba + alturaPez - 20 + "px";
-                        btbg.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btbg.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btbg.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btbg.style.backgroundSize = "100%";
+                            btbg.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btbg.style.border = "none";
                         btbg.style.zIndex = "0";
 
@@ -951,6 +1430,20 @@ function spawnearPeces()
                         cr.style.top = distanciaArriba + "px";
                         cr.style.left = distanciaIzquierda + "px";
                         cr.style.zIndex = "1";
+                        
+                        if(direccionPez == 1)
+                        {
+                            cr.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            cr.style.animation="morderDerecha";
+                        }
+                        
+                        cr.style.animationPlayState="paused";
+                        cr.style.animationIterationCount="infinite";
+                        cr.style.animationDuration="0.5s";
+                        cr.style.animationDirection="alternate";
 
                         const btcr = document.createElement('button');
                         btcr.setAttribute('id', 'boton_' + idDesignado);
@@ -962,7 +1455,18 @@ function spawnearPeces()
                         btcr.style.position = "absolute";
                         btcr.style.cursor = "pointer";
                         btcr.style.top = distanciaArriba - 20 + "px";
-                        btcr.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btcr.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btcr.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btcr.style.backgroundSize = "100%";
+                            btcr.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btcr.style.border = "none";
                         btcr.style.zIndex = "0";
 
@@ -999,6 +1503,20 @@ function spawnearPeces()
                         sa.style.top = distanciaArriba + "px";
                         sa.style.left = distanciaIzquierda + "px";
                         sa.style.zIndex = "1";
+                        
+                        if(direccionPez == 1)
+                        {
+                            sa.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            sa.style.animation="morderDerecha";
+                        }
+                        
+                        sa.style.animationPlayState="paused";
+                        sa.style.animationIterationCount="infinite";
+                        sa.style.animationDuration="0.5s";
+                        sa.style.animationDirection="alternate";
 
                         const btsa = document.createElement('button');
                         btsa.setAttribute('id', 'boton_' + idDesignado);
@@ -1010,7 +1528,18 @@ function spawnearPeces()
                         btsa.style.position = "absolute";
                         btsa.style.cursor = "pointer";
                         btsa.style.top = distanciaArriba + alturaPez - 20 + "px";
-                        btsa.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btsa.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btsa.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btsa.style.backgroundSize = "100%";
+                            btsa.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btsa.style.border = "none";
                         btsa.style.zIndex = "0";
 
@@ -1047,6 +1576,20 @@ function spawnearPeces()
                         pe.style.top = distanciaArriba + "px";
                         pe.style.left = distanciaIzquierda + "px";
                         pe.style.zIndex = "1";
+                        
+                        if(direccionPez == 1)
+                        {
+                            pe.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            pe.style.animation="morderDerecha";
+                        }
+                        
+                        pe.style.animationPlayState="paused";
+                        pe.style.animationIterationCount="infinite";
+                        pe.style.animationDuration="0.5s";
+                        pe.style.animationDirection="alternate";
 
                         const btpe = document.createElement('button');
                         btpe.setAttribute('id', 'boton_' + idDesignado);
@@ -1058,7 +1601,18 @@ function spawnearPeces()
                         btpe.style.position = "absolute";
                         btpe.style.cursor = "pointer";
                         btpe.style.top = distanciaArriba + alturaPez - 30 + "px";
-                        btpe.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btpe.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btpe.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btpe.style.backgroundSize = "100%";
+                            btpe.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btpe.style.border = "none";
                         btpe.style.zIndex = "0";
 
@@ -1077,7 +1631,7 @@ function spawnearPeces()
                 break;
             case 2:
                 switchRandomPool3();
-                switch(6)
+                switch(numeroRandomSwitch)
                 {
                     case 0:
                         pezActual = new Module.Char();
@@ -1101,6 +1655,20 @@ function spawnearPeces()
                         ch.style.top = distanciaArriba + "px";
                         ch.style.left = distanciaIzquierda + "px";
                         ch.style.zIndex = "1";
+                        
+                        if(direccionPez == 1)
+                        {
+                            ch.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            ch.style.animation="morderDerecha";
+                        }
+                        
+                        ch.style.animationPlayState="paused";
+                        ch.style.animationIterationCount="infinite";
+                        ch.style.animationDuration="0.5s";
+                        ch.style.animationDirection="alternate";
 
                         const btch = document.createElement('button');
                         btch.setAttribute('id', 'boton_' + idDesignado);
@@ -1112,7 +1680,18 @@ function spawnearPeces()
                         btch.style.position = "absolute";
                         btch.style.cursor = "pointer";
                         btch.style.top = distanciaArriba + alturaPez - 20 + "px";
-                        btch.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btch.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btch.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btch.style.backgroundSize = "100%";
+                            btch.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btch.style.border = "none";
                         btch.style.zIndex = "0";
 
@@ -1150,6 +1729,20 @@ function spawnearPeces()
                         mg.style.left = distanciaIzquierda + "px";
                         mg.style.zIndex = "1";
                         
+                        if(direccionPez == 1)
+                        {
+                            mg.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            mg.style.animation="morderDerecha";
+                        }
+                        
+                        mg.style.animationPlayState="paused";
+                        mg.style.animationIterationCount="infinite";
+                        mg.style.animationDuration="0.5s";
+                        mg.style.animationDirection="alternate";
+                        
                         const btmg = document.createElement('button');
                         btmg.setAttribute('id', 'boton_' + idDesignado);
                         btmg.setAttribute('type', 'button');
@@ -1160,7 +1753,18 @@ function spawnearPeces()
                         btmg.style.position = "absolute";
                         btmg.style.cursor = "pointer";
                         btmg.style.top = distanciaArriba + alturaPez - 20 + "px";
-                        btmg.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btmg.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btmg.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btmg.style.backgroundSize = "100%";
+                            btmg.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btmg.style.border = "none";
                         btmg.style.zIndex = "0";
 
@@ -1197,6 +1801,12 @@ function spawnearPeces()
                         cg.style.top = distanciaArriba + "px";
                         cg.style.left = distanciaIzquierda + "px";
                         cg.style.zIndex = "1";
+                        
+                        cg.style.animation="morderArriba";
+                        cg.style.animationPlayState="paused";
+                        cg.style.animationIterationCount="infinite";
+                        cg.style.animationDuration="0.5s";
+                        cg.style.animationDirection="alternate-reverse";
 
                         const btcg = document.createElement('button');
                         btcg.setAttribute('id', 'boton_' + idDesignado);
@@ -1207,9 +1817,20 @@ function spawnearPeces()
                         btcg.style.width = "20px";
                         btcg.style.position = "absolute";
                         btcg.style.cursor = "pointer";
-                        btcg.style.top = distanciaArriba - 10 + "px";
+                        btcg.style.top = distanciaArriba - 30 + "px";
                         btcg.style.left = distanciaIzquierda + (anchoPez / 2.4) + "px";
-                        btcg.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btcg.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btcg.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btcg.style.backgroundSize = "100%";
+                            btcg.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btcg.style.border = "none";
                         btcg.style.zIndex = "0";
 
@@ -1238,6 +1859,20 @@ function spawnearPeces()
                         es.style.left = distanciaIzquierda + "px";
                         es.style.zIndex = "1";
                         
+                        if(direccionPez == 1)
+                        {
+                            es.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            es.style.animation="morderDerecha";
+                        }
+                        
+                        es.style.animationPlayState="paused";
+                        es.style.animationIterationCount="infinite";
+                        es.style.animationDuration="0.5s";
+                        es.style.animationDirection="alternate";
+                        
                         const btes = document.createElement('button');
                         btes.setAttribute('id', 'boton_' + idDesignado);
                         btes.setAttribute('type', 'button');
@@ -1248,7 +1883,18 @@ function spawnearPeces()
                         btes.style.position = "absolute";
                         btes.style.cursor = "pointer";
                         btes.style.top = distanciaArriba + alturaPez - 20 + "px";
-                        btes.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btes.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btes.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btes.style.backgroundSize = "100%";
+                            btes.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btes.style.border = "none";
                         btes.style.zIndex = "0";
 
@@ -1286,6 +1932,20 @@ function spawnearPeces()
                         pi.style.left = distanciaIzquierda + "px";
                         pi.style.zIndex = "1";
                         
+                        if(direccionPez == 1)
+                        {
+                            pi.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            pi.style.animation="morderDerecha";
+                        }
+                        
+                        pi.style.animationPlayState="paused";
+                        pi.style.animationIterationCount="infinite";
+                        pi.style.animationDuration="0.5s";
+                        pi.style.animationDirection="alternate";
+                        
                         const btpi = document.createElement('button');
                         btpi.setAttribute('id', 'boton_' + idDesignado);
                         btpi.setAttribute('type', 'button');
@@ -1296,7 +1956,18 @@ function spawnearPeces()
                         btpi.style.position = "absolute";
                         btpi.style.cursor = "pointer";
                         btpi.style.top = distanciaArriba + alturaPez - 20 + "px";
-                        btpi.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btpi.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btpi.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btpi.style.backgroundSize = "100%";
+                            btpi.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btpi.style.border = "none";
                         btpi.style.zIndex = "0";
 
@@ -1334,6 +2005,20 @@ function spawnearPeces()
                         pr.style.left = distanciaIzquierda + "px";
                         pr.style.zIndex = "1";
                         
+                        if(direccionPez == 1)
+                        {
+                            pr.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            pr.style.animation="morderDerecha";
+                        }
+                        
+                        pr.style.animationPlayState="paused";
+                        pr.style.animationIterationCount="infinite";
+                        pr.style.animationDuration="0.5s";
+                        pr.style.animationDirection="alternate";
+                        
                         const btpr = document.createElement('button');
                         btpr.setAttribute('id', 'boton_' + idDesignado);
                         btpr.setAttribute('type', 'button');
@@ -1344,7 +2029,18 @@ function spawnearPeces()
                         btpr.style.position = "absolute";
                         btpr.style.cursor = "pointer";
                         btpr.style.top = distanciaArriba + alturaPez - 20 + "px";
-                        btpr.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btpr.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btpr.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btpr.style.backgroundSize = "100%";
+                            btpr.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btpr.style.border = "none";
                         btpr.style.zIndex = "0";
 
@@ -1378,6 +2074,20 @@ function spawnearPeces()
                         ca.style.top = 10 + "px";
                         ca.style.left = 20 + "px";
                         ca.style.zIndex = "1";
+                        
+                        if(direccionPez == 1)
+                        {
+                            ca.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            ca.style.animation="morderDerecha";
+                        }
+                        
+                        ca.style.animationPlayState="paused";
+                        ca.style.animationIterationCount="infinite";
+                        ca.style.animationDuration="0.5s";
+                        ca.style.animationDirection="alternate";
 
                         const btca = document.createElement('button');
                         btca.setAttribute('id', 'boton_' + idDesignado);
@@ -1389,7 +2099,18 @@ function spawnearPeces()
                         btca.style.position = "absolute";
                         btca.style.cursor = "pointer";
                         btca.style.top = alturaPez - 30 + "px";
-                        btca.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btca.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btca.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btca.style.backgroundSize = "100%";
+                            btca.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btca.style.border = "none";
                         btca.style.zIndex = "0";
 
@@ -1426,6 +2147,20 @@ function spawnearPeces()
                         ws.style.top = distanciaArriba + "px";
                         ws.style.left = distanciaIzquierda + "px";
                         ws.style.zIndex = "1";
+                        
+                        if(direccionPez == 1)
+                        {
+                            ws.style.animation="morderIzquierda";
+                        }
+                        else
+                        {
+                            ws.style.animation="morderDerecha";
+                        }
+                        
+                        ws.style.animationPlayState="paused";
+                        ws.style.animationIterationCount="infinite";
+                        ws.style.animationDuration="0.5s";
+                        ws.style.animationDirection="alternate";
 
                         const btws = document.createElement('button');
                         btws.setAttribute('id', 'boton_' + idDesignado);
@@ -1437,7 +2172,18 @@ function spawnearPeces()
                         btws.style.position = "absolute";
                         btws.style.cursor = "pointer";
                         btws.style.top = distanciaArriba + alturaPez - 30 + "px";
-                        btws.style.backgroundColor = "#36C5F4";
+                        
+                        if(estadoDificultadDificil)
+                        {
+                            btws.style.backgroundColor = "#36C5F4";
+                        }
+                        else
+                        {
+                            btws.style.backgroundImage = "url(images/elements/bubbles.gif";
+                            btws.style.backgroundSize = "100%";
+                            btws.style.backgroundRepeat = "no-repeat";
+                        }
+                        
                         btws.style.border = "none";
                         btws.style.zIndex = "0";
 
@@ -1618,9 +2364,9 @@ function contarTiempo()
     {
         tiempoDecimasSegundo = 0;
     }
-    if(estadoReaccionAnzuelo && (tiempoDecimasSegundo * 100) > arregloPecesActivos[idPezActual - 1].getTiempo())
+    if(estadoReaccionAnzuelo && ((tiempoDecimasSegundo * 100) - caniaObjetoActual.getTiempoMas()) > arregloPecesActivos[idPezActual - 1].getTiempo())
     {
-        desaparecerPez();
+        desaparecerPez(true);
         estadoReaccionAnzuelo = false;
         estadoPermitirPesca = false;
         estadoReiniciadoAnzuelo = true;
@@ -1635,6 +2381,7 @@ function crearIntervalos()
 {
     if(estadoJuegoReaccion && estadoDelayReaccion)
     {
+        document.getElementById("pez_" + idPezActual).style.animationPlayState="paused";
         if(getNumeroRandom(100) < 30)
         {
             document.getElementById("sonidoAtrapar").play();
@@ -1651,6 +2398,8 @@ function crearIntervalos()
     if(estadoJuegoReaccion)
     {
         estadoDelayReaccion = true;
+        document.getElementById("pez_" + idPezActual).style.animationDelay="0.4s";
+        document.getElementById("pez_" + idPezActual).style.animationPlayState="running";
     }
 }
 
@@ -1677,7 +2426,7 @@ function pescaPeces(idPez)
     }
     else if(estadoJuegoReaccion && idPez == idPezActual)
     {
-        desaparecerPez();
+        desaparecerPez(true);
         estadoReaccionAnzuelo = false;
         estadoPermitirPesca = false;
         estadoReiniciadoAnzuelo = true;
@@ -1686,9 +2435,12 @@ function pescaPeces(idPez)
     }
 }
 
-function desaparecerPez()
+function desaparecerPez(estadoSonidoDesaparecer)
 {
-    document.getElementById("sonidoRotura").play();
+    if(estadoSonidoDesaparecer)
+    {
+        document.getElementById("sonidoRotura").play();
+    }
     contadorPeces -= arregloPecesActivos[idPezActual - 1].getPesoEstanque();
     document.getElementById("pez_" + idPezActual).remove();
     document.getElementById("boton_" + idPezActual).remove();
@@ -1697,12 +2449,18 @@ function desaparecerPez()
 
 function atraparPez()
 {
+    caniaObjetoActual.capturaExitosa(arregloTipoPeces[idPezActual - 1]);
     mostrarPez();
     document.getElementById("sonidoCaptura").play();
     contadorPeces -= arregloPecesActivos[idPezActual - 1].getPesoEstanque();
     document.getElementById("pez_" + idPezActual).remove();
     document.getElementById("boton_" + idPezActual).remove();
     arregloEspacios[idPezActual - 1] = false;
+
+    if(arregloTipoPeces[idPezActual - 1] != 122)
+    {
+        arregloContadorPeces[arregloTipoPeces[idPezActual - 1] - 1]++;
+    }
 }
 
 function mostrarPez()
@@ -1712,17 +2470,35 @@ function mostrarPez()
     document.getElementById("pesoPez").value = "KG: " + arregloPecesActivos[idPezActual - 1].getPeso();
     document.getElementById("tamanioPez").value = "CM: " + arregloPecesActivos[idPezActual - 1].getTamanio();
     document.getElementById("dineroPez").value = "G: " + Math.round(dineroActualPez);
-    dineroTotal += Math.round(dineroActualPez);
+    
+    if(estadoDificultadDificil)
+    {
+        dineroTotal += Math.round(dineroActualPez * 1.5);
+    }
+    else
+    {
+        dineroTotal += Math.round(dineroActualPez);
+    }
+    
     if(dineroTotal > 9999)
     {
         dineroTotal = 9999;
     }
     document.getElementById("dineroTotal").value = dineroTotal;
+    document.getElementById("botonBajarTienda").style.display="none";
+    document.getElementById("estanque").style.display="none";
+    estadoAnzuelo = true;
+    estadoBloquearMovimientoAnzuelo = true
 }
 
 function quitarMadera()
 {
+    click.play();
     document.getElementById("pantallaPesca").style.display = "none";
+    document.getElementById("botonBajarTienda").style.display="inline";
+    document.getElementById("estanque").style.display="inline";
+    estadoAnzuelo = false;
+    estadoBloquearMovimientoAnzuelo = false;
 }
 
 function asignarYCalcularPez()
@@ -2015,5 +2791,1403 @@ function asignarYCalcularPez()
         modeloPez.style.left = ((innerWidth - 995) / 2) + "px";
         dineroActualPez = arregloPecesActivos[idPezActual - 1].getDinero() * (arregloPecesActivos[idPezActual - 1].getPeso() / 890);
         break;
+    }
+}
+
+function bajarTienda()
+{
+    document.getElementById("fondoSeguroRegresar").style.display = "none";
+    document.getElementById("fondoOpciones").style.display = "none";
+    document.getElementById("fondoCatalogo").style.display = "none";
+    document.getElementById("botonBajarTienda").style.display = "none";
+    document.getElementById("fondoTienda").style.display = "inline";
+    document.getElementById("botonesTienda").style.display = "inline";
+    document.getElementById("dickTinieblas").style.display = "inline";
+    estadoHablarDick = false;
+}
+
+function subirTienda()
+{
+    resetVozDick()
+    document.getElementById("botonBajarTienda").style.display = "inline";
+    document.getElementById("fondoTienda").style.display = "none";
+    document.getElementById("botonesTienda").style.display = "none";
+    document.getElementById("dickTinieblas").style.display = "none";
+    document.getElementById("burbujaTextoDick").style.display = "none";
+    document.getElementById("tablonCompra").style.display = "none";
+    document.getElementById("dickTinieblas").style.backgroundImage = "url(images/elements/dick_tinieblas.png)";
+    estadoTerminarHablar = false;
+    estadoHablarDick = false;
+}
+
+function bajarTiendaComienzo()
+{
+    click.play();
+    if(estadoAnzuelo)
+    {
+        estadoPasadoAnzuelo = true;
+    }
+    estadoAnzuelo = true;
+    bajarTienda()
+    document.getElementById("estanque").style.display="none";
+}
+
+function subirTiendaFinal()
+{
+    click.play();
+    if(!estadoPasadoAnzuelo)
+    {
+        estadoAnzuelo = false;
+    }
+    estadoPasadoAnzuelo = false;
+    document.getElementById("estanque").style.display="inline";
+}
+
+function subirTiendaFuncion()
+{
+    subirTienda();
+    subirTiendaFinal();
+}
+
+function sonidoDick()
+{
+    var vozDickActual = 0;
+    do
+    {
+        vozDickActual = getNumeroRandom(5);
+    } while(vozDickActual == numeroVozDickPasado);
+    numeroVozDickPasado = vozDickActual;
+
+    resetVozDick();
+
+    switch(vozDickActual)
+    {
+    case 0:
+        document.getElementById("vozDick1").play();
+        break;
+    case 1:
+        document.getElementById("vozDick2").play();
+        break;
+    case 2:
+        document.getElementById("vozDick3").play();
+        break;
+    case 3:
+        document.getElementById("vozDick4").play();
+        break;
+    case 4:
+        document.getElementById("vozDick5").play();
+        break;
+    }
+}
+
+function resetVozDick()
+{
+    document.getElementById("vozDick1").pause();
+    document.getElementById("vozDick1").currentTime = 0;
+    document.getElementById("vozDick2").pause();
+    document.getElementById("vozDick2").currentTime = 0;
+    document.getElementById("vozDick3").pause();
+    document.getElementById("vozDick3").currentTime = 0;
+    document.getElementById("vozDick4").pause();
+    document.getElementById("vozDick4").currentTime = 0;
+    document.getElementById("vozDick5").pause();
+    document.getElementById("vozDick5").currentTime = 0;
+}
+
+function dickHablar()
+{
+    sonidoDick()
+    var dialogoActual = 0;
+    document.getElementById("tablonCompra").style.display = "none";
+    if(!estadoHablarDick)
+    {
+        estadoHablarDick = true;
+        document.getElementById("dickTinieblas").style.backgroundImage = "url(images/elements/dick_tinieblas_animated.gif)";
+        document.getElementById("burbujaTextoDick").style.display = "inline";
+    }
+    if(estadoHablarDick)
+    {
+        do
+        {
+            dialogoActual = getNumeroRandom(7);
+        } while(dialogoActual == numeroDialogoPasado);
+        numeroDialogoPasado = dialogoActual;
+
+        if(getNumeroRandom(100) < 1)
+        {
+            dialogoActual = 7;
+        }
+
+        switch(dialogoActual)
+        {
+        case 0:
+            textoBurbuja.innerHTML = "<br>Los peces no se irán del estanque hasta que intentes pescarlos.";
+            break;
+        case 1:
+            textoBurbuja.innerHTML = "<br>Utiliza otros anzuelos para que aparezcan más tipos de peces en el estanque.";
+            break;
+        case 2:
+            textoBurbuja.innerHTML = "<br>Mientras más potente sea tu caña, será más fácil será pescar cualquier pez.";
+            break;
+        case 3:
+            textoBurbuja.innerHTML = "<br>Mientras más peso tenga el pez, recibirás más monedas.";
+            break;
+        case 4:
+            textoBurbuja.innerHTML = "<br>El tiempo del día no afecta el estanque, solo la ambientación.";
+            break;
+        case 5:
+            textoBurbuja.innerHTML = "<br>La dificultad difícil aumentará la cantidad de monedas recibidas por cada pesca.";
+            break;
+        case 6:
+            textoBurbuja.innerHTML = "<br>Puedes volver a checar el tutorial desde el menú de ajustes.";
+            break;
+        case 7:
+            textoBurbuja.innerHTML = "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aperiam ipsam, dicta perferendis quisquam, veniam officiis quis at.";
+            break;
+        }
+    }
+}
+
+function cambiarAnzuelo(opcionTienda)
+{
+    click.play();
+    switch(opcionTienda)
+    {
+    case 0:
+        limpiarPool();     
+        caniaObjetoActual.setCaniaActual(1);
+        document.getElementById("bordeAnzueloLigero").style.backgroundImage = "url(images/elements/shop_item_border_golden.png)";
+        if(estadoAnzuelosTienda[1])
+        {
+            document.getElementById("bordeAnzueloMediano").style.backgroundImage = "url(images/elements/shop_item_border.png)";
+            document.getElementById("fotoAnzueloMediano").style.backgroundImage = "url(images/elements/mediumweight_fish_hook.png)";
+        }
+        else
+        {
+            document.getElementById("bordeAnzueloMediano").style.backgroundImage = "url(images/elements/shop_item_border_gray.png)";
+        }
+        if(estadoAnzuelosTienda[2])
+        {
+            document.getElementById("bordeAnzueloPesado").style.backgroundImage = "url(images/elements/shop_item_border.png)";
+        }
+        else
+        {
+            document.getElementById("bordeAnzueloPesado").style.backgroundImage = "url(images/elements/shop_item_border_gray.png)";
+        }
+        if(estadoAnzuelosTienda[3])
+        {
+            document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_border.png)";
+        }
+        else
+        {
+            document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_broken_border.png)";
+        }
+        anzuelo.style.backgroundImage="url(images/cania/anzuelo.png)";
+        break;
+    case 1:
+        if(estadoAnzuelosTienda[1])
+        {
+            limpiarPool();
+            caniaObjetoActual.setCaniaActual(2);
+            
+            document.getElementById("bordeAnzueloLigero").style.backgroundImage = "url(images/elements/shop_item_border.png)";
+            document.getElementById("bordeAnzueloMediano").style.backgroundImage = "url(images/elements/shop_item_border_golden.png)";
+            document.getElementById("fotoAnzueloMediano").style.backgroundImage = "url(images/elements/mediumweight_fish_hook.png)";
+            if(estadoAnzuelosTienda[2])
+            {
+                document.getElementById("bordeAnzueloPesado").style.backgroundImage = "url(images/elements/shop_item_border.png)";
+                document.getElementById("fotoAnzueloPesado").style.backgroundImage = "url(images/elements/heavyweight_fish_hook.png)";
+            }
+            else
+            {
+                document.getElementById("bordeAnzueloPesado").style.backgroundImage = "url(images/elements/shop_item_border_gray.png)";
+            }
+            if(estadoAnzuelosTienda[3])
+            {
+                document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_border.png)";
+            }
+            else
+            {
+                document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_broken_border.png)";
+            }
+            anzuelo.style.backgroundImage="url(images/cania/anzuelo2.png)";
+        }
+        else
+        {
+            sonidoDick()
+            document.getElementById("dickTinieblas").style.backgroundImage = "url(images/elements/dick_tinieblas_animated.gif)";
+            document.getElementById("burbujaTextoDick").style.display = "inline";
+            textoBurbuja.innerHTML = "Eso de ahí es un anzuelo de peso mediano. Te costará unas... 400 monedas.<br>¿Qué dices?";
+            document.getElementById("tablonCompra").style.display = "inline";
+            dineroNecesarioCompra = 400;
+            idCompra = 1;
+        }
+        break;
+    case 2:
+        if(estadoAnzuelosTienda[2])
+        {
+            limpiarPool();
+            caniaObjetoActual.setCaniaActual(3);
+            document.getElementById("bordeAnzueloLigero").style.backgroundImage = "url(images/elements/shop_item_border.png)";
+            if(estadoAnzuelosTienda[1])
+            {
+                document.getElementById("bordeAnzueloMediano").style.backgroundImage = "url(images/elements/shop_item_border.png)";
+                document.getElementById("fotoAnzueloMediano").style.backgroundImage = "url(images/elements/mediumweight_fish_hook.png)";
+            }
+            else
+            {
+                document.getElementById("bordeAnzueloMediano").style.backgroundImage = "url(images/elements/shop_item_border_gray.png)";
+            }
+            document.getElementById("bordeAnzueloPesado").style.backgroundImage = "url(images/elements/shop_item_border_golden.png)";
+            document.getElementById("fotoAnzueloPesado").style.backgroundImage = "url(images/elements/heavyweight_fish_hook.png)";
+            if(estadoAnzuelosTienda[3])
+            {
+                document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_border.png)";
+            }
+            else
+            {
+                document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_broken_border.png)";
+            }
+            anzuelo.style.backgroundImage="url(images/cania/anzuelo3.png)";
+        }
+        else
+        {
+            sonidoDick()
+            document.getElementById("dickTinieblas").style.backgroundImage = "url(images/elements/dick_tinieblas_animated.gif)";
+            document.getElementById("burbujaTextoDick").style.display = "inline";
+            textoBurbuja.innerHTML = "Eso de ahí es un anzuelo de peso pesado. Te costará unas... 2000 monedas.<br>¿Qué dices?";
+            document.getElementById("tablonCompra").style.display = "inline";
+            dineroNecesarioCompra = 2000;
+            idCompra = 2;
+        }
+        break;
+    case 3:
+        limpiarPool();
+        caniaObjetoActual.setCaniaActual(4);
+        document.getElementById("bordeAnzueloLigero").style.backgroundImage = "url(images/elements/shop_item_border.png)";
+        document.getElementById("bordeAnzueloMediano").style.backgroundImage = "url(images/elements/shop_item_border.png)";
+        document.getElementById("fotoAnzueloMediano").style.backgroundImage = "url(images/elements/mediumweight_fish_hook.png)";
+        document.getElementById("bordeAnzueloPesado").style.backgroundImage = "url(images/elements/shop_item_border.png)";
+        document.getElementById("fotoAnzueloPesado").style.backgroundImage = "url(images/elements/heavyweight_fish_hook.png)";
+        document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_border_golden.png)";
+        document.getElementById("fotoAnzueloMisterioso").style.display = "inline";
+        anzuelo.style.backgroundImage="url(images/cania/anzuelo4.png)";
+        break;
+    }
+}
+
+function limpiarPool()
+{
+    for(let i = 0; i < 10; i++)
+    {
+        idPezActual = i + 1;
+        if(arregloEspacios[i])
+        {
+            desaparecerPez(false);
+        }
+    }
+    estadoReaccionAnzuelo = false;
+    estadoPermitirPesca = false;
+    estadoReiniciadoAnzuelo = true;
+    estadoJuegoReaccion = false;
+    idPezActual = -1;
+}
+
+function comprarCania(opcionTienda)
+{
+    click.play();
+    if(estadoCaniasTienda[opcionTienda - 1])
+    {
+        switch(opcionTienda)
+        {
+        case 1:
+            sonidoDick()
+            document.getElementById("dickTinieblas").style.backgroundImage = "url(images/elements/dick_tinieblas_animated.gif)";
+            document.getElementById("burbujaTextoDick").style.display = "inline";
+            textoBurbuja.innerHTML = "Eso de ahí es una caña +1. Te costará unas... 200 monedas.<br><br>¿Qué dices?";
+            document.getElementById("tablonCompra").style.display = "inline";
+            dineroNecesarioCompra = 200;
+            idCompra = 4;
+            break;
+        case 2:
+            sonidoDick()
+            document.getElementById("dickTinieblas").style.backgroundImage = "url(images/elements/dick_tinieblas_animated.gif)";
+            document.getElementById("burbujaTextoDick").style.display = "inline";
+            textoBurbuja.innerHTML = "Eso de ahí es una caña +2. Te costará unas... 800 monedas.<br><br>¿Qué dices?";
+            document.getElementById("tablonCompra").style.display = "inline";
+            dineroNecesarioCompra = 800;
+            idCompra = 5;
+            break;
+        case 3:
+            sonidoDick()
+            document.getElementById("dickTinieblas").style.backgroundImage = "url(images/elements/dick_tinieblas_animated.gif)";
+            document.getElementById("burbujaTextoDick").style.display = "inline";
+            textoBurbuja.innerHTML = "Eso de ahí es una caña +3. Te costará unas... 2200 monedas.<br><br>¿Qué dices?";
+            document.getElementById("tablonCompra").style.display = "inline";
+            dineroNecesarioCompra = 2200;
+            idCompra = 6;
+            break
+        case 4:
+            sonidoDick()
+            document.getElementById("dickTinieblas").style.backgroundImage = "url(images/elements/dick_tinieblas_animated.gif)";
+            document.getElementById("burbujaTextoDick").style.display = "inline";
+            textoBurbuja.innerHTML = "Eso de ahí es una caña +4. Te costará unas... 4000 monedas.<br><br>¿Qué dices?";
+            document.getElementById("tablonCompra").style.display = "inline";
+            dineroNecesarioCompra = 4000;
+            idCompra = 7;
+            break;
+        }
+    }
+    else
+    {
+        sonidoDick()
+        document.getElementById("dickTinieblas").style.backgroundImage = "url(images/elements/dick_tinieblas_animated.gif)";
+        document.getElementById("burbujaTextoDick").style.display = "inline";
+        textoBurbuja.innerHTML = "Necesitas comprar todas las cañas anteriores antes de comprar esa caña.";
+        document.getElementById("tablonCompra").style.display = "none";
+    }
+}
+
+function realizarCompra()
+{
+    click.play();
+    document.getElementById("tablonCompra").style.display = "none";
+    if(dineroNecesarioCompra > dineroTotal)
+    {
+        sonidoDick()
+        textoBurbuja.innerHTML = "<br>No tienes suficientes monedas, regresa cuando hayas conseguido las suficientes.";
+    }
+    else
+    {
+        sonidoDick()
+        dineroTotal -= dineroNecesarioCompra;
+        document.getElementById("dineroTotal").value = dineroTotal;
+        textoBurbuja.innerHTML = "<br>¡Excelente compra!";
+        recibirItem();
+    }
+}
+
+function salirDeCompra()
+{
+    click.play();
+    sonidoDick()
+    document.getElementById("tablonCompra").style.display = "none";
+    textoBurbuja.innerHTML = "Hmm...<br>Al cabo que ni quería vendertela.";
+}
+
+function recibirItem()
+{
+    switch(idCompra)
+    {
+    case 1:
+        estadoAnzuelosTienda[1] = true;
+        cambiarAnzuelo(1);
+        break;
+    case 2:
+        estadoAnzuelosTienda[2] = true;
+        cambiarAnzuelo(2);
+        break;
+    case 3:
+        estadoAnzuelosTienda[3] = true;
+        document.getElementById("bordeAnzueloMisterioso").removeAttribute("onclick");
+        document.getElementById("bordeAnzueloMisterioso").style.cursor="default"
+        cambiarAnzuelo(3);
+        break;
+    case 4:
+        estadoCaniasTienda[1] = true;
+        document.getElementById("bordeCania").style.backgroundImage = "url(images/elements/shop_item_border_fishing_rod.png)";
+        document.getElementById("bordeCaniaMas1").style.backgroundImage = "url(images/elements/shop_item_border_golden_fishing_rod.png)";
+        document.getElementById("fotoCaniaMas1").style.backgroundImage = "url(images/elements/fishing_rod_plus_1.png)";
+        mango.style.backgroundImage="url(images/cania/mango2.png)";
+        puntera.style.backgroundImage="url(images/cania/puntera2.png)";
+        document.getElementById("fotoCaniaMas1").removeAttribute("onclick");
+        document.getElementById("fotoCaniaMas1").style.cursor="default"
+        caniaObjetoActual.mejorarCania();
+        break;
+    case 5:
+        estadoCaniasTienda[2] = true;
+        document.getElementById("bordeCaniaMas1").style.backgroundImage = "url(images/elements/shop_item_border_fishing_rod.png)";
+        document.getElementById("bordeCaniaMas2").style.backgroundImage = "url(images/elements/shop_item_border_golden_fishing_rod.png)";
+        document.getElementById("fotoCaniaMas2").style.backgroundImage = "url(images/elements/fishing_rod_plus_2.png)";
+        mango.style.backgroundImage="url(images/cania/mango3.png)";
+        puntera.style.backgroundImage="url(images/cania/puntera3.png)";
+        document.getElementById("fotoCaniaMas2").removeAttribute("onclick");
+        document.getElementById("fotoCaniaMas2").style.cursor="default"
+        caniaObjetoActual.mejorarCania();
+        break;
+    case 6:
+        estadoCaniasTienda[3] = true;
+        document.getElementById("bordeCaniaMas2").style.backgroundImage = "url(images/elements/shop_item_border_fishing_rod.png)";
+        document.getElementById("bordeCaniaMas3").style.backgroundImage = "url(images/elements/shop_item_border_golden_fishing_rod.png)";
+        document.getElementById("fotoCaniaMas3").style.backgroundImage = "url(images/elements/fishing_rod_plus_3.png)";
+        mango.style.backgroundImage="url(images/cania/mango4.png)";
+        puntera.style.backgroundImage="url(images/cania/puntera4.png)";
+        document.getElementById("fotoCaniaMas3").removeAttribute("onclick");
+        document.getElementById("fotoCaniaMas3").style.cursor="default"
+        caniaObjetoActual.mejorarCania();
+        break;
+    case 7:
+        estadoCaniasTienda[4] = true;
+        document.getElementById("bordeCaniaMas3").style.backgroundImage = "url(images/elements/shop_item_border_fishing_rod.png)";
+        document.getElementById("bordeCaniaMas4").style.backgroundImage = "url(images/elements/shop_item_border_golden_fishing_rod.png)";
+        document.getElementById("fotoCaniaMas4").style.backgroundImage = "url(images/elements/fishing_rod_plus_4.png)";
+        mango.style.backgroundImage="url(images/cania/mango5.png)";
+        puntera.style.backgroundImage="url(images/cania/puntera5.png)";
+        document.getElementById("fotoCaniaMas4").removeAttribute("onclick");
+        document.getElementById("fotoCaniaMas4").style.cursor="default"
+        caniaObjetoActual.mejorarCania();
+        break;
+    }
+}
+
+function dialogoMisterioso()
+{
+    click.play();
+    sonidoDick()
+    document.getElementById("tablonCompra").style.display = "none";
+    document.getElementById("burbujaTextoDick").style.display = "inline";
+    textoBurbuja.innerHTML = "<br>No te preocupes por ese espacio vacío, no tengo nada más que ofrecerte...";
+    document.getElementById("dickTinieblas").style.backgroundImage = "url(images/elements/dick_tinieblas_animated.gif)";
+}
+
+function cambiarDificultadNormal()
+{
+    click.play();
+    limpiarPool();
+    estadoDificultadDificil = false;
+    fondoDificultadSeleccionada.style.left="78px";
+}
+
+function cambiarDificultadDificil()
+{
+    click.play();
+    limpiarPool();
+    estadoDificultadDificil = true;
+    fondoDificultadSeleccionada.style.left="396px";
+}
+
+function regresarPantallaTitulo()
+{
+    click.play();
+    window.location.reload();
+}
+
+function entrarOpciones()
+{
+    click.play();
+    document.getElementById("fondoOpciones").style.display = "inline";
+    subirTienda();
+    document.getElementById("botonBajarTienda").style.display="none";
+    document.getElementById("juegoPesca").style.display="none";
+}
+
+function salirOpciones()
+{
+    click.play();
+    document.getElementById("fondoOpciones").style.display = "none";
+    bajarTienda();
+    document.getElementById("botonBajarTienda").style.display="inline";
+    document.getElementById("juegoPesca").style.display="inline";
+}
+
+function menuAsegurarSalir()
+{
+    click.play();
+    document.getElementById("fondoSeguroRegresar").style.display = "inline";
+    document.getElementById("fondoOpciones").style.display = "none";
+}
+
+function noRegresarTitulo()
+{
+    click.play();
+    document.getElementById("fondoSeguroRegresar").style.display = "none";
+    document.getElementById("fondoOpciones").style.display = "inline";
+}
+
+function entrarCatalogo()
+{
+    document.getElementById("fondoCatalogo").style.display = "inline";
+    actualizarCatalogo();
+    subirTienda();
+    document.getElementById("botonBajarTienda").style.display="none";
+    document.getElementById("juegoPesca").style.display="none";
+    cambiarCartaCatalogo(1);
+    mostrarFotoNegraCatalogo(1);
+    document.getElementById("botonModeloPezOriginalCatalogo").style.display="none"
+    document.getElementById("botonModeloPezAlternoCatalogo").style.display="none"
+}
+
+function actualizarCatalogo()
+{
+    for(let i = 0; i < (caniaObjetoActual.getTamanioVector(caniaObjetoActual.getCaniaActual())); i++)
+    {
+        mostrarFotoNegraCatalogo(caniaObjetoActual.getIndexVector(caniaObjetoActual.getCaniaActual(), i));
+    }
+}
+
+function mostrarFotoNegraCatalogo(idFotoDescubrir)
+{
+    switch(idFotoDescubrir)
+    {
+    case 1:
+        document.getElementById("cartaMojarraCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(1)');
+        document.getElementById("cartaMojarraCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaMojarraCatalogo").style.cursor="pointer";
+        document.getElementById("fotoMojarraCatalogo").style.display="inline";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 7)
+        {
+            document.getElementById("fotoMojarraCatalogo").style.backgroundImage = "url(images/fishes/bluegill.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezMojarraCatalogo").style.backgroundImage = "url(images/fishes/bluegill.png)";
+        }
+        break;
+    case 2:
+        document.getElementById("fotoLubinaCatalogo").style.display="inline";
+        document.getElementById("cartaLubinaCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(2)');
+        document.getElementById("cartaLubinaCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaLubinaCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 7)
+        {
+            document.getElementById("fotoLubinaCatalogo").style.backgroundImage = "url(images/fishes/sea_bass.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezLubinaCatalogo").style.backgroundImage = "url(images/fishes/sea_bass.png)";
+        }
+        break;
+    case 3:
+        document.getElementById("fotoPezPayasoCatalogo").style.display="inline";
+        document.getElementById("cartaPezPayasoCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(3)');
+        document.getElementById("cartaPezPayasoCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaPezPayasoCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 7)
+        {
+            document.getElementById("fotoPezPayasoCatalogo").style.backgroundImage = "url(images/fishes/clownfish.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezPezPayasoCatalogo").style.backgroundImage = "url(images/fishes/clownfish.png)";
+        }
+        break;
+    case 4:
+        document.getElementById("fotoCarpaCatalogo").style.display="inline";
+        document.getElementById("cartaCarpaCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(4)');
+        document.getElementById("cartaCarpaCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaCarpaCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 5)
+        {
+            document.getElementById("fotoCarpaCatalogo").style.backgroundImage = "url(images/fishes/carp.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezCarpaCatalogo").style.backgroundImage = "url(images/fishes/carp.png)";
+        }
+        break;
+    case 5:
+        document.getElementById("fotoAnchoaCatalogo").style.display="inline";
+        document.getElementById("cartaAnchoaCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(5)');
+        document.getElementById("cartaAnchoaCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaAnchoaCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 7)
+        {
+            document.getElementById("fotoAnchoaCatalogo").style.backgroundImage = "url(images/fishes/anchovy.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezAnchoaCatalogo").style.backgroundImage = "url(images/fishes/anchovy.png)";
+        }
+        break;
+    case 6:
+        document.getElementById("fotoKoiCatalogo").style.display="inline";
+        document.getElementById("cartaKoiCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(6)');
+        document.getElementById("cartaKoiCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaKoiCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 5)
+        {
+            document.getElementById("fotoKoiCatalogo").style.backgroundImage = "url(images/fishes/koi.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezKoiCatalogo").style.backgroundImage = "url(images/fishes/koi.png)";
+        }
+        break;
+    case 7:
+        document.getElementById("fotoGoldfishCatalogo").style.display="inline";
+        document.getElementById("cartaGoldfishCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(7)');
+        document.getElementById("cartaGoldfishCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaGoldfishCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 7)
+        {
+            document.getElementById("fotoGoldfishCatalogo").style.backgroundImage = "url(images/fishes/goldfish.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezGoldfishCatalogo").style.backgroundImage = "url(images/fishes/goldfish.png)";
+        }
+        break;
+    case 8:
+        document.getElementById("fotoPezGloboCatalogo").style.display="inline";
+        document.getElementById("cartaPezGloboCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(8)');
+        document.getElementById("cartaPezGloboCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaPezGloboCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 7)
+        {
+            document.getElementById("fotoPezGloboCatalogo").style.backgroundImage = "url(images/fishes/pufferfish_deflated.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezPezGloboCatalogo").style.backgroundImage = "url(images/fishes/pufferfish_deflated.png)";
+        }
+        break;
+    case 9:
+        document.getElementById("fotoAtunCatalogo").style.display="inline";
+        document.getElementById("cartaAtunCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(9)');
+        document.getElementById("cartaAtunCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaAtunCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 3)
+        {
+            document.getElementById("fotoAtunCatalogo").style.backgroundImage = "url(images/fishes/tuna.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezAtunCatalogo").style.backgroundImage = "url(images/fishes/tuna.png)";
+        }
+        break;
+    case 10:
+        document.getElementById("fotoTetraNeonCatalogo").style.display="inline";
+        document.getElementById("cartaTetraNeonCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(10)');
+        document.getElementById("cartaTetraNeonCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaTetraNeonCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 7)
+        {
+            document.getElementById("fotoTetraNeonCatalogo").style.backgroundImage = "url(images/fishes/neon_tetra.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezTetraNeonCatalogo").style.backgroundImage = "url(images/fishes/neon_tetra.png)";
+        }
+        break;
+    case 11:
+        document.getElementById("fotoTortugaCatalogo").style.display="inline";
+        document.getElementById("cartaTortugaCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(11)');
+        document.getElementById("cartaTortugaCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaTortugaCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 5)
+        {
+            document.getElementById("fotoTortugaCatalogo").style.backgroundImage = "url(images/fishes/turtle.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezTortugaCatalogo").style.backgroundImage = "url(images/fishes/turtle.png)";
+        }
+        break;
+    case 12:
+        document.getElementById("fotoRanaCatalogo").style.display="inline";
+        document.getElementById("cartaRanaCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(12)');
+        document.getElementById("cartaRanaCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaRanaCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 7)
+        {
+            document.getElementById("fotoRanaCatalogo").style.backgroundImage = "url(images/fishes/frog.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezRanaCatalogo").style.backgroundImage = "url(images/fishes/frog.png)";
+        }
+        break;
+    case 13:
+        document.getElementById("fotoTruchaCatalogo").style.display="inline";
+        document.getElementById("cartaTruchaCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(13)');
+        document.getElementById("cartaTruchaCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaTruchaCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 5)
+        {
+            document.getElementById("fotoTruchaCatalogo").style.backgroundImage = "url(images/fishes/trout.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezTruchaCatalogo").style.backgroundImage = "url(images/fishes/trout.png)";
+        }
+        break;
+    case 14:
+        document.getElementById("fotoBagreCatalogo").style.display="inline";
+        document.getElementById("cartaBagreCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(14)');
+        document.getElementById("cartaBagreCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaBagreCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 5)
+        {
+            document.getElementById("fotoBagreCatalogo").style.backgroundImage = "url(images/fishes/catfish.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezBagreCatalogo").style.backgroundImage = "url(images/fishes/catfish.png)";
+        }
+        break;
+    case 15:
+        document.getElementById("fotoCangrejoRioCatalogo").style.display="inline";
+        document.getElementById("cartaCangrejoRioCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(15)');
+        document.getElementById("cartaCangrejoRioCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaCangrejoRioCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 7)
+        {
+            document.getElementById("fotoCangrejoRioCatalogo").style.backgroundImage = "url(images/fishes/crawfish.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezCangrejoRioCatalogo").style.backgroundImage = "url(images/fishes/crawfish.png)";
+        }
+        break;
+    case 16:
+        document.getElementById("fotoSalmonCatalogo").style.display="inline";
+        document.getElementById("cartaSalmonCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(16)');
+        document.getElementById("cartaSalmonCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaSalmonCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 5)
+        {
+            document.getElementById("fotoSalmonCatalogo").style.backgroundImage = "url(images/fishes/salmon.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezSalmonCatalogo").style.backgroundImage = "url(images/fishes/salmon.png)";
+        }
+        break;
+    case 17:
+        document.getElementById("fotoPezEspadaCatalogo").style.display="inline";
+        document.getElementById("cartaPezEspadaCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(17)');
+        document.getElementById("cartaPezEspadaCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaPezEspadaCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 3)
+        {
+            document.getElementById("fotoPezEspadaCatalogo").style.backgroundImage = "url(images/fishes/swordfish.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezPezEspadaCatalogo").style.backgroundImage = "url(images/fishes/swordfish.png)";
+        }
+        break;
+    case 18:
+        document.getElementById("fotoCharCatalogo").style.display="inline";
+        document.getElementById("cartaCharCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(18)');
+        document.getElementById("cartaCharCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaCharCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 5)
+        {
+            document.getElementById("fotoCharCatalogo").style.backgroundImage = "url(images/fishes/char.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezCharCatalogo").style.backgroundImage = "url(images/fishes/char.png)";
+        }
+        break;
+    case 19:
+        document.getElementById("fotoMagikarpCatalogo").style.display="inline";
+        document.getElementById("cartaMagikarpCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(19)');
+        document.getElementById("cartaMagikarpCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaMagikarpCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 5)
+        {
+            document.getElementById("fotoMagikarpCatalogo").style.backgroundImage = "url(images/fishes/magikarp.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezMagikarpCatalogo").style.backgroundImage = "url(images/fishes/magikarp.png)";
+        }
+        break;
+    case 20:
+        document.getElementById("fotoCangrejoCatalogo").style.display="inline";
+        document.getElementById("cartaCangrejoCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(20)');
+        document.getElementById("cartaCangrejoCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaCangrejoCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 7)
+        {
+            document.getElementById("fotoCangrejoCatalogo").style.backgroundImage = "url(images/fishes/crab.gif)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezCangrejoCatalogo").style.backgroundImage = "url(images/fishes/crab.png)";
+        }
+        break;
+    case 21:
+        document.getElementById("fotoEsturionCatalogo").style.display="inline";
+        document.getElementById("cartaEsturionCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(21)');
+        document.getElementById("cartaEsturionCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaEsturionCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 5)
+        {
+            document.getElementById("fotoEsturionCatalogo").style.backgroundImage = "url(images/fishes/sturgeon.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezEsturionCatalogo").style.backgroundImage = "url(images/fishes/sturgeon.png)";
+        }
+        break;
+    case 22:
+        document.getElementById("fotoPiraniaCatalogo").style.display="inline";
+        document.getElementById("cartaPiraniaCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(22)');
+        document.getElementById("cartaPiraniaCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaPiraniaCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 5)
+        {
+            document.getElementById("fotoPiraniaCatalogo").style.backgroundImage = "url(images/fishes/piranha.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezPiraniaCatalogo").style.backgroundImage = "url(images/fishes/piranha.png)";
+        }
+        break;
+    case 23:
+        document.getElementById("fotoPezRapeCatalogo").style.display="inline";
+        document.getElementById("cartaPezRapeCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(23)');
+        document.getElementById("cartaPezRapeCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaPezRapeCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 5)
+        {
+            document.getElementById("fotoPezRapeCatalogo").style.backgroundImage = "url(images/fishes/anglerfish.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezPezRapeCatalogo").style.backgroundImage = "url(images/fishes/anglerfish.png)";
+        }
+        break;
+    case 24:
+        document.getElementById("fotoCachaloteCatalogo").style.display="inline";
+        document.getElementById("cartaCachaloteCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(24)');
+        document.getElementById("cartaCachaloteCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaCachaloteCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 3)
+        {
+            document.getElementById("fotoCachaloteCatalogo").style.backgroundImage = "url(images/fishes/sperm_whale.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezCachaloteCatalogo").style.backgroundImage = "url(images/fishes/sperm_whale.png)";
+        }
+        break;
+    case 25:
+        document.getElementById("fotoTiburonBlancoCatalogo").style.display="inline";
+        document.getElementById("cartaTiburonBlancoCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(25)');
+        document.getElementById("cartaTiburonBlancoCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaTiburonBlancoCatalogo").style.cursor="pointer";
+        if(arregloContadorPeces[idFotoDescubrir - 1] >= 3)
+        {
+            document.getElementById("fotoTiburonBlancoCatalogo").style.backgroundImage = "url(images/fishes/great_white_shark.png)";
+            arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
+            document.getElementById("fotoPezTiburonBlancoCatalogo").style.backgroundImage = "url(images/fishes/great_white_shark.png)";
+        }
+        break;
+    case 26:
+        document.getElementById("cartaBallenaAzulAntarticaCatalogo").style.backgroundImage = "url(images/catalogo/individual_fish_card.png)";
+        document.getElementById("fotoBallenaAzulAntarticaCatalogo").style.display="inline";
+        document.getElementById("cartaBallenaAzulAntarticaCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(26)');
+        document.getElementById("cartaBallenaAzulAntarticaCatalogo").setAttribute('type', 'button');
+        document.getElementById("cartaBallenaAzulAntarticaCatalogo").style.cursor="pointer";
+        break;
+    }
+}
+
+function salirCatalogo()
+{
+    click.play();
+    document.getElementById("fondoCatalogo").style.display = "none";
+    bajarTienda();
+    document.getElementById("botonBajarTienda").style.display="inline";
+    document.getElementById("juegoPesca").style.display="inline";
+}
+
+function cambiarCartaCatalogo(idCatalogo)
+{
+    click.play();
+    cambiarCartaCatalogoQuitar();
+    cambiarCartaCatalogoMostrar(idCatalogo);
+    cambiarDatosIndependientesCatalogo(idCatalogo)
+}
+
+function cambiarCartaCatalogoMostrar(idCatalogo)
+{
+    if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+    {
+        descripcionPezCatalogo.style.fontSize="60px";
+        descripcionPezCatalogo.style.top="300px";
+        descripcionPezCatalogo.style.left="160px";
+    }
+    switch(idCatalogo)
+    {
+    case 1:
+        document.getElementById("fotoPezMojarraCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[0] + "/7";
+        }
+        break;
+    case 2:
+        document.getElementById("fotoPezLubinaCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[1] + "/7";
+        }
+        break;
+    case 3:
+        document.getElementById("fotoPezPezPayasoCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[2] + "/7";
+        }
+        break;
+    case 4:
+        document.getElementById("fotoPezCarpaCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[3] + "/5";
+        }
+        break;
+    case 5:
+        document.getElementById("fotoPezAnchoaCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[4] + "/7";
+        }
+        break;
+    case 6:
+        document.getElementById("fotoPezKoiCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[5] + "/5";
+        }
+        break;
+    case 7:
+        document.getElementById("fotoPezGoldfishCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[6] + "/7";
+        }
+        break;
+    case 8:
+        document.getElementById("fotoPezPezGloboCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[7] + "/7";
+        }
+        estadoPezGlobo = true;
+        cambiarModeloOriginal();
+        break;
+    case 82:
+        document.getElementById("fotoPezPezGloboInfladoCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[7] + "/7";
+        }
+        break;
+    case 9:
+        document.getElementById("fotoPezAtunCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[8] + "/3";
+        }
+        break;
+    case 10:
+        document.getElementById("fotoPezTetraNeonCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[9] + "/7";
+        }
+        break;
+    case 11:
+        document.getElementById("fotoPezTortugaCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[10] + "/5";
+        }
+        break;
+    case 12:
+        document.getElementById("fotoPezRanaCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[11] + "/7";
+        }
+        estadoPezGlobo = false;
+        cambiarModeloOriginal();
+        break;
+    case 122:
+        document.getElementById("fotoPezRanaShinyCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[11] + "/7";
+        }
+        break;
+    case 13:
+        document.getElementById("fotoPezTruchaCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[12] + "/5";
+        }
+        break;
+    case 14:
+        document.getElementById("fotoPezBagreCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[13] + "/5";
+        }
+        break;
+    case 15:
+        document.getElementById("fotoPezCangrejoRioCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[14] + "/7";
+        }
+        break;
+    case 16:
+        document.getElementById("fotoPezSalmonCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[15] + "/5";
+        }
+        break;
+    case 17:
+        document.getElementById("fotoPezPezEspadaCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[16] + "/3";
+        }
+        break;
+    case 18:
+        document.getElementById("fotoPezCharCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[17] + "/5";
+        }
+        break;
+    case 19:
+        document.getElementById("fotoPezMagikarpCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[18] + "/5";
+        }
+        break;
+    case 20:
+        document.getElementById("fotoPezCangrejoCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[19] + "/7";
+        }
+        break;
+    case 21:
+        document.getElementById("fotoPezEsturionCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[20] + "/5";
+        }
+        break;
+    case 22:
+        document.getElementById("fotoPezPiraniaCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[21] + "/5";
+        }
+        break;
+    case 23:
+        document.getElementById("fotoPezPezRapeCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[22] + "/5";
+        }
+        break;
+    case 24:
+        document.getElementById("fotoPezCachaloteCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[23] + "/3";
+        }
+        break;
+    case 25:
+        document.getElementById("fotoPezTiburonBlancoCatalogo").style.display="inline";
+        if(!arregloMostrarCartaCompleta[idCatalogo - 1])
+        {
+            descripcionPezCatalogo.innerHTML= arregloContadorPeces[24] + "/3";
+        }
+        break;
+    case 26:
+        document.getElementById("fotoPezBallenaAzulAntarticaCatalogo").style.display="inline";
+        break;
+    }
+    idPasadoCatalogo = idCatalogo;
+}
+
+function cambiarCartaCatalogoQuitar()
+{
+    switch(idPasadoCatalogo)
+    {
+    case 1:
+        document.getElementById("fotoPezMojarraCatalogo").style.display="none";
+        break;
+    case 2:
+        document.getElementById("fotoPezLubinaCatalogo").style.display="none";
+        break;
+    case 3:
+        document.getElementById("fotoPezPezPayasoCatalogo").style.display="none";
+        break;
+    case 4:
+        document.getElementById("fotoPezCarpaCatalogo").style.display="none";
+        break;
+    case 5:
+        document.getElementById("fotoPezAnchoaCatalogo").style.display="none";
+        break;
+    case 6:
+        document.getElementById("fotoPezKoiCatalogo").style.display="none";
+        break;
+    case 7:
+        document.getElementById("fotoPezGoldfishCatalogo").style.display="none";
+        break;
+    case 8:
+        document.getElementById("fotoPezPezGloboCatalogo").style.display="none";
+        document.getElementById("fotoPezPezGloboInfladoCatalogo").style.display="none";
+        break;
+    case 82:
+        document.getElementById("fotoPezPezGloboInfladoCatalogo").style.display="none";
+        break;
+    case 9:
+        document.getElementById("fotoPezAtunCatalogo").style.display="none";
+        break;
+    case 10:
+        document.getElementById("fotoPezTetraNeonCatalogo").style.display="none";
+        break;
+    case 11:
+        document.getElementById("fotoPezTortugaCatalogo").style.display="none";
+        break;
+    case 12:
+        document.getElementById("fotoPezRanaCatalogo").style.display="none";
+        document.getElementById("fotoPezRanaShinyCatalogo").style.display="none";
+        break;
+    case 122:
+        document.getElementById("fotoPezRanaShinyCatalogo").style.display="none";
+        break;
+    case 13:
+        document.getElementById("fotoPezTruchaCatalogo").style.display="none";
+        break;
+    case 14:
+        document.getElementById("fotoPezBagreCatalogo").style.display="none";
+        break;
+    case 15:
+        document.getElementById("fotoPezCangrejoRioCatalogo").style.display="none";
+        break;
+    case 16:
+        document.getElementById("fotoPezSalmonCatalogo").style.display="none";
+        break;
+    case 17:
+        document.getElementById("fotoPezPezEspadaCatalogo").style.display="none";
+        break;
+    case 18:
+        document.getElementById("fotoPezCharCatalogo").style.display="none";
+        break;
+    case 19:
+        document.getElementById("fotoPezMagikarpCatalogo").style.display="none";
+        break;
+    case 20:
+        document.getElementById("fotoPezCangrejoCatalogo").style.display="none";
+        break;
+    case 21:
+        document.getElementById("fotoPezEsturionCatalogo").style.display="none";
+        break;
+    case 22:
+        document.getElementById("fotoPezPiraniaCatalogo").style.display="none";
+        break;
+    case 23:
+        document.getElementById("fotoPezPezRapeCatalogo").style.display="none";
+        break;
+    case 24:
+        document.getElementById("fotoPezCachaloteCatalogo").style.display="none";
+        break;
+    case 25:
+        document.getElementById("fotoPezTiburonBlancoCatalogo").style.display="none";
+        break;
+    case 26:
+        document.getElementById("fotoPezBallenaAzulAntarticaCatalogo").style.display="none";
+        break;
+    }
+}
+
+function cambiarDatosIndependientesCatalogo(idCatalogo)
+{
+    if(arregloMostrarCartaCompleta[idCatalogo - 1])
+    {
+        anzueloPezCatalogo.style.display="inline";
+        cantidadPescadosCatalogo.style.display="inline";
+        descripcionPezCatalogo.style.fontSize="20px";
+        descripcionPezCatalogo.style.textAlign="justify";
+        descripcionPezCatalogo.style.top="260px";
+        descripcionPezCatalogo.style.left="22px";
+        descripcionPezCatalogo.style.width="380px"
+        switch(idCatalogo)
+        {
+        case 1:
+            nombrePezCatalogo.innerHTML="Mojarra";
+            nombrePezCatalogo.style.left="140px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/lightweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Ocupa normalmente pequeños lagos, charcas y zonas poco profundas de grandes lagos y ríos de corriente lenta; en general prefiere zonas de aguas claras con abundante vegetación, ocupando cualquier tipo de sustrato.";
+            break;
+        case 2:
+            nombrePezCatalogo.innerHTML="Lubina";
+            nombrePezCatalogo.style.left="155px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/lightweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Es propia del mar Mediterráneo y el océano Atlántico, desde las costas africanas (Senegal) hasta Noruega. Este pescado es muy apreciado por su valor culinario y en la pesca deportiva.";
+            break;
+        case 3:
+            nombrePezCatalogo.innerHTML="Pez payaso";
+            nombrePezCatalogo.style.left="120px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/lightweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Procede de los arrecifes de coral del Indo-Pacífico y vive conjuntamente con las anémonas, teóricamente especies depredadoras, de las que obtiene una protección frente a posibles atacantes.";
+            break;
+        case 4:
+            nombrePezCatalogo.innerHTML="Carpa";
+            nombrePezCatalogo.style.left="160px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/lightweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Nada formando cardúmenes; es omnívora, y resistente a una gran variedad de condiciones climáticas. Se han dado casos de especímenes que han llegado a vivir 65 años.";
+            break;
+        case 5:
+            nombrePezCatalogo.innerHTML="Anchoa";
+            nombrePezCatalogo.style.left="150px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/lightweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Comprende más de 140 especies, pero todas comparten ciertas características. Son pequeños y para alimentarse solo tienen que nadar con la boca abierta y filtrar pequeñas partículas.";
+            break;
+        case 6:
+            nombrePezCatalogo.innerHTML="Koi";
+            nombrePezCatalogo.style.left="185px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/lightweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Su nombre viene del japonés コイ Koi, cuyo homónimo también significa ‘amor’ o ‘afecto’. Se cree que los koi traen buena suerte. Al igual que las carpas salvajes, los koi son peces muy resistentes.";
+            break;
+        case 7:
+            nombrePezCatalogo.innerHTML="Pez dorado";
+            nombrePezCatalogo.style.left="120px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/lightweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Habita en aguas de curso lento y frías del continente asiático. Es una de las pocas variedades que pueden habitar en estanques al aire libre y aguantar las bajas temperaturas.";
+            break;
+        case 8:
+            document.getElementById("botonModeloPezOriginalCatalogo").style.display="inline"
+            document.getElementById("botonModeloPezAlternoCatalogo").style.display="inline"
+            nombrePezCatalogo.innerHTML="Pez globo";
+            nombrePezCatalogo.style.left="130px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/lightweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Cuando nacen no son venenosos, sino que adquieren esta propiedad tras ingerir una gran cantidad de microbios del agua y de la comida. Cuando se sienten amenazados, se llenan de aire y agua hasta que se hinchan como un globo.";
+            break;
+        case 9:
+            nombrePezCatalogo.innerHTML="Atún";
+            nombrePezCatalogo.style.left="170px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/lightweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="El atún nada con velocidades de crucero de 3 a 7 km/h, pero puede alcanzar los 70 km/h y, excepcionalmente, es capaz de superar los 110 km/h en recorridos cortos. Ciertas especies de atunes pueden sumergirse hasta los 400 m de profundidad.";
+            break;
+        case 10:
+            nombrePezCatalogo.innerHTML="Tetra neón";
+            nombrePezCatalogo.style.left="120px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/mediumweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Es una especie de pez actinopterigio carácido originario del oeste de Sudamérica. Es una especie muy apreciada en acuariofilia. Apreciados por su carácter pacífico, su llamativo colorido y sus desplazamientos en cardumen, dan movimiento y vida a todo acuario.";
+            break;
+        case 11:
+            nombrePezCatalogo.innerHTML="Tortuga";
+            nombrePezCatalogo.style.left="140px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/mediumweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Son animales ovíparos que cavan sus nidos en la tierra, donde llevan a cabo la incubación de los huevos. A pesar de que carecen de dientes, cuentan con un fuerte pico que usan para alimentarse.";
+            break;
+        case 12:
+            document.getElementById("botonModeloPezOriginalCatalogo").style.display="inline"
+            document.getElementById("botonModeloPezAlternoCatalogo").style.display="inline"
+            nombrePezCatalogo.innerHTML="Rana";
+            nombrePezCatalogo.style.left="165px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/mediumweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Se caracterizan por carecer de cola, por presentar un cuerpo corto y muy ensanchado, y unas patas posteriores muy desarrolladas y adaptadas para el salto.";
+            break;
+        case 13:
+            nombrePezCatalogo.innerHTML="Trucha";
+            nombrePezCatalogo.style.left="150px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/mediumweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Es una especie eurifágica, ya que su espectro alimentario es amplio, y presenta carácter alimentario marcado por el oportunismo, debido a que posee una enorme facilidad de adaptación frente a los cambios en la disponibilidad del alimento.";
+            break;
+        case 14:
+            nombrePezCatalogo.innerHTML="Badre";
+            nombrePezCatalogo.style.left="160px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/mediumweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Son peces de agua dulce que pueden llegar a vivir cerca de 20 años. Habitan en los estanques con troncos y otros restos orgánicos de baja pendiente a alta pendiente, tanto en pequeños como en grandes ríos.";
+            break;
+        case 15:
+            nombrePezCatalogo.innerHTML="Cangrejo de río";
+            nombrePezCatalogo.style.left="80px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/mediumweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="También son conocidos como langostas. La caña de pesca tradicional utilizada es una rama sencilla atada con cuerda de un papalote. El cebo se ata en el extremo de la cuerda, y puede consistir de pescado, salchichas o pasta.";
+            break;
+        case 16:
+            nombrePezCatalogo.innerHTML="Salmón";
+            nombrePezCatalogo.style.left="150px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/mediumweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="No son unos peces especialmente longevos: el salmón más grande reportado (de edad) murió con cinco años. Nacen en el río y después se trasladan al mar para volver de nuevo al río a desovar. ";
+            break;
+        case 17:
+            nombrePezCatalogo.innerHTML="Pez espada";
+            nombrePezCatalogo.style.left="115px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/mediumweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Es una especie de pez perciforme de la familia Xiphiidae. Son grandes peces predadores altamente migratorios, caracterizados por su pico largo y aplanado, diferente del de sus parientes, los marlines, que es cónico.";
+            break;
+        case 18:
+            nombrePezCatalogo.innerHTML="Salvelino";
+            nombrePezCatalogo.style.left="135px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/heavyweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="El ciclo vital del salmón es similar al del salmón, ya que vive la mayor parte de su vida en aguas costeras árticas y subárticas, y regresa del océano a los ríos de agua dulce donde nació para desovar.";
+            break;
+        case 19:
+            nombrePezCatalogo.innerHTML="Magikarp";
+            nombrePezCatalogo.style.left="130px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/heavyweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Magikarp, está inspirado en una antigua leyenda china conocida como ‘Li yu tiao Long men’, cinco caracteres que significan literalmente ‘la carpa salta sobre la Puerta del Dragón’.";
+            break;
+        case 20:
+            nombrePezCatalogo.innerHTML="Cangrejo";
+            nombrePezCatalogo.style.left="130px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/heavyweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Son animales omnívoros que se alimentan de cualquier materia orgánica que encuentran a su paso como otros crustáceos, moluscos, pequeños peces o gusanos.";
+            break;
+        case 21:
+            nombrePezCatalogo.innerHTML="Esturión";
+            nombrePezCatalogo.style.left="140px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/heavyweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Se caracteriza por ser un animal de costumbres. Tanto es así que permanecerá siempre en el mismo sitio, mientras las condiciones del lugar no varíen. Tan pronto como perciba la presencia humana, abandonará el lugar para no regresar nunca.";
+            break;
+        case 22:
+            nombrePezCatalogo.innerHTML="Piraña";
+            nombrePezCatalogo.style.left="150px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/heavyweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Es un pez de agua dulce y de clima subtropical. Soporta una gama amplia de temperaturas aunque lo ideal es entre 22ºC a 26ºC. Habita aguas claras con buena luz, pH ácido de 6,5-7.";
+            break;
+        case 23:
+            nombrePezCatalogo.innerHTML="Pez rapé";
+            nombrePezCatalogo.style.left="140px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/heavyweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Su forma del cuerpo está adaptada para poder sobrevivir en las inhóspitas profundidades oceánicas. En las profundidades del océano apenas llega la luz solar, por lo que los nutrientes son más escasos.";
+            break;
+        case 24:
+            nombrePezCatalogo.innerHTML="Cachalote";
+            nombrePezCatalogo.style.left="125px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/heavyweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="La cabeza contiene el órgano de esperma o espermaceti que produce una gran cantidad de sustancia cerosa sobre la cual las estimaciones indican que tiene una importante función en la flotabilidad del animal.";
+            break;
+        case 25:
+            nombrePezCatalogo.innerHTML="Tiburón blanco";
+            nombrePezCatalogo.style.left="90px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/heavyweight_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Es un pez que ha existido desde mucho antes que existieran los dinosaurios. Se puede encontrar en las aguas de todo el mundo, en todos los océanos. Los tiburones no tienen huesos.";
+            break;
+        case 26:
+            nombrePezCatalogo.innerHTML="Ballena azúl";
+            nombrePezCatalogo.style.left="100px";
+            anzueloPezCatalogo.style.backgroundImage="url(images/elements/mysterious_fish_hook.png)";
+            descripcionPezCatalogo.innerHTML="Texto pendiente";
+            break;
+        }
+        if(idCatalogo != 122 && idCatalogo != 82)
+        {
+            cantidadPescadosCatalogo.innerHTML = "Pescados: " + arregloContadorPeces[idCatalogo - 1];
+        }
+        if(idCatalogo != 8 && idCatalogo != 12)
+        {
+            document.getElementById("botonModeloPezOriginalCatalogo").style.display="none"
+            document.getElementById("botonModeloPezAlternoCatalogo").style.display="none"
+        }
+    }
+    else
+    {
+        nombrePezCatalogo.innerHTML="???";
+        nombrePezCatalogo.style.left="180px";
+        anzueloPezCatalogo.style.display="none";
+        cantidadPescadosCatalogo.style.display="none"
+    }
+}
+
+function cambiarModeloOriginal()
+{
+    click.play();
+    document.getElementById("botonModeloPezOriginalCatalogo").style.backgroundColor="rgba(228, 175, 76, 0.548)"
+    document.getElementById("botonModeloPezOriginalCatalogo").style.borderColor="rgb(110, 73, 25)";
+    document.getElementById("botonModeloPezAlternoCatalogo").style.backgroundColor="rgba(163, 122, 45, 0.548";
+    document.getElementById("botonModeloPezAlternoCatalogo").style.borderColor="rgb(65, 41, 10)";
+
+    if(estadoPezGlobo)
+    {
+        document.getElementById("fotoPezPezGloboCatalogo").style.display="inline";
+        document.getElementById("fotoPezPezGloboInfladoCatalogo").style.display="none";
+    }
+    else
+    {
+        document.getElementById("fotoPezRanaCatalogo").style.display="inline";
+        document.getElementById("fotoPezRanaShinyCatalogo").style.display="none";
+    }
+}
+
+function cambiarModeloSecundario()
+{
+    click.play();
+    document.getElementById("botonModeloPezOriginalCatalogo").style.backgroundColor="rgba(163, 122, 45, 0.548";
+    document.getElementById("botonModeloPezOriginalCatalogo").style.borderColor="rgb(65, 41, 10)";
+    document.getElementById("botonModeloPezAlternoCatalogo").style.backgroundColor="rgba(228, 175, 76, 0.548)"
+    document.getElementById("botonModeloPezAlternoCatalogo").style.borderColor="rgb(110, 73, 25)";
+
+    if(estadoPezGlobo)
+    {
+        document.getElementById("fotoPezPezGloboCatalogo").style.display="none";
+        document.getElementById("fotoPezPezGloboInfladoCatalogo").style.display="inline";
+    }
+    else
+    {
+        document.getElementById("fotoPezRanaCatalogo").style.display="none";
+        document.getElementById("fotoPezRanaShinyCatalogo").style.display="inline";
     }
 }
