@@ -409,9 +409,9 @@ function spawnearPeces()
                         mo.style.animationDuration="0.5s";
                         mo.style.animationDirection="alternate";
                         
-                        const btmo = document.createElement('button');
+                        const btmo = document.createElement('div');
                         btmo.setAttribute('id', 'boton_' + idDesignado);
-                        btmo.setAttribute('type', 'button');
+                        btmo.setAttribute('type', 'div');
                         btmo.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
                         peces.appendChild(btmo);
                         btmo.style.height = "20px";
@@ -482,7 +482,7 @@ function spawnearPeces()
                         lu.style.animationDuration="0.5s";
                         lu.style.animationDirection="alternate";
                         
-                        const btlu = document.createElement('button');
+                        const btlu = document.createElement('div');
                         btlu.setAttribute('id', 'boton_' + idDesignado);
                         btlu.setAttribute('type', 'button');
                         btlu.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -555,7 +555,7 @@ function spawnearPeces()
                         pp.style.animationDuration="0.5s";
                         pp.style.animationDirection="alternate";
                         
-                        const btpp = document.createElement('button');
+                        const btpp = document.createElement('div');
                         btpp.setAttribute('id', 'boton_' + idDesignado);
                         btpp.setAttribute('type', 'button');
                         btpp.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -628,7 +628,7 @@ function spawnearPeces()
                         cp.style.animationDuration="0.5s";
                         cp.style.animationDirection="alternate";
 
-                        const btcp = document.createElement('button');
+                        const btcp = document.createElement('div');
                         btcp.setAttribute('id', 'boton_' + idDesignado);
                         btcp.setAttribute('type', 'button');
                         btcp.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -701,7 +701,7 @@ function spawnearPeces()
                         an.style.animationDuration="0.5s";
                         an.style.animationDirection="alternate";
 
-                        const btan = document.createElement('button');
+                        const btan = document.createElement('div');
                         btan.setAttribute('id', 'boton_' + idDesignado);
                         btan.setAttribute('type', 'button');
                         btan.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -774,7 +774,7 @@ function spawnearPeces()
                         ko.style.animationDuration="0.5s";
                         ko.style.animationDirection="alternate";
 
-                        const btko = document.createElement('button');
+                        const btko = document.createElement('div');
                         btko.setAttribute('id', 'boton_' + idDesignado);
                         btko.setAttribute('type', 'button');
                         btko.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -846,7 +846,7 @@ function spawnearPeces()
                         gf.style.animationDuration="0.5s";
                         gf.style.animationDirection="alternate";
 
-                        const btgf = document.createElement('button');
+                        const btgf = document.createElement('div');
                         btgf.setAttribute('id', 'boton_' + idDesignado);
                         btgf.setAttribute('type', 'button');
                         btgf.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -919,7 +919,7 @@ function spawnearPeces()
                         pg.style.animationDuration="0.5s";
                         pg.style.animationDirection="alternate";
                         
-                        const btpg = document.createElement('button');
+                        const btpg = document.createElement('div');
                         btpg.setAttribute('id', 'boton_' + idDesignado);
                         btpg.setAttribute('type', 'button');
                         btpg.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -992,7 +992,7 @@ function spawnearPeces()
                         at.style.animationDuration="0.5s";
                         at.style.animationDirection="alternate";
 
-                        const btat = document.createElement('button');
+                        const btat = document.createElement('div');
                         btat.setAttribute('id', 'boton_' + idDesignado);
                         btat.setAttribute('type', 'button');
                         btat.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -1071,7 +1071,7 @@ function spawnearPeces()
                         tn.style.animationDuration="0.5s";
                         tn.style.animationDirection="alternate";
                         
-                        const bttn = document.createElement('button');
+                        const bttn = document.createElement('div');
                         bttn.setAttribute('id', 'boton_' + idDesignado);
                         bttn.setAttribute('type', 'button');
                         bttn.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -1144,7 +1144,7 @@ function spawnearPeces()
                         to.style.animationDuration="0.5s";
                         to.style.animationDirection="alternate";
 
-                        const btto = document.createElement('button');
+                        const btto = document.createElement('div');
                         btto.setAttribute('id', 'boton_' + idDesignado);
                         btto.setAttribute('type', 'button');
                         btto.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -1228,7 +1228,7 @@ function spawnearPeces()
                         rn.style.animationDuration="0.5s";
                         rn.style.animationDirection="alternate";
 
-                        const btrn = document.createElement('button');
+                        const btrn = document.createElement('div');
                         btrn.setAttribute('id', 'boton_' + idDesignado);
                         btrn.setAttribute('type', 'button');
                         btrn.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -1299,7 +1299,7 @@ function spawnearPeces()
                         tr.style.animationDuration="0.5s";
                         tr.style.animationDirection="alternate";
 
-                        const bttr = document.createElement('button');
+                        const bttr = document.createElement('div');
                         bttr.setAttribute('id', 'boton_' + idDesignado);
                         bttr.setAttribute('type', 'button');
                         bttr.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -1372,7 +1372,7 @@ function spawnearPeces()
                         bg.style.animationDuration="0.5s";
                         bg.style.animationDirection="alternate";
 
-                        const btbg = document.createElement('button');
+                        const btbg = document.createElement('div');
                         btbg.setAttribute('id', 'boton_' + idDesignado);
                         btbg.setAttribute('type', 'button');
                         btbg.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -1445,7 +1445,7 @@ function spawnearPeces()
                         cr.style.animationDuration="0.5s";
                         cr.style.animationDirection="alternate";
 
-                        const btcr = document.createElement('button');
+                        const btcr = document.createElement('div');
                         btcr.setAttribute('id', 'boton_' + idDesignado);
                         btcr.setAttribute('type', 'button');
                         btcr.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -1518,7 +1518,7 @@ function spawnearPeces()
                         sa.style.animationDuration="0.5s";
                         sa.style.animationDirection="alternate";
 
-                        const btsa = document.createElement('button');
+                        const btsa = document.createElement('div');
                         btsa.setAttribute('id', 'boton_' + idDesignado);
                         btsa.setAttribute('type', 'button');
                         btsa.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -1591,7 +1591,7 @@ function spawnearPeces()
                         pe.style.animationDuration="0.5s";
                         pe.style.animationDirection="alternate";
 
-                        const btpe = document.createElement('button');
+                        const btpe = document.createElement('div');
                         btpe.setAttribute('id', 'boton_' + idDesignado);
                         btpe.setAttribute('type', 'button');
                         btpe.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -1670,7 +1670,7 @@ function spawnearPeces()
                         ch.style.animationDuration="0.5s";
                         ch.style.animationDirection="alternate";
 
-                        const btch = document.createElement('button');
+                        const btch = document.createElement('div');
                         btch.setAttribute('id', 'boton_' + idDesignado);
                         btch.setAttribute('type', 'button');
                         btch.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -1743,7 +1743,7 @@ function spawnearPeces()
                         mg.style.animationDuration="0.5s";
                         mg.style.animationDirection="alternate";
                         
-                        const btmg = document.createElement('button');
+                        const btmg = document.createElement('div');
                         btmg.setAttribute('id', 'boton_' + idDesignado);
                         btmg.setAttribute('type', 'button');
                         btmg.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -1808,7 +1808,7 @@ function spawnearPeces()
                         cg.style.animationDuration="0.5s";
                         cg.style.animationDirection="alternate-reverse";
 
-                        const btcg = document.createElement('button');
+                        const btcg = document.createElement('div');
                         btcg.setAttribute('id', 'boton_' + idDesignado);
                         btcg.setAttribute('type', 'button');
                         btcg.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -1873,7 +1873,7 @@ function spawnearPeces()
                         es.style.animationDuration="0.5s";
                         es.style.animationDirection="alternate";
                         
-                        const btes = document.createElement('button');
+                        const btes = document.createElement('div');
                         btes.setAttribute('id', 'boton_' + idDesignado);
                         btes.setAttribute('type', 'button');
                         btes.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -1946,7 +1946,7 @@ function spawnearPeces()
                         pi.style.animationDuration="0.5s";
                         pi.style.animationDirection="alternate";
                         
-                        const btpi = document.createElement('button');
+                        const btpi = document.createElement('div');
                         btpi.setAttribute('id', 'boton_' + idDesignado);
                         btpi.setAttribute('type', 'button');
                         btpi.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -2019,7 +2019,7 @@ function spawnearPeces()
                         pr.style.animationDuration="0.5s";
                         pr.style.animationDirection="alternate";
                         
-                        const btpr = document.createElement('button');
+                        const btpr = document.createElement('div');
                         btpr.setAttribute('id', 'boton_' + idDesignado);
                         btpr.setAttribute('type', 'button');
                         btpr.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -2089,7 +2089,7 @@ function spawnearPeces()
                         ca.style.animationDuration="0.5s";
                         ca.style.animationDirection="alternate";
 
-                        const btca = document.createElement('button');
+                        const btca = document.createElement('div');
                         btca.setAttribute('id', 'boton_' + idDesignado);
                         btca.setAttribute('type', 'button');
                         btca.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -2162,7 +2162,7 @@ function spawnearPeces()
                         ws.style.animationDuration="0.5s";
                         ws.style.animationDirection="alternate";
 
-                        const btws = document.createElement('button');
+                        const btws = document.createElement('div');
                         btws.setAttribute('id', 'boton_' + idDesignado);
                         btws.setAttribute('type', 'button');
                         btws.setAttribute('onclick', 'pescaPeces(' + idDesignado + ')');
@@ -2449,9 +2449,10 @@ function desaparecerPez(estadoSonidoDesaparecer)
 
 function atraparPez()
 {
+    document.getElementById("sonidoCaptura").currentTime = 0;
+    document.getElementById("sonidoCaptura").play();
     caniaObjetoActual.capturaExitosa(arregloTipoPeces[idPezActual - 1]);
     mostrarPez();
-    document.getElementById("sonidoCaptura").play();
     contadorPeces -= arregloPecesActivos[idPezActual - 1].getPesoEstanque();
     document.getElementById("pez_" + idPezActual).remove();
     document.getElementById("boton_" + idPezActual).remove();
@@ -3564,9 +3565,9 @@ function mostrarFotoNegraCatalogo(idFotoDescubrir)
         document.getElementById("cartaCangrejoCatalogo").style.cursor="pointer";
         if(arregloContadorPeces[idFotoDescubrir - 1] >= 7)
         {
-            document.getElementById("fotoCangrejoCatalogo").style.backgroundImage = "url(images/fishes/crab.gif)";
+            document.getElementById("fotoCangrejoCatalogo").style.backgroundImage = "url(images/fishes/crab.png)";
             arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
-            document.getElementById("fotoPezCangrejoCatalogo").style.backgroundImage = "url(images/fishes/crab.png)";
+            document.getElementById("fotoPezCangrejoCatalogo").style.backgroundImage = "url(images/fishes/crab_animated.gif)";
         }
         break;
     case 21:
@@ -3667,6 +3668,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
     switch(idCatalogo)
     {
     case 1:
+        document.getElementById("cartaMojarraCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezMojarraCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3674,6 +3676,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 2:
+        document.getElementById("cartaLubinaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezLubinaCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3681,6 +3684,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 3:
+        document.getElementById("cartaPezPayasoCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezPezPayasoCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3688,6 +3692,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 4:
+        document.getElementById("cartaCarpaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezCarpaCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3695,6 +3700,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 5:
+        document.getElementById("cartaAnchoaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezAnchoaCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3702,6 +3708,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 6:
+        document.getElementById("cartaKoiCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezKoiCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3709,6 +3716,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 7:
+        document.getElementById("cartaGoldfishCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezGoldfishCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3716,6 +3724,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 8:
+        document.getElementById("cartaPezGloboCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezPezGloboCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3725,6 +3734,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         cambiarModeloOriginal();
         break;
     case 82:
+        document.getElementById("cartaPezGloboCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezPezGloboInfladoCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3732,6 +3742,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 9:
+        document.getElementById("cartaAtunCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezAtunCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3739,6 +3750,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 10:
+        document.getElementById("cartaTetraNeonCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezTetraNeonCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3746,6 +3758,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 11:
+        document.getElementById("cartaTortugaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezTortugaCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3753,6 +3766,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 12:
+        document.getElementById("cartaRanaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezRanaCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3762,6 +3776,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         cambiarModeloOriginal();
         break;
     case 122:
+        document.getElementById("cartaRanaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezRanaShinyCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3769,6 +3784,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 13:
+        document.getElementById("cartaTruchaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezTruchaCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3776,6 +3792,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 14:
+        document.getElementById("cartaBagreCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezBagreCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3783,6 +3800,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 15:
+        document.getElementById("cartaCangrejoRioCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezCangrejoRioCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3790,6 +3808,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 16:
+        document.getElementById("cartaSalmonCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezSalmonCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3797,6 +3816,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 17:
+        document.getElementById("cartaPezEspadaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezPezEspadaCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3804,6 +3824,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 18:
+        document.getElementById("cartaCharCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezCharCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3811,6 +3832,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 19:
+        document.getElementById("cartaMagikarpCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezMagikarpCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3818,6 +3840,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 20:
+        document.getElementById("cartaCangrejoCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezCangrejoCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3825,6 +3848,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 21:
+        document.getElementById("cartaEsturionCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezEsturionCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3832,6 +3856,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 22:
+        document.getElementById("cartaPiraniaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezPiraniaCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3839,6 +3864,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 23:
+        document.getElementById("cartaPezRapeCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezPezRapeCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3846,6 +3872,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 24:
+        document.getElementById("cartaCachaloteCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezCachaloteCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3853,6 +3880,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 25:
+        document.getElementById("cartaTiburonBlancoCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezTiburonBlancoCatalogo").style.display="inline";
         if(!arregloMostrarCartaCompleta[idCatalogo - 1])
         {
@@ -3860,6 +3888,7 @@ function cambiarCartaCatalogoMostrar(idCatalogo)
         }
         break;
     case 26:
+        document.getElementById("cartaBallenaAzulAntarticaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card_golden.png)";
         document.getElementById("fotoPezBallenaAzulAntarticaCatalogo").style.display="inline";
         break;
     }
@@ -3871,89 +3900,117 @@ function cambiarCartaCatalogoQuitar()
     switch(idPasadoCatalogo)
     {
     case 1:
+        document.getElementById("cartaMojarraCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezMojarraCatalogo").style.display="none";
         break;
     case 2:
+        document.getElementById("cartaLubinaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezLubinaCatalogo").style.display="none";
         break;
     case 3:
+        document.getElementById("cartaPezPayasoCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezPezPayasoCatalogo").style.display="none";
         break;
     case 4:
+        document.getElementById("cartaCarpaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezCarpaCatalogo").style.display="none";
         break;
     case 5:
+        document.getElementById("cartaAnchoaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezAnchoaCatalogo").style.display="none";
         break;
     case 6:
+        document.getElementById("cartaKoiCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezKoiCatalogo").style.display="none";
         break;
     case 7:
+        document.getElementById("cartaGoldfishCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezGoldfishCatalogo").style.display="none";
         break;
     case 8:
+        document.getElementById("cartaPezGloboCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezPezGloboCatalogo").style.display="none";
         document.getElementById("fotoPezPezGloboInfladoCatalogo").style.display="none";
         break;
     case 82:
+        document.getElementById("cartaPezGloboCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezPezGloboInfladoCatalogo").style.display="none";
         break;
     case 9:
+        document.getElementById("cartaAtunCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezAtunCatalogo").style.display="none";
         break;
     case 10:
+        document.getElementById("cartaTetraNeonCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezTetraNeonCatalogo").style.display="none";
         break;
     case 11:
+        document.getElementById("cartaTortugaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezTortugaCatalogo").style.display="none";
         break;
     case 12:
+        document.getElementById("cartaRanaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezRanaCatalogo").style.display="none";
         document.getElementById("fotoPezRanaShinyCatalogo").style.display="none";
         break;
     case 122:
+        document.getElementById("cartaRanaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezRanaShinyCatalogo").style.display="none";
         break;
     case 13:
+        document.getElementById("cartaTruchaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezTruchaCatalogo").style.display="none";
         break;
     case 14:
+        document.getElementById("cartaBagreCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezBagreCatalogo").style.display="none";
         break;
     case 15:
+        document.getElementById("cartaCangrejoRioCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezCangrejoRioCatalogo").style.display="none";
         break;
     case 16:
+        document.getElementById("cartaSalmonCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezSalmonCatalogo").style.display="none";
         break;
     case 17:
+        document.getElementById("cartaPezEspadaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezPezEspadaCatalogo").style.display="none";
         break;
     case 18:
+        document.getElementById("cartaCharCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezCharCatalogo").style.display="none";
         break;
     case 19:
+        document.getElementById("cartaMagikarpCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezMagikarpCatalogo").style.display="none";
         break;
     case 20:
+        document.getElementById("cartaCangrejoCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezCangrejoCatalogo").style.display="none";
         break;
     case 21:
+        document.getElementById("cartaEsturionCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezEsturionCatalogo").style.display="none";
         break;
     case 22:
+        document.getElementById("cartaPiraniaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezPiraniaCatalogo").style.display="none";
         break;
     case 23:
+        document.getElementById("cartaPezRapeCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezPezRapeCatalogo").style.display="none";
         break;
     case 24:
+        document.getElementById("cartaCachaloteCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezCachaloteCatalogo").style.display="none";
         break;
     case 25:
+        document.getElementById("cartaTiburonBlancoCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezTiburonBlancoCatalogo").style.display="none";
         break;
     case 26:
+        document.getElementById("cartaBallenaAzulAntarticaCatalogo").style.backgroundImage="url(images/catalogo/individual_fish_card.png)";
         document.getElementById("fotoPezBallenaAzulAntarticaCatalogo").style.display="none";
         break;
     }
