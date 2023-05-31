@@ -39,6 +39,7 @@ let estadoUltimaFase = false;
 let estadoEstanque = true;
 let estadoPermitirPesca = true;
 let estadoPezGlobo = true;
+let estadoAgradecimientosFinales = true;
 
 let textoBurbuja = document.getElementById("textoHablarDick");
 let textoTutorial = document.getElementById("textoTutorial");
@@ -2677,7 +2678,11 @@ function quitarMadera()
         document.getElementById("dineroTotal").value = dineroTotal;
         mostrarFotoNegraCatalogo(26);
         arregloContadorPeces[25]++;
-        iniciarAgradecimientosFinales();
+        if(estadoAgradecimientosFinales)
+        {
+            iniciarAgradecimientosFinales();
+            estadoAgradecimientosFinales = false;
+        }
     }
     else
     {
