@@ -12,7 +12,7 @@ int Anzuelo :: getBaitPower()
 {
     return baitPower;
 }
-
+//Funcion virtual de la clase base con la que se agregaran los peces atrapados al catalogo
 void Anzuelo :: atraparPez(int ID){}
 
 

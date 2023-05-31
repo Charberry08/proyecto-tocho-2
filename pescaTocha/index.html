@@ -27,6 +27,28 @@
     <audio id="vozDick4" name="vozDick4" src="audio/dick_voices/dick_voice_4.mp3"></audio>
     <audio id="vozDick5" name="vozDick5" src="audio/dick_voices/dick_voice_5.mp3"></audio>
     <audio id="sonidoClick" name="sonidoClick" src="audio/click_sfx.mp3"></audio>
+    <audio loop id="musicaJefeFase1" name="musicaJefeFase1" src="audio/boss_phase1_music.mp3";></audio>
+    <audio loop id="musicaJefeFase2" name="musicaJefeFase2" src="audio/boss_phase2_music.mp3";></audio>
+    <audio id="musicaJefeFase2Comienzo" name="musicaJefeFase2Comienzo" src="audio/boss_phase2_music_beginning.mp3";></audio>
+    <audio id="notaDo" name="notaDo" src="audio/boss_phase1_notes/C.mp3"></audio>
+    <audio id="notaRe" name="notaRe" src="audio/boss_phase1_notes/D.mp3"></audio>
+    <audio id="notaRe#" name="notaRe#" src="audio/boss_phase1_notes/DSharp.mp3"></audio>
+    <audio id="notaFa" name="notaFa" src="audio/boss_phase1_notes/F.mp3"></audio>
+    <audio id="notaSol" name="notaSol" src="audio/boss_phase1_notes/G.mp3"></audio>
+    <audio id="notaSol#" name="notaSol#" src="audio/boss_phase1_notes/GSharp.mp3"></audio>
+    <audio id="notaSi" name="notaSi" src="audio/boss_phase1_notes/B.mp3"></audio>
+    <audio id="notaDoFinal" name="notaDoFinal" src="audio/boss_phase1_notes/C2.mp3"></audio>
+    <audio id="sonidoAtraparJefeFase1" name="sonidoAtraparJefeFase1" src="audio/boss_phase1_catch_sfx.mp3"></audio>
+    <audio id="sonidoJefeMirando" name="sonidoJefeMirando" src="audio/whale_staring_sfx.mp3"></audio>
+    <audio id="llantoJefeFase2" name="llantoJefeFase2" src="audio/boss_phase2_crying.mp3"></audio>
+    <audio id="sonidoDisparoFase2" name="sonidoDisparoFase2" src="audio/boss_phase2_shooting_sfx.mp3"></audio>
+    <audio id="sonidoGolpeJugador" name="sonidoGolpeJugador" src="audio/hit_sfx.mp3"></audio>
+    <audio id="sonidoGolpejefe" name="sonidoGolpeJefe" src="audio/boss_phase2_hit.mp3"></audio>
+    <audio loop id="musicaGameOver" name="musicaGameOver" src="audio/game_over_music.mp3"></audio>
+    <audio loop id="musicaFase3" name="musicaFase3" src="audio/nature_sounds_boss_phase3.mp3"></audio>
+    <audio id="sonidoAtraparJefeFase3" name="sonidoAtraparJefeFase3" src="audio/boss_phase3_catch_sfx.mp3"></audio>
+    <video id="sacarTochoCanion" name="sacarTochoCanion" src="videos/tocho_cannon_take_out.mp4"></video>
+    <video id="videoJefeMirando" name="videoJefeMirando" src="videos/blue_whale_staring.mp4"></video>
     <form id="pantallaNegra" name="pantallaNegra">
         <div onclick="iniciarPantallaInicio()" type="button" id="botonPantallaNegra" name="botonPantallaNegra"></div>
     </form>
@@ -42,6 +64,7 @@
         </div>
     </form>
     <form id="juegoPesca" name="juegoPesca">
+        <div onclick="maxearAutomaticamente()" type="button" id="botonMaxeo" name="botonMaxeo">.</div>
         <div id="fondoDineroTotal" name="fondoDineroTotal">
             <div id="monedaOro" name="monedaOro"></div>
             <input type="text" id="dineroTotal" name="dineroTotal" disabled>
@@ -249,6 +272,29 @@
             </div>
             <div onclick="salirCatalogo()" type="button" id="botonSalirCatalogo" name="botonSalirCatalogo">x</div>
         </div>
+    </form>
+    <form id="desbloqueo" name="desbloqueo">
+        <div onclick="avanzarDesbloqueo()" type="button" id="dickDesbloqueo" name="dickDesbloqueo"></div>
+        <div id="burbujaDesbloqueo" name="burbujaDesbloqueo">
+            <p id="textoDesbloqueo" name="textoDesbloqueo"></p>
+        </div>
+    </form>
+    <form id="pantallaJefeFase2" name="pantallaJefeFase2">
+        <div id="tochoCanion" name="tocohCanion"></div>
+        <div onclick="jefeFase2Fallo()" type="button" id="cuadroFalloFase2" name="cuadroFalloFase2"></div>
+        <div type="button" id="jefeFase2" name="jefeFase2"></div>
+        <div id="vidaJugador" name="vidaJugador">
+            <div id="corazon1HP" name="corazon1HP" class="corazonVida"></div>
+            <div id="corazon2HP" name="corazon2HP" class="corazonVida"></div>
+            <div id="corazon3HP" name="corazon3HP" class="corazonVida"></div>
+            <div id="corazon4HP" name="corazon4HP" class="corazonVida"></div>
+            <div id="corazon5HP" name="corazon5HP" class="corazonVida"></div>
+        </div>
+        <div id="vidaJefe" name="vidaJefe"></div>
+        <div id="explosionDisparo" name="explosionDisparo"></div>
+    </form>
+    <form id="pantallaGameOver" name="pantallaGameOver">
+        <div onclick="salirPantallaGameOver()" type="button" id="botonGameOver" name="botonGameOver"><br>GAME OVER</div>
     </form>
     <script src="index.js"></script>
     <script src="main.js"></script>

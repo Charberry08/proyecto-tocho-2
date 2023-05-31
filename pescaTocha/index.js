@@ -4,6 +4,8 @@ let numeroTiempo = 0;
 
 let contadorPeces = 0;
 let contadorAvancesTutorial = 0;
+let contadorAvancesDesbloqueo = 0;
+let contadorAvancesAgradecimiento = 0;
 
 let pescaCoordX = 0;
 let pescaCoordY = 0;
@@ -26,6 +28,15 @@ let estadoTerminarHablar = false;
 let estadoSonidoDesaparecer = false;
 let estadoDificultadDificil = false;
 let estadoBloquearMovimientoAnzuelo = false;
+let estadoDesbloqueo = false;
+let estadoMaxeo = false;
+let estadoSpawneoJefeFinal = false;
+let estadoDesaparecerJefe = false;
+let estadoCreadoCania = false;
+let estadoFase2Lista = false
+let estadoIniciarFase2 = false;
+let estadoUltimaFase = false;
+let estadoEstanque = true;
 let estadoPermitirPesca = true;
 let estadoPezGlobo = true;
 
@@ -74,6 +85,44 @@ const estadoCaniasTienda = [true, false, false, false, false];
 const arregloContadorPeces = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 const arregloMostrarCartaCompleta = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 
+let jefe = 0;
+let botonJefe = 0;
+
+let contadorCentesimasJefeMirando = 0;
+let contadorPescasJefeSeguidas = 0;
+let modificacionTiempoReaccionJefe = 0;
+let contadorDecimasInicioFase2 = 0;
+let vueltasPorProyectil = 3;
+let contadorVueltasParaProyectil = 0;
+let contadorProyectiles = 0;
+let vidaJugadorFase2 = 0;
+let vidaJefeFase2 = 0;
+let contadorCentesimasProyectil1 = 0;
+let contadorCentesimasProyectil2 = 0;
+let contadorCentesimasProyectil3 = 0;
+let contadorCentesimasProyectil4 = 0;
+let idProyectilBorrar = 0;
+let espacioLibreProyectiles = 0;
+let direccionDerechaActual = 0;
+let contadorGolpesJefe = 0;
+let estadoCanionTocho = false;
+let estadoPermitirProyectiles = false;
+let estadoDesaparecerProyectil1 = false;
+let estadoDesaparecerProyectil2 = false;
+let estadoDesaparecerProyectil3 = false;
+let estadoDesaparecerProyectil4 = false;
+let estadoPermitirCambiarVueltasFase2 = false;
+let estadoSpawneoJefeVictoria = false;
+let estadoPescaContraria = false;
+let estadoMirandoFinal = false;
+let estadoGameOverFase3 = false;
+
+const arregloDireccionProyectiles = [0, 0, 0, 0];
+const arregloEstadoProyectiles = [false, false, false, false];
+
+let tochoCanion = document.getElementById("tochoCanion");
+let jefeFase2 = document.getElementById("jefeFase2");
+
 let numeroRandomSwitch = 0;
 
 let tiempoDecimasSegundo = 0;
@@ -82,6 +131,10 @@ const realizarStartupt = startup();
 
 function startup()
 {
+    document.getElementById("tituloLogo").style.height = (window.innerWidth * 0.6 * 919 / 1658) + "px";
+    document.getElementById("pressStart").style.height = (window.innerWidth * 0.4 * 185 / 1642) + "px";
+    document.getElementById("copyright").style.height = (window.innerWidth * 0.2 * 77 / 602) + "px";
+    document.getElementById("pressStart").style.top= (window.innerWidth * 0.6 * 919 / 1658) + ((window.innerHeight - (window.innerWidth * 0.2 * 77 / 602) - (window.innerWidth * 0.6 * 919 / 1658)) / 2.5) + "px";
     document.getElementById("fondoMadera").style.left= (window.innerWidth - 1178) / 2 + "px";
     document.getElementById("fondoMadera").style.top= (window.innerHeight - 621) / 2 + "px";
     document.getElementById("dineroTotal").value = dineroTotal;
@@ -94,6 +147,12 @@ function startup()
     document.getElementById("burbujaTutorial").style.left=(window.innerWidth - 469) / 2 + "px";
     document.getElementById("fondoCatalogo").style.top=(window.innerHeight - 630) / 2 + "px";
     document.getElementById("fondoCatalogo").style.left=(window.innerWidth - 1120) / 2 + "px";
+    document.getElementById("dickDesbloqueo").style.left=(window.innerWidth - 382) / 2 + "px";
+    document.getElementById("burbujaDesbloqueo").style.left=(window.innerWidth - 469) / 2 + "px";
+    document.getElementById("videoJefeMirando").style.top=(window.innerHeight - 720) / 2 + "px";
+    document.getElementById("videoJefeMirando").style.left=(window.innerWidth - 1279.5) / 2 + "px";
+    document.getElementById("jefeFase2").style.top=(window.innerHeight * 0.6) + "px";
+    document.getElementById("jefeFase2").style.left=(window.innerWidth - 689) / 2 + "px";
 }
 
 function getNumeroRandom(maximo)
@@ -110,11 +169,33 @@ function iniciarPantallaInicio()
     document.getElementById("pantallaTitulo").style.display = "inline";
 }
 
+function maxearAutomaticamente()
+{
+    dineroTotal = 9999;
+    document.getElementById("dineroTotal").value = dineroTotal;
+    for(let i = 0; i < 25; i++)
+    {
+        arregloMostrarCartaCompleta[i] = true;
+        arregloContadorPeces[i] = 7;
+        mostrarFotoNegraCatalogo(i + 1);
+    }
+    for(let i = 0; i < 7; i++)
+    {
+        idCompra = i + 1
+        if((idCompra + 1) != 4)
+        {
+            recibirItem()
+        }
+    }
+    document.getElementById("botonMaxeo").style.display="none";
+}
+
 function iniciarJuego()
 {
     click.play();
     caniaObjeto = new Module.Cania();
     caniaObjetoActual = caniaObjeto;
+    estadoCreadoCania = true;
     caniaObjetoActual.setCaniaActual(1);
     estadoPantallaNegra = true;
     estadoJuegoPesca = true;
@@ -163,7 +244,7 @@ function avanzarTutorial()
         break
     case 5:
         sonidoDick();
-        textoTutorial.innerHTML = "<br>Eso sería todo, disfruta tu estancia en el estanque tocho.";
+        textoTutorial.innerHTML = "<br>Eso sería todo, disfruta tu estancia en el Estanque Tocho.";
         break
     case 6:
         terminarTutorial()
@@ -208,17 +289,23 @@ document.addEventListener('mousemove', function(e){
 
         if(coordX > 50)
         {
+            direccionDerechaActual = -1;
             cuerda.style.left = (window.innerWidth * 0.0655) - 78 + "px";
             anzuelo.style.left = (window.innerWidth * 0.0655) - 90.5 + "px";
             cania.style.transform = "scaleX(-1)";
             cania.style.left = "28%";
+            tochoCanion.style.left = ((window.innerWidth * 0.5) - 540) / window.innerWidth * 100 + "%";
+            tochoCanion.style.transform = "scaleX(-1)";
         }
         else
         {
+            direccionDerechaActual = 1;
             cuerda.style.left = (window.innerWidth * 0.3855) + 300 + "px";
             anzuelo.style.left = (window.innerWidth * 0.3855) + 287.5 + "px";
             cania.style.transform = "scaleX(1)";
             cania.style.left = "60%";
+            tochoCanion.style.left = "50%";
+            tochoCanion.style.transform = "scaleX(1)";
         }
     }
 })
@@ -232,6 +319,7 @@ function lanzarAnzuelo()
 {
     if(estadoAnzuelo)
     {
+        estadoPescaContraria = false;
         if(estadoReiniciadoAnzuelo)
         {
             estadoPermitirPesca = true;
@@ -239,12 +327,32 @@ function lanzarAnzuelo()
         }
         if(estadoJuegoReaccion)
         {
-            desaparecerPez(true);
+            if(!estadoDesaparecerJefe)
+            {
+                desaparecerPez(true);
+                idPezActual = -1;
+            }
+            else
+            {
+                estadoPescaContraria = false;
+                document.getElementById("sonidoRotura").pause();
+                document.getElementById("sonidoRotura").currentTime = 0;
+                document.getElementById("sonidoRotura").play();
+
+                if(estadoUltimaFase)
+                {
+                    contadorPescasJefeSeguidas = 0;
+                    muerteFinal();
+                }
+
+                realizarRotacionJefe();
+                contadorPescasJefeSeguidas = 0;
+            }
+            
             estadoReaccionAnzuelo = false;
             estadoPermitirPesca = false;
             estadoReiniciadoAnzuelo = true;
             estadoJuegoReaccion = false;
-            idPezActual = -1;
         }
         if(coordX > 50)
         {
@@ -274,6 +382,10 @@ function lanzarAnzuelo()
     }
     else
     {
+        if(!estadoJuegoReaccion)
+        {
+            estadoPescaContraria = true;
+        }
         document.getElementById("sonidoCania").pause();
         document.getElementById("sonidoCania").currentTime = 0;
         document.getElementById("sonidoCania").play();
@@ -318,6 +430,10 @@ function cambiarTiempo()
                 document.getElementById("fondo").style.backgroundImage="url(images/fondo/background_day.png)";
                 document.getElementById("musicaPescaAmanecer").pause();
                 document.getElementById("musicaPescaAmanecer").currentTime = 0;
+                document.getElementById("musicaPescaNoche").pause();
+                document.getElementById("musicaPescaNoche").currentTime = 0;
+                document.getElementById("musicaPescaAtardecer").pause();
+                document.getElementById("musicaPescaAtardecer").currentTime = 0;
                 document.getElementById("musicaPescaDiaCorta").play();
             }
             else
@@ -328,12 +444,20 @@ function cambiarTiempo()
         case 1:
             document.getElementById("fondo").style.backgroundImage="url(images/fondo/background_sunset.png)";
             document.getElementById("musicaPescaDiaLarga").pause();
+            document.getElementById("musicaPescaAmanecer").pause();
+            document.getElementById("musicaPescaAmanecer").currentTime = 0;
             document.getElementById("musicaPescaDiaCorta").pause();
             document.getElementById("musicaPescaDiaCorta").currentTime = 0;
+            document.getElementById("musicaPescaNoche").pause();
+            document.getElementById("musicaPescaNoche").currentTime = 0;
             document.getElementById("musicaPescaAtardecer").play();
             break;
         case 2:
             document.getElementById("fondo").style.backgroundImage="url(images/fondo/background_night.png)";
+            document.getElementById("musicaPescaAmanecer").pause();
+            document.getElementById("musicaPescaAmanecer").currentTime = 0;
+            document.getElementById("musicaPescaDiaCorta").pause();
+            document.getElementById("musicaPescaDiaCorta").currentTime = 0;
             document.getElementById("musicaPescaAtardecer").pause();
             document.getElementById("musicaPescaAtardecer").currentTime = 0;
             document.getElementById("musicaPescaNoche").play();
@@ -342,6 +466,10 @@ function cambiarTiempo()
             document.getElementById("fondo").style.backgroundImage="url(images/fondo/background_sunrise.png)";
             document.getElementById("musicaPescaNoche").pause();
             document.getElementById("musicaPescaNoche").currentTime = 0;
+            document.getElementById("musicaPescaDiaCorta").pause();
+            document.getElementById("musicaPescaDiaCorta").currentTime = 0;
+            document.getElementById("musicaPescaAtardecer").pause();
+            document.getElementById("musicaPescaAtardecer").currentTime = 0;
             document.getElementById("musicaPescaAmanecer").play();
             break;
         }
@@ -354,7 +482,7 @@ const spawnInterval = setInterval(spawnearPeces, 6000)
 
 function spawnearPeces()
 {    
-    if (estadoJuegoPesca && !estadoReaccionAnzuelo)
+    if (estadoJuegoPesca && !estadoReaccionAnzuelo && (caniaObjetoActual.getCaniaActual() - 1) != 3)
     {
         var pezActual;
         var alturaPez = 0;
@@ -366,7 +494,7 @@ function spawnearPeces()
         if(contadorPeces < 10)
         {
             encontrarEspacio();
-            switch(caniaObjetoActual.getCaniaActual()- 1)
+            switch(caniaObjetoActual.getCaniaActual() - 1)
             {
             case 0:
                 switchRandomPool1();
@@ -1247,7 +1375,7 @@ function spawnearPeces()
                         {
                             btrn.style.backgroundImage = "url(images/elements/bubbles.gif";
                             btrn.style.backgroundSize = "100%";
-                            btrb.style.backgroundRepeat = "no-repeat";
+                            btrn.style.backgroundRepeat = "no-repeat";
                         }
                         
                         btrn.style.border = "none";
@@ -2200,9 +2328,6 @@ function spawnearPeces()
                         break;
                 }
                 break;
-            case 3:
-                
-                break;
             }
             arregloPecesActivos[idDesignado - 1] = pezActual;
         }
@@ -2364,14 +2489,34 @@ function contarTiempo()
     {
         tiempoDecimasSegundo = 0;
     }
-    if(estadoReaccionAnzuelo && ((tiempoDecimasSegundo * 100) - caniaObjetoActual.getTiempoMas()) > arregloPecesActivos[idPezActual - 1].getTiempo())
+    if(estadoReaccionAnzuelo && ((tiempoDecimasSegundo * 100) - caniaObjetoActual.getTiempoMas()) > (arregloPecesActivos[idPezActual - 1].getTiempo() + modificacionTiempoReaccionJefe))
     {
-        desaparecerPez(true);
+        if(!estadoDesaparecerJefe)
+        {
+            desaparecerPez(true);
+            idPezActual = -1;
+        }
+        else
+        {
+            estadoPescaContraria = true;
+            document.getElementById("sonidoRotura").pause();
+            document.getElementById("sonidoRotura").currentTime = 0;
+            document.getElementById("sonidoRotura").play();
+
+            if(estadoUltimaFase)
+            {
+                contadorPescasJefeSeguidas = 0;
+
+                muerteFinal();
+            }
+
+            realizarRotacionJefe();
+            contadorPescasJefeSeguidas = 0;
+        }
         estadoReaccionAnzuelo = false;
         estadoPermitirPesca = false;
         estadoReiniciadoAnzuelo = true;
         estadoJuegoReaccion = false;
-        idPezActual = -1;
     }
 }
 
@@ -2381,9 +2526,18 @@ function crearIntervalos()
 {
     if(estadoJuegoReaccion && estadoDelayReaccion)
     {
-        document.getElementById("pez_" + idPezActual).style.animationPlayState="paused";
+        if(!estadoDesaparecerJefe)
+        {
+            document.getElementById("pez_" + idPezActual).style.animationPlayState="paused";
+        }
+        else
+        {
+            jefe.style.animationPlayState="paused";
+        }
         if(getNumeroRandom(100) < 30)
         {
+            document.getElementById("sonidoAtrapar").pause();
+            document.getElementById("sonidoAtrapar").currentTime = 0;
             document.getElementById("sonidoAtrapar").play();
             tiempoDecimasSegundo = 0;
             estadoReaccionAnzuelo = true;
@@ -2398,8 +2552,16 @@ function crearIntervalos()
     if(estadoJuegoReaccion)
     {
         estadoDelayReaccion = true;
-        document.getElementById("pez_" + idPezActual).style.animationDelay="0.4s";
-        document.getElementById("pez_" + idPezActual).style.animationPlayState="running";
+        if(!estadoDesaparecerJefe)
+        {
+            document.getElementById("pez_" + idPezActual).style.animationDelay="0.4s";
+            document.getElementById("pez_" + idPezActual).style.animationPlayState="running";
+        }
+        else
+        {
+            jefe.style.animationDelay="0.4s";
+            jefe.style.animationPlayState="running";
+        }
     }
 }
 
@@ -2439,6 +2601,8 @@ function desaparecerPez(estadoSonidoDesaparecer)
 {
     if(estadoSonidoDesaparecer)
     {
+        document.getElementById("sonidoRotura").pause();
+        document.getElementById("sonidoRotura").currentTime = 0;
         document.getElementById("sonidoRotura").play();
     }
     contadorPeces -= arregloPecesActivos[idPezActual - 1].getPesoEstanque();
@@ -2494,12 +2658,46 @@ function mostrarPez()
 
 function quitarMadera()
 {
-    click.play();
     document.getElementById("pantallaPesca").style.display = "none";
     document.getElementById("botonBajarTienda").style.display="inline";
     document.getElementById("estanque").style.display="inline";
     estadoAnzuelo = false;
     estadoBloquearMovimientoAnzuelo = false;
+
+    if(estadoUltimaFase)
+    {
+        document.getElementById("sonidoAtraparJefeFase3").currentTime = 0;
+        document.getElementById("sonidoAtraparJefeFase3").pause();
+
+        cambiarAnzuelo(2);
+        estadoUltimaFase = false;
+        
+        salirPantallaGameOver();
+        dineroTotal = 9999;
+        document.getElementById("dineroTotal").value = dineroTotal;
+        mostrarFotoNegraCatalogo(26);
+        arregloContadorPeces[25]++;
+        iniciarAgradecimientosFinales();
+    }
+    else
+    {
+        if(estadoDesaparecerJefe)
+        {
+            document.getElementById("notaDoFinal").currentTime = 0;
+            document.getElementById("notaDoFinal").pause();
+            document.getElementById("sonidoAtraparJefeFase1").currentTime = 0;
+            document.getElementById("sonidoAtraparJefeFase1").pause();
+            document.getElementById("fondo").style.backgroundImage="url(images/boss_fight/black_screen.jpg)";
+            document.getElementById("juegoPesca").style.display="none";
+            document.getElementById("videoJefeMirando").style.display="inline";
+            document.getElementById("videoJefeMirando").play();
+            estadoFase2Lista = true;
+        }
+        else
+        {
+            click.play();
+        }
+    }
 }
 
 function asignarYCalcularPez()
@@ -2831,6 +3029,7 @@ function bajarTiendaComienzo()
     estadoAnzuelo = true;
     bajarTienda()
     document.getElementById("estanque").style.display="none";
+    estadoEstanque = false;
 }
 
 function subirTiendaFinal()
@@ -2842,6 +3041,8 @@ function subirTiendaFinal()
     }
     estadoPasadoAnzuelo = false;
     document.getElementById("estanque").style.display="inline";
+    chequeoMax();
+    estadoEstanque = true;
 }
 
 function subirTiendaFuncion()
@@ -2981,7 +3182,14 @@ function cambiarAnzuelo(opcionTienda)
         }
         else
         {
-            document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_broken_border.png)";
+            if(estadoDesbloqueo)
+            {
+                document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_border_gray.png)";
+            }
+            else
+            {
+                document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_broken_border.png)";
+            }
         }
         anzuelo.style.backgroundImage="url(images/cania/anzuelo.png)";
         break;
@@ -3009,7 +3217,14 @@ function cambiarAnzuelo(opcionTienda)
             }
             else
             {
-                document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_broken_border.png)";
+                if(estadoDesbloqueo)
+                {
+                    document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_border_gray.png)";
+                }
+                else
+                {
+                    document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_broken_border.png)";
+                }
             }
             anzuelo.style.backgroundImage="url(images/cania/anzuelo2.png)";
         }
@@ -3047,7 +3262,14 @@ function cambiarAnzuelo(opcionTienda)
             }
             else
             {
-                document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_broken_border.png)";
+                if(estadoDesbloqueo)
+                {
+                    document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_border_gray.png)";
+                }
+                else
+                {
+                    document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_broken_border.png)";
+                }
             }
             anzuelo.style.backgroundImage="url(images/cania/anzuelo3.png)";
         }
@@ -3063,16 +3285,30 @@ function cambiarAnzuelo(opcionTienda)
         }
         break;
     case 3:
-        limpiarPool();
-        caniaObjetoActual.setCaniaActual(4);
-        document.getElementById("bordeAnzueloLigero").style.backgroundImage = "url(images/elements/shop_item_border.png)";
-        document.getElementById("bordeAnzueloMediano").style.backgroundImage = "url(images/elements/shop_item_border.png)";
-        document.getElementById("fotoAnzueloMediano").style.backgroundImage = "url(images/elements/mediumweight_fish_hook.png)";
-        document.getElementById("bordeAnzueloPesado").style.backgroundImage = "url(images/elements/shop_item_border.png)";
-        document.getElementById("fotoAnzueloPesado").style.backgroundImage = "url(images/elements/heavyweight_fish_hook.png)";
-        document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_border_golden.png)";
-        document.getElementById("fotoAnzueloMisterioso").style.display = "inline";
-        anzuelo.style.backgroundImage="url(images/cania/anzuelo4.png)";
+        if(estadoAnzuelosTienda[3])
+        {
+            limpiarPool();
+            caniaObjetoActual.setCaniaActual(4);
+            document.getElementById("bordeAnzueloLigero").style.backgroundImage = "url(images/elements/shop_item_border.png)";
+            document.getElementById("bordeAnzueloMediano").style.backgroundImage = "url(images/elements/shop_item_border.png)";
+            document.getElementById("fotoAnzueloMediano").style.backgroundImage = "url(images/elements/mediumweight_fish_hook.png)";
+            document.getElementById("bordeAnzueloPesado").style.backgroundImage = "url(images/elements/shop_item_border.png)";
+            document.getElementById("fotoAnzueloPesado").style.backgroundImage = "url(images/elements/heavyweight_fish_hook.png)";
+            document.getElementById("bordeAnzueloMisterioso").style.backgroundImage = "url(images/elements/shop_item_border_golden.png)";
+            document.getElementById("fotoAnzueloMisterioso").style.display = "inline";
+            document.getElementById("fotoAnzueloMisterioso").style.backgroundImage = "url(images/elements/mysterious_fish_hook.png)";
+            anzuelo.style.backgroundImage="url(images/cania/anzuelo4.png)";
+        }
+        else
+        {
+            sonidoDick()
+            document.getElementById("dickTinieblas").style.backgroundImage = "url(images/elements/dick_tinieblas_animated.gif)";
+            document.getElementById("burbujaTextoDick").style.display = "inline";
+            textoBurbuja.innerHTML = "¿Con que quieres mi anzuelo misterioso ehh. Te costará unas... 9999 monedas.<br>¿Qué dices?";
+            document.getElementById("tablonCompra").style.display = "inline";
+            dineroNecesarioCompra = 9999;
+            idCompra = 3;
+        }
         break;
     }
 }
@@ -3190,8 +3426,8 @@ function recibirItem()
         break;
     case 3:
         estadoAnzuelosTienda[3] = true;
-        document.getElementById("bordeAnzueloMisterioso").removeAttribute("onclick");
-        document.getElementById("bordeAnzueloMisterioso").style.cursor="default"
+        document.getElementById("fotoAnzueloMisterioso").style.width="102px";
+        document.getElementById("fotoAnzueloMisterioso").style.left="754.8px";
         cambiarAnzuelo(3);
         break;
     case 4:
@@ -3636,6 +3872,7 @@ function mostrarFotoNegraCatalogo(idFotoDescubrir)
         document.getElementById("cartaBallenaAzulAntarticaCatalogo").setAttribute('onclick', 'cambiarCartaCatalogo(26)');
         document.getElementById("cartaBallenaAzulAntarticaCatalogo").setAttribute('type', 'button');
         document.getElementById("cartaBallenaAzulAntarticaCatalogo").style.cursor="pointer";
+        arregloMostrarCartaCompleta[idFotoDescubrir - 1] = true;
         break;
     }
 }
@@ -3654,7 +3891,7 @@ function cambiarCartaCatalogo(idCatalogo)
     click.play();
     cambiarCartaCatalogoQuitar();
     cambiarCartaCatalogoMostrar(idCatalogo);
-    cambiarDatosIndependientesCatalogo(idCatalogo)
+    cambiarDatosIndependientesCatalogo(idCatalogo);
 }
 
 function cambiarCartaCatalogoMostrar(idCatalogo)
@@ -4112,7 +4349,7 @@ function cambiarDatosIndependientesCatalogo(idCatalogo)
             descripcionPezCatalogo.innerHTML="Es una especie eurifágica, ya que su espectro alimentario es amplio, y presenta carácter alimentario marcado por el oportunismo, debido a que posee una enorme facilidad de adaptación frente a los cambios en la disponibilidad del alimento.";
             break;
         case 14:
-            nombrePezCatalogo.innerHTML="Badre";
+            nombrePezCatalogo.innerHTML="Bagre";
             nombrePezCatalogo.style.left="160px";
             anzueloPezCatalogo.style.backgroundImage="url(images/elements/mediumweight_fish_hook.png)";
             descripcionPezCatalogo.innerHTML="Son peces de agua dulce que pueden llegar a vivir cerca de 20 años. Habitan en los estanques con troncos y otros restos orgánicos de baja pendiente a alta pendiente, tanto en pequeños como en grandes ríos.";
@@ -4139,7 +4376,7 @@ function cambiarDatosIndependientesCatalogo(idCatalogo)
             nombrePezCatalogo.innerHTML="Salvelino";
             nombrePezCatalogo.style.left="135px";
             anzueloPezCatalogo.style.backgroundImage="url(images/elements/heavyweight_fish_hook.png)";
-            descripcionPezCatalogo.innerHTML="El ciclo vital del salmón es similar al del salmón, ya que vive la mayor parte de su vida en aguas costeras árticas y subárticas, y regresa del océano a los ríos de agua dulce donde nació para desovar.";
+            descripcionPezCatalogo.innerHTML="El ciclo vital del salvelino es similar al del salmón, ya que vive la mayor parte de su vida en aguas costeras árticas y subárticas, y regresa del océano a los ríos de agua dulce donde nació para desovar.";
             break;
         case 19:
             nombrePezCatalogo.innerHTML="Magikarp";
@@ -4187,7 +4424,7 @@ function cambiarDatosIndependientesCatalogo(idCatalogo)
             nombrePezCatalogo.innerHTML="Ballena azúl";
             nombrePezCatalogo.style.left="100px";
             anzueloPezCatalogo.style.backgroundImage="url(images/elements/mysterious_fish_hook.png)";
-            descripcionPezCatalogo.innerHTML="Texto pendiente";
+            descripcionPezCatalogo.innerHTML="La ballena azul es el animal conocido más grande que jamás haya poblado la Tierra. Estos majestuosos mamíferos marinos dominan los océanos con sus 30 metros de longitud y hasta 180 toneladas de peso. Solo su lengua puede pesar tanto como un elefante, y el corazón, como un automóvil.";
             break;
         }
         if(idCatalogo != 122 && idCatalogo != 82)
@@ -4247,4 +4484,1040 @@ function cambiarModeloSecundario()
         document.getElementById("fotoPezRanaCatalogo").style.display="none";
         document.getElementById("fotoPezRanaShinyCatalogo").style.display="inline";
     }
+}
+
+function chequeoMax()
+{
+    var contPecesMax = 0;
+    for(let i = 0; i < 25; i++)
+    {
+        if(arregloMostrarCartaCompleta[i])
+        {
+            contPecesMax++;
+        }
+    }
+
+    if(contPecesMax == 25 && estadoCaniasTienda[4] && !estadoDesbloqueo)
+    {
+        iniciarDesbloqueo();
+    }
+}
+
+function iniciarDesbloqueo()
+{
+    document.getElementById("tienda").style.display = "none";
+    document.getElementById("juegoPesca").style.display = "none";
+    document.getElementById("desbloqueo").style.display="inline";
+    sonidoDick();
+    textoDesbloqueo.innerHTML = "<br>¿Enserio lo has logrado?";
+}
+
+function avanzarDesbloqueo()
+{
+    switch(contadorAvancesDesbloqueo)
+    {
+    case 0:
+        sonidoDick();
+        textoDesbloqueo.innerHTML = "Llenaste tu catálogo al haber pescado todos los peces, conseguiste todos los anzuelos y mejoraste tu caña al máximo.";
+        break;
+    case 1:
+        sonidoDick();
+        textoDesbloqueo.innerHTML = "<br>Enserio lo lograste.";
+        break;
+    case 2:
+        sonidoDick();
+        textoDesbloqueo.innerHTML = "<br>Siempre supe que serías el próximo Pescador Tocho.";
+        break;
+    case 3:
+        sonidoDick();
+        textoDesbloqueo.innerHTML = "<br>Bien hecho muchacho, ha llegado la hora mostrarte mi tesoro más preciado.";
+        break
+    case 4:
+        sonidoDick();
+        textoDesbloqueo.innerHTML = "<br>Un anzuelo capaz de atraer al animal marino más grande, majestuoso y tenebroso de todos.";
+        break
+    case 5:
+        sonidoDick();
+        textoDesbloqueo.innerHTML = "<br>Jaja, pero claro que no será gratis. Mi tienda ahora tendrá mi anzuelo misterioso a la venta.";
+        break
+    case 6:
+        terminarDesbloqueo()
+        break;
+    }
+    contadorAvancesDesbloqueo++;
+}
+
+function terminarDesbloqueo()
+{
+    contadorAvancesDesbloqueo = 0;
+    document.getElementById("desbloqueo").style.display="none";
+    document.getElementById("juegoPesca").style.display = "inline";
+    document.getElementById("tienda").style.display = "inline";
+    estadoDesbloqueo = true;
+    document.getElementById("fotoAnzueloMisterioso").style.display = "inline";
+    cambiarAnzuelo(2);
+    document.getElementById("bordeAnzueloMisterioso").removeAttribute("onclick");
+    document.getElementById("bordeAnzueloMisterioso").style.cursor="default"
+}
+
+const intervaloSpawnBallena = setInterval(spawnearBallenaAzul, 60000);
+
+function spawnearBallenaAzul()
+{
+    if(estadoEstanque && !estadoSpawneoJefeFinal && estadoCreadoCania && (caniaObjetoActual.getCaniaActual() - 1) == 3 && !estadoUltimaFase)
+    {
+        estadoSpawneoJefeFinal = true;
+        estadoPantallaNegra = false;
+        estadoDesaparecerJefe = true;
+        modificacionTiempoReaccionJefe = -150;
+        document.getElementById("fondo").style.backgroundImage="url(images/fondo/background_boss_phase1.png)";
+        document.getElementById("musicaPescaAmanecer").pause();
+        document.getElementById("musicaPescaAmanecer").currentTime = 0;
+        document.getElementById("musicaPescaDiaLarga").pause();
+        document.getElementById("musicaPescaDiaLarga").currentTime = 0;
+        document.getElementById("musicaPescaDiaCorta").pause();
+        document.getElementById("musicaPescaDiaCorta").currentTime = 0;
+        document.getElementById("musicaPescaAtardecer").pause();
+        document.getElementById("musicaPescaAtardecer").currentTime = 0;
+        document.getElementById("musicaPescaNoche").pause();
+        document.getElementById("musicaPescaNoche").currentTime = 0;
+        document.getElementById("musicaJefeFase1").play();
+        document.getElementById("tienda").style.display = "none";
+        document.getElementById("fondoDineroTotal").style.width="0px";
+        document.getElementById("monedaOro").style.width="0px";
+        document.getElementById("dineroTotal").style.width="0px";
+        aparecerModelojefe();
+    }
+}
+
+function aparecerModelojefe()
+{
+    var pezActual;
+    var alturaPez = 0;
+    var anchoPez = 0;
+    var direccionPez = (1 - (getNumeroRandom(2) * 2));
+    var distanciaArriba = 0;
+    var distanciaIzquierda = 0;
+
+    pezActual = new Module.BallenaAzulAntartica();
+    alturaPez = 149;
+    anchoPez = 862;
+
+    distanciaArriba = 0;
+
+    if(estadoSpawneoJefeVictoria)
+    {
+        distanciaIzquierda = 20;
+    }
+    else
+    {
+        distanciaIzquierda = 0;
+    }
+
+    const jf = document.createElement('div');
+    jf.setAttribute('id', 'jefe');
+    peces.appendChild(jf);
+    jf.style.backgroundImage = "url(images/fishes/antartic_blue_whale.png)";
+    jf.style.transform = "scaleX(" + direccionPez + ")";
+    jf.style.height = alturaPez + "px";
+    jf.style.width = anchoPez + "px";
+    jf.style.backgroundSize = "100%";
+    jf.style.backgroundRepeat = "no-repeat";
+    jf.style.position = "absolute";
+    jf.style.top = distanciaArriba + "px";
+    jf.style.zIndex = "1";
+
+    if(estadoSpawneoJefeVictoria)
+    {
+        if(direccionPez == 1)
+        {
+            jf.style.left = distanciaIzquierda + 150 + "px";
+        }
+        else
+        {
+            jf.style.left = distanciaIzquierda - 50 + "px";
+        }
+    }
+    else
+    {
+        jf.style.left = distanciaIzquierda + "px";
+    }
+
+    if(direccionPez == 1)
+    {
+        jf.style.animation="morderIzquierda";
+    }
+    else
+    {
+        jf.style.animation="morderDerecha";
+    }
+                        
+    jf.style.animationPlayState="paused";
+    jf.style.animationIterationCount="infinite";
+    jf.style.animationDuration="0.5s";
+    jf.style.animationDirection="alternate";
+           
+    const btjf = document.createElement('div');
+    btjf.setAttribute('id', 'botonJefe');
+    btjf.setAttribute('type', 'button');
+    btjf.setAttribute('onclick', 'pescaJefe()');
+
+    peces.appendChild(btjf);
+    btjf.style.height = "80px";
+    btjf.style.width = "80px";
+    btjf.style.position = "absolute";
+    btjf.style.cursor = "pointer";
+    btjf.style.top = distanciaArriba + alturaPez - 40 + "px";
+
+    btjf.style.backgroundImage = "url(images/elements/bubbles.gif";
+    btjf.style.backgroundSize = "100%";
+    btjf.style.backgroundRepeat = "no-repeat";
+                        
+    btjf.style.border = "none";
+    btjf.style.zIndex = "0";
+
+    if(estadoSpawneoJefeVictoria)
+    {
+        if(direccionPez == 1)
+        {
+            btjf.style.left = distanciaIzquierda + 30 + "px";
+        }
+        else
+        {
+            btjf.style.left = distanciaIzquierda + anchoPez - 10 + "px";
+        }
+    }
+    else
+    {
+        if(direccionPez == 1)
+        {
+            btjf.style.left = distanciaIzquierda - 120 + "px";
+        }
+        else
+        {
+            btjf.style.left = distanciaIzquierda + anchoPez + 40 + "px";
+        }
+    }
+
+    arregloPecesActivos[0] = pezActual;
+    idPezActual = 1;
+    jefe = jf;
+    botonJefe = btjf;
+}
+
+function pescaJefe()
+{
+    if(!estadoReaccionAnzuelo && !estadoAnzuelo)
+    {
+        estadoJuegoReaccion = true;
+        if(estadoReiniciadoAnzuelo)
+        {
+            estadoPermitirPesca = true;
+            estadoReiniciadoAnzuelo = false;
+        }
+        estadoPescaContraria = false;
+    }
+    else if(!estadoJuegoReaccion && estadoAnzuelo && estadoPermitirPesca && !estadoPescaContraria)
+    {
+        if(estadoUltimaFase)
+        {
+            estadoReaccionAnzuelo = false;
+            estadoJuegoReaccion = false;
+            estadoPermitirPesca = false;
+            estadoReiniciadoAnzuelo = true;
+            contadorPescasJefeSeguidas = 0;
+
+            pescaFinal();
+        }
+        else
+        {
+            contadorPescasJefeSeguidas++;
+            sonarTimbreFase1Jefe();
+            realizarRotacionJefe();
+            estadoReaccionAnzuelo = false;
+            estadoJuegoReaccion = false;
+            estadoPermitirPesca = false;
+            estadoReiniciadoAnzuelo = true;
+
+            if(contadorPescasJefeSeguidas == 8)
+            {
+                contadorPescasJefeSeguidas = 0;
+                atraparJefe();
+            }
+        }
+    }
+    else if(estadoJuegoReaccion)
+    {
+        estadoPescaContraria = false;
+        document.getElementById("sonidoRotura").pause();
+        document.getElementById("sonidoRotura").currentTime = 0;
+        document.getElementById("sonidoRotura").play();
+
+        if(estadoUltimaFase)
+        {
+            muerteFinal();
+        }
+        else
+        {
+            realizarRotacionJefe();
+        }
+
+        contadorPescasJefeSeguidas = 0;
+        estadoReaccionAnzuelo = false;
+        estadoPermitirPesca = false;
+        estadoReiniciadoAnzuelo = true;
+        estadoJuegoReaccion = false;
+    }
+}
+
+function realizarRotacionJefe()
+{
+    document.getElementById("jefe").remove();
+    document.getElementById("botonJefe").remove();
+    aparecerModelojefe();
+}
+
+function sonarTimbreFase1Jefe()
+{
+    document.getElementById("notaDo").pause();
+    document.getElementById("notaDo").currentTime = 0;
+    document.getElementById("notaRe").pause();
+    document.getElementById("notaRe").currentTime = 0;
+    document.getElementById("notaRe#").pause();
+    document.getElementById("notaRe#").currentTime = 0;
+    document.getElementById("notaFa").pause();
+    document.getElementById("notaFa").currentTime = 0;
+    document.getElementById("notaSol").pause();
+    document.getElementById("notaSol").currentTime = 0;
+    document.getElementById("notaSol#").pause();
+    document.getElementById("notaSol#").currentTime = 0;
+    document.getElementById("notaSi").pause();
+    document.getElementById("notaSi").currentTime = 0;
+    document.getElementById("notaDoFinal").pause();
+    document.getElementById("notaDoFinal").currentTime = 0;
+
+    switch(contadorPescasJefeSeguidas)
+    {
+    case 1:
+        document.getElementById("notaDo").play();
+        break;
+    case 2:
+        document.getElementById("notaRe").play();
+        break;
+    case 3:
+        document.getElementById("notaRe#").play();
+        break;
+    case 4:
+        document.getElementById("notaFa").play();
+        break;
+    case 5:
+        document.getElementById("notaSol").play();
+        break;
+    case 6:
+        document.getElementById("notaSol#").play();
+        break;
+    case 7:
+        document.getElementById("notaSi").play();
+        break;
+    case 8:
+        document.getElementById("notaDoFinal").play();
+        break;
+    }
+}
+
+function atraparJefe()
+{
+    document.getElementById("sonidoAtraparJefeFase1").currentTime = 0;
+    document.getElementById("sonidoAtraparJefeFase1").play();
+    mostrarJefe();
+    document.getElementById("jefe").remove();
+    document.getElementById("botonJefe").remove();
+}
+
+function mostrarJefe()
+{
+    document.getElementById("musicaJefeFase1").pause();
+    document.getElementById("musicaJefeFase1").currentTime = 0;
+
+    modeloPez.style.backgroundImage = "url(images/fishes/antartic_blue_whale.png)";
+    modeloPez.style.height = 358 + "px";
+    modeloPez.style.width = 1034 + "px";
+    modeloPez.style.backgroundSize = "100%";
+    modeloPez.style.backgroundRepeat = "no-repeat";
+    modeloPez.style.position = "absolute";
+    modeloPez.style.top = ((innerHeight - 358) / 2.5) + "px";
+    modeloPez.style.left = ((innerWidth - 1034) / 2) + "px";
+
+    document.getElementById("pantallaPesca").style.display = "inline";
+    document.getElementById("pesoPez").value = "KG: ???";
+    document.getElementById("tamanioPez").value = "CM: ???";
+    document.getElementById("dineroPez").value = "G: ???";
+
+    document.getElementById("estanque").style.display="none";
+    estadoAnzuelo = true;
+    estadoBloquearMovimientoAnzuelo = true
+}
+
+const quitarJefeMirando = setInterval(avanzarJefeFase2, 10)
+
+function avanzarJefeFase2()
+{
+    if(estadoFase2Lista)
+    {
+        contadorCentesimasJefeMirando++;
+        if(contadorCentesimasJefeMirando == 400)
+        {
+            contadorCentesimasJefeMirando = 0;
+            estadoFase2Lista = false;
+            document.getElementById("fondo").style.backgroundImage="url(images/fondo/background_boss_phase2.png)";
+            document.getElementById("videoJefeMirando").pause;
+            document.getElementById("videoJefeMirando").currentTime = 0;
+            document.getElementById("videoJefeMirando").style.display="none";
+            document.getElementById("musicaJefeFase2Comienzo").play();
+            document.getElementById("juegoPesca").style.display="none";
+            document.getElementById("llantoJefeFase2").play();
+            jefeFase2.style.display="inline"
+            estadoIniciarFase2 = true;
+        }
+        if(contadorCentesimasJefeMirando == 50)
+        {
+            document.getElementById("sonidoJefeMirando").currentTime = 0;
+            document.getElementById("sonidoJefeMirando").play();
+        }
+    }
+}
+
+const comenzarFase2 = setInterval(iniciarFase2, 100)
+
+function iniciarFase2()
+{
+    if(estadoIniciarFase2)
+    {
+        contadorDecimasInicioFase2++;
+        if(contadorDecimasInicioFase2 == 92)
+        {
+            contadorDecimasInicioFase2 = 0;
+            jefeFase2.style.backgroundImage="url(images/boss_fight/boss_phase2_flying.gif)";
+            jefeFase2.style.height = "311px";
+            jefeFase2.setAttribute('onclick', 'jefeFase2Golpe()');
+            jefeFase2.style.display="inline";
+            jefeFase2.style.animationPlayState="running";
+            document.getElementById("vidaJugador").style.display="inline";
+            vidaJugadorFase2 = 5;
+            actualizarCorazones();
+            vidaJefeFase2 = 3;
+            actualizarVidaJefe();
+            document.getElementById("vidaJefe").style.display="inline";
+            document.getElementById("cuadroFalloFase2").style.display="inline";
+            document.getElementById("musicaJefeFase2").play();
+            document.getElementById("sacarTochoCanion").style.display="none";
+            tochoCanion.style.display="inline"
+            estadoIniciarFase2 = false;
+            estadoPermitirProyectiles = true;
+        }
+        if(contadorDecimasInicioFase2 == 80)
+        {
+            jefeFase2.style.display="none";
+            document.getElementById("sacarTochoCanion").style.display="inline";
+            document.getElementById("sacarTochoCanion").play();
+        }
+    }
+}
+
+function actualizarCorazones()
+{
+    for(let i = 0; i < vidaJugadorFase2; i++)
+    {
+        document.getElementById("corazon" + (i + 1) + "HP").style.display="inline"
+    }
+    for(let i = 0; i < (5 - vidaJugadorFase2); i++)
+    {
+        document.getElementById("corazon" + (5 - i) + "HP").style.display="none"
+    }
+    if(vidaJugadorFase2 == 0)
+    {
+        gameOverFase2();
+    }
+}
+
+function actualizarVidaJefe()
+{
+    if(vidaJefeFase2 == 3)
+    {
+        document.getElementById("vidaJefe").style.backgroundImage = "url(images/boss_fight/boss_hp_3.png)";
+        vueltasPorProyectil = 3;
+    }
+    if(vidaJefeFase2 == 2)
+    {
+        document.getElementById("vidaJefe").style.backgroundImage = "url(images/boss_fight/boss_hp_2.png)";
+        vueltasPorProyectil = 2;
+    }
+    if(vidaJefeFase2 == 1)
+    {
+        document.getElementById("vidaJefe").style.backgroundImage = "url(images/boss_fight/boss_hp_1.png)";
+        vueltasPorProyectil = 1;
+    }
+    if(vidaJefeFase2 == 0)
+    {
+        document.getElementById("vidaJefe").style.backgroundImage = "url(images/boss_fight/boss_hp_0.png)";
+        progresarFase3Jefe();
+    }
+}
+
+const intervaloDispararProyectiles = setInterval(dispararProyectilFase2, 1000);
+
+function dispararProyectilFase2()
+{
+    if(estadoPermitirCambiarVueltasFase2)
+    {
+        actualizarVidaJefe();
+        estadoPermitirCambiarVueltasFase2 = false;
+        contadorVueltasParaProyectil = 0;
+    }
+    if(estadoPermitirProyectiles && contadorProyectiles < 4)
+    {
+        contadorVueltasParaProyectil++;
+
+        if(contadorVueltasParaProyectil == vueltasPorProyectil)
+        {
+            contadorProyectiles++;
+            buscarLugarProyectiles();
+            arregloEstadoProyectiles[espacioLibreProyectiles - 1] = true;
+            const proyectilActual = document.createElement('div');
+            proyectilActual.setAttribute('id', 'proyectil_' + espacioLibreProyectiles);
+            document.getElementById("pantallaJefeFase2").appendChild(proyectilActual);
+            proyectilActual.style.zIndex = "4";
+            proyectilActual.style.top="0px";
+
+            if(getNumeroRandom(2) == 1)
+            {
+                proyectilActual.style.left="30%";
+                arregloDireccionProyectiles[espacioLibreProyectiles - 1] = -1;
+            }
+            else
+            {
+                proyectilActual.style.left="64%";
+                arregloDireccionProyectiles[espacioLibreProyectiles - 1] = 1;
+            }
+
+            proyectilActual.style.position="absolute";
+            proyectilActual.style.backgroundImage="url(images/boss_fight/projectile.gif)";
+            proyectilActual.style.height="126px";
+            proyectilActual.style.width="102px";
+            proyectilActual.style.backgroundSize = "100%";
+            proyectilActual.style.backgroundRepeat = "no-repeat";
+            proyectilActual.style.pointerEvents="none";
+            proyectilActual.style.animation="movimentoProyectil";
+            proyectilActual.style.animationPlayState="running";
+            proyectilActual.style.animationDuration="2s";
+
+            if(espacioLibreProyectiles == 1)
+            {
+                estadoDesaparecerProyectil1 = true;
+            }
+            if(espacioLibreProyectiles == 2)
+            {
+                estadoDesaparecerProyectil2 = true;
+            }
+            if(espacioLibreProyectiles == 3)
+            {
+                estadoDesaparecerProyectil3 = true;
+            }
+            if(espacioLibreProyectiles == 4)
+            {
+                estadoDesaparecerProyectil4 = true;
+            }
+
+            contadorVueltasParaProyectil = 0;
+        }
+    }
+}
+
+const intervaloBorrarProyectil = setInterval(borrarProyectil, 100);
+
+function borrarProyectil()
+{
+    if(estadoDesaparecerProyectil1)
+    {
+        contadorCentesimasProyectil1++;
+        if(contadorCentesimasProyectil1 == 20)
+        {
+            document.getElementById("proyectil_1").remove();
+            estadoDesaparecerProyectil1 = false;
+            contadorCentesimasProyectil1 = 0;
+            arregloEstadoProyectiles[0] = false;
+            contadorProyectiles--;
+            if(arregloDireccionProyectiles[0] == direccionDerechaActual)
+            {
+                vidaJugadorFase2--;
+                actualizarCorazones();
+                document.getElementById("sonidoGolpeJugador").pause();
+                document.getElementById("sonidoGolpeJugador").currentTime = 0;
+                document.getElementById("sonidoGolpeJugador").play();
+            }
+        }
+    }
+    if(estadoDesaparecerProyectil2)
+    {
+        contadorCentesimasProyectil2++;
+        if(contadorCentesimasProyectil2 == 20)
+        {
+            document.getElementById("proyectil_2").remove();
+            estadoDesaparecerProyectil2 = false;
+            contadorCentesimasProyectil2 = 0;
+            arregloEstadoProyectiles[1] = false;
+            contadorProyectiles--;
+            if(arregloDireccionProyectiles[1] == direccionDerechaActual)
+            {
+                vidaJugadorFase2--;
+                actualizarCorazones();
+                document.getElementById("sonidoGolpeJugador").pause();
+                document.getElementById("sonidoGolpeJugador").currentTime = 0;
+                document.getElementById("sonidoGolpeJugador").play();
+            }
+        }
+    }
+    if(estadoDesaparecerProyectil3)
+    {
+        contadorCentesimasProyectil3++;
+        if(contadorCentesimasProyectil3 == 20)
+        {
+            document.getElementById("proyectil_3").remove();
+            estadoDesaparecerProyectil3 = false;
+            contadorCentesimasProyectil3 = 0;
+            arregloEstadoProyectiles[2] = false;
+            contadorProyectiles--;
+            if(arregloDireccionProyectiles[2] == direccionDerechaActual)
+            {
+                vidaJugadorFase2--;
+                actualizarCorazones();
+                document.getElementById("sonidoGolpeJugador").pause();
+                document.getElementById("sonidoGolpeJugador").currentTime = 0;
+                document.getElementById("sonidoGolpeJugador").play();
+            }
+        }
+    }
+    if(estadoDesaparecerProyectil4)
+    {
+        contadorCentesimasProyectil4++;
+        if(contadorCentesimasProyectil4 == 20)
+        {
+            document.getElementById("proyectil_4").remove();
+            estadoDesaparecerProyectil4 = false;
+            contadorCentesimasProyectil4 = 0;
+            arregloEstadoProyectiles[3] = false;
+            contadorProyectiles--;
+            if(arregloDireccionProyectiles[3] == direccionDerechaActual)
+            {
+                vidaJugadorFase2--;
+                actualizarCorazones();
+                document.getElementById("sonidoGolpeJugador").pause();
+                document.getElementById("sonidoGolpeJugador").currentTime = 0;
+                document.getElementById("sonidoGolpeJugador").play();
+            }
+        }
+    }
+}
+
+function limpiarProyectiles()
+{
+    if(estadoDesaparecerProyectil1)
+    {
+        document.getElementById("proyectil_1").remove();
+        estadoDesaparecerProyectil1 = false;
+        contadorCentesimasProyectil1 = 0;
+        arregloEstadoProyectiles[0] = false;
+        contadorProyectiles--;
+    }
+    if(estadoDesaparecerProyectil2)
+    {
+        document.getElementById("proyectil_2").remove();
+        estadoDesaparecerProyectil2 = false;
+        contadorCentesimasProyectil2 = 0;
+        arregloEstadoProyectiles[1] = false;
+        contadorProyectiles--;
+    }
+    if(estadoDesaparecerProyectil3)
+    {
+        document.getElementById("proyectil_3").remove();
+        estadoDesaparecerProyectil3 = false;
+        contadorCentesimasProyectil3 = 0;
+        arregloEstadoProyectiles[2] = false;
+        contadorProyectiles--;
+    }
+    if(estadoDesaparecerProyectil4)
+    {
+        document.getElementById("proyectil_4").remove();
+        estadoDesaparecerProyectil4 = false;
+        contadorCentesimasProyectil4 = 0;
+            rregloEstadoProyectiles[3] = false;
+        contadorProyectiles--;
+    }
+}
+
+function buscarLugarProyectiles()
+{
+    for(let i = 0; i < 4; i++)
+    {
+        if(!arregloEstadoProyectiles[i])
+        {
+            espacioLibreProyectiles = i + 1;
+            break;
+        }
+    }
+}
+
+const intervaloTransformarJefe = setInterval(transformarJefeFase2, 3000);
+
+function transformarJefeFase2()
+{
+    if(getNumeroRandom(2) == 0)
+    {
+        jefeFase2.style.transform="scaleX(-1)";
+    }
+    else
+    {
+        jefeFase2.style.transform="scaleX(1)";
+    }
+}
+
+function jefeFase2Golpe()
+{
+    document.getElementById("sonidoGolpejefe").pause();
+    document.getElementById("sonidoGolpejefe").currentTime = 0;
+    document.getElementById("sonidoGolpejefe").play();
+
+    estadoCanionTocho = true;
+    contadorGolpesJefe++;
+    
+    if(contadorGolpesJefe == 100)
+    {
+        vidaJefeFase2--;
+        vidaJugadorFase2 = 5;
+        actualizarCorazones();
+        estadoPermitirCambiarVueltasFase2 = true;
+        contadorGolpesJefe = 0;
+    }
+}
+
+const cambiarEstadoDisparar = setInterval(cambiarEstadoTochoCanion, 50);
+
+function cambiarEstadoTochoCanion()
+{
+    if(estadoCanionTocho)
+    {
+        document.getElementById("sonidoDisparoFase2").pause();
+        document.getElementById("sonidoDisparoFase2").currentTime = 0;
+        document.getElementById("sonidoDisparoFase2").play();
+        tochoCanion.style.backgroundImage="url(images/boss_fight/tocho_cannon_shooting.png)";
+        estadoCanionTocho = false;
+        document.getElementById("explosionDisparo").style.display="inline";
+        document.getElementById("explosionDisparo").style.top= (window.innerHeight * coordY / 100) - 21 + "px";
+        document.getElementById("explosionDisparo").style.left= (window.innerWidth * coordX / 100) - 20 + "px";
+    }
+    else
+    {
+        tochoCanion.style.backgroundImage="url(images/boss_fight/tocho_cannon_idle.png)"
+        document.getElementById("explosionDisparo").style.display="none";
+    }
+}
+
+function jefeFase2Fallo()
+{
+    estadoCanionTocho = true;
+}
+
+function gameOverFase2()
+{
+    cambiarAnzuelo(2);
+    limpiarProyectiles();
+    estadoSpawneoJefeFinal = false;
+    estadoDesaparecerJefe = false;
+    estadoBloquearMovimientoAnzuelo = false;
+    estadoAnzuelo = false;
+    estadoPermitirProyectiles = false;
+
+    jefeFase2.style.backgroundImage="url(images/fishes/antartic_blue_whale.png)";
+    jefeFase2.style.height = "239px";
+    jefeFase2.setAttribute('onclick', 'jefeFase2Golpe()');
+    jefeFase2.removeAttribute("onclick");
+    jefeFase2.style.animationPlayState="paused";
+    jefeFase2.style.display="none";
+
+    jefeFase2.remove();
+    const jf2 = document.createElement('div');
+    jf2.setAttribute('id', 'jefeFase2');
+    document.getElementById("pantallaJefeFase2").appendChild(jf2);
+    jefeFase2 = jf2;
+    jefeFase2.setAttribute('type', 'button');
+    jefeFase2.setAttribute('onclick', 'jefeFase2Golpe()');
+    jefeFase2.style.display="none";
+    jefeFase2.style.position = "absolute";
+    jefeFase2.style.backgroundImage="url(images/fishes/antartic_blue_whale.png)";
+    jefeFase2.style.height="239px";
+    jefeFase2.style.width="689px";
+    jefeFase2.style.backgroundSize="100%";
+    jefeFase2.style.backgroundRepeat="no-repeat";
+    jefeFase2.style.zIndex="2";
+    jefeFase2.style.cursor="pointer";
+    jefeFase2.style.animation="movimientoJefeFase2";
+    jefeFase2.style.animationPlayState="paused";
+    jefeFase2.style.animationIterationCount="infinite";
+    jefeFase2.style.animationDuration="30s";
+    jefeFase2.style.top=(window.innerHeight * 0.6) + "px";
+    jefeFase2.style.left=(window.innerWidth - 689) / 2 + "px";
+
+    tochoCanion.style.display="none"
+    document.getElementById("cuadroFalloFase2").style.display="none";
+    document.getElementById("vidaJefe").style.display="none";
+    document.getElementById("vidaJugador").style.display="none";
+    document.getElementById("estanque").style.display="inline";
+    document.getElementById("fondoDineroTotal").style.width="290px";
+    document.getElementById("monedaOro").style.width="80px";
+    document.getElementById("dineroTotal").style.width="170px";
+
+    document.getElementById("musicaJefeFase2").pause();
+    document.getElementById("musicaJefeFase2").currentTime = 0;
+
+    if(!estadoGameOverFase3)
+    {
+        pantallaGameOver();
+    }
+    estadoGameOverFase3 = false;
+}
+
+function pantallaGameOver()
+{
+    document.getElementById("fondo").style.backgroundImage="url(images/fondo/black_screen.webp)";
+    document.getElementById("pantallaGameOver").style.display="inline";
+    document.getElementById("musicaGameOver").play();
+}
+
+function salirPantallaGameOver()
+{
+    tiempoReset();
+    estadoPantallaNegra = true;
+
+    document.getElementById("musicaGameOver").pause();
+    document.getElementById("musicaGameOver").currentTime = 0;
+
+    document.getElementById("pantallaGameOver").style.display="none";
+    document.getElementById("juegoPesca").style.display="inline";
+    document.getElementById("tienda").style.display = "inline";
+
+    estadoUltimaFase = false;
+}
+
+function tiempoReset()
+{
+    switch(numeroTiempo % 4)
+    {
+    case 0:
+        if(estadoMusicaDia)
+        {
+            document.getElementById("fondo").style.backgroundImage="url(images/fondo/background_day.png)";
+            document.getElementById("musicaPescaAmanecer").pause();
+            document.getElementById("musicaPescaAmanecer").currentTime = 0;
+            document.getElementById("musicaPescaNoche").pause();
+            document.getElementById("musicaPescaNoche").currentTime = 0;
+            document.getElementById("musicaPescaAtardecer").pause();
+            document.getElementById("musicaPescaAtardecer").currentTime = 0;
+            document.getElementById("musicaPescaDiaCorta").play();
+        }
+        else
+        {
+            estadoMusicaDia = true;
+        }
+        break;
+    case 1:
+        document.getElementById("fondo").style.backgroundImage="url(images/fondo/background_sunset.png)";
+        document.getElementById("musicaPescaDiaLarga").pause();
+        document.getElementById("musicaPescaAmanecer").pause();
+        document.getElementById("musicaPescaAmanecer").currentTime = 0;
+        document.getElementById("musicaPescaDiaCorta").pause();
+        document.getElementById("musicaPescaDiaCorta").currentTime = 0;
+        document.getElementById("musicaPescaNoche").pause();
+        document.getElementById("musicaPescaNoche").currentTime = 0;
+        document.getElementById("musicaPescaAtardecer").play();
+        break;
+    case 2:
+        document.getElementById("fondo").style.backgroundImage="url(images/fondo/background_night.png)";
+        document.getElementById("musicaPescaAmanecer").pause();
+        document.getElementById("musicaPescaAmanecer").currentTime = 0;
+        document.getElementById("musicaPescaDiaCorta").pause();
+        document.getElementById("musicaPescaDiaCorta").currentTime = 0;
+        document.getElementById("musicaPescaAtardecer").pause();
+        document.getElementById("musicaPescaAtardecer").currentTime = 0;
+        document.getElementById("musicaPescaNoche").play();
+        break;
+    case 3:
+        document.getElementById("fondo").style.backgroundImage="url(images/fondo/background_sunrise.png)";
+        document.getElementById("musicaPescaNoche").pause();
+        document.getElementById("musicaPescaNoche").currentTime = 0;
+        document.getElementById("musicaPescaDiaCorta").pause();
+        document.getElementById("musicaPescaDiaCorta").currentTime = 0;
+        document.getElementById("musicaPescaAtardecer").pause();
+        document.getElementById("musicaPescaAtardecer").currentTime = 0;
+        document.getElementById("musicaPescaAmanecer").play();
+        break;
+    }
+}
+
+function progresarFase3Jefe()
+{
+    estadoUltimaFase = true;
+    cambiarAnzuelo(3);
+    limpiarProyectiles();
+    estadoSpawneoJefeFinal = false;
+    estadoBloquearMovimientoAnzuelo = false;
+    estadoAnzuelo = false;
+    estadoPermitirProyectiles = false;
+
+    jefeFase2.style.backgroundImage="url(images/fishes/antartic_blue_whale.png)";
+    jefeFase2.style.height = "239px";
+    jefeFase2.setAttribute('onclick', 'jefeFase2Golpe()');
+    jefeFase2.removeAttribute("onclick");
+    jefeFase2.style.animationPlayState="paused";
+    jefeFase2.style.display="none";
+    tochoCanion.style.display="none"
+    document.getElementById("cuadroFalloFase2").style.display="none";
+    document.getElementById("vidaJefe").style.display="none";
+    document.getElementById("vidaJugador").style.display="none";
+    document.getElementById("estanque").style.display="inline";
+    document.getElementById("fondoDineroTotal").style.width="290px";
+    document.getElementById("monedaOro").style.width="80px";
+    document.getElementById("dineroTotal").style.width="170px";
+
+    document.getElementById("musicaJefeFase2").pause();
+    document.getElementById("musicaJefeFase2").currentTime = 0;
+
+    document.getElementById("fondo").style.backgroundImage="url(images/fondo/background_sunrise.png)";
+    document.getElementById("musicaFase3").play();
+
+    document.getElementById("juegoPesca").style.display="inline";
+
+    estadoSpawneoJefeVictoria = true;
+    aparecerModelojefe();
+    estadoSpawneoJefeVictoria = false;
+}
+
+function pescaFinal()
+{
+    estadoDesaparecerJefe = false;
+    document.getElementById("sonidoAtraparJefeFase3").currentTime = 0;
+    document.getElementById("sonidoAtraparJefeFase3").play();
+    mostrarFinal();
+    document.getElementById("jefe").remove();
+    document.getElementById("botonJefe").remove();
+}
+
+function mostrarFinal()
+{
+    document.getElementById("musicaFase3").pause();
+    document.getElementById("musicaFase3").currentTime = 0;
+
+    modeloPez.style.backgroundImage = "url(images/fishes/antartic_blue_whale.png)";
+    modeloPez.style.height = 358 + "px";
+    modeloPez.style.width = 1034 + "px";
+    modeloPez.style.backgroundSize = "100%";
+    modeloPez.style.backgroundRepeat = "no-repeat";
+    modeloPez.style.position = "absolute";
+    modeloPez.style.top = ((innerHeight - 358) / 2.5) + "px";
+    modeloPez.style.left = ((innerWidth - 1034) / 2) + "px";
+
+    document.getElementById("pantallaPesca").style.display = "inline";
+    document.getElementById("pesoPez").value = "KG: 180000";
+    document.getElementById("tamanioPez").value = "CM: 2900";
+    document.getElementById("dineroPez").value = "G: 9999";
+
+    document.getElementById("estanque").style.display="none";
+    estadoAnzuelo = true;
+    estadoBloquearMovimientoAnzuelo = true
+}
+
+function muerteFinal()
+{
+    estadoGameOverFase3 = true;
+    gameOverFase2();
+    document.getElementById("jefe").remove();
+    document.getElementById("botonJefe").remove();
+    document.getElementById("musicaFase3").pause();
+    document.getElementById("musicaFase3").currentTime = 0;
+    document.getElementById("juegoPesca").style.display="none";
+    document.getElementById("fondo").style.backgroundImage="url(images/fondo/black_screen.webp)";
+    document.getElementById("videoJefeMirando").style.display="inline";
+    document.getElementById("videoJefeMirando").currentTime = 0;
+    document.getElementById("videoJefeMirando").play();
+    estadoMirandoFinal = true;
+}
+
+const mirandoFinalIntervalo = setInterval(mirandoFinal, 10)
+
+function mirandoFinal()
+{
+    if(estadoMirandoFinal)
+    {
+        contadorCentesimasJefeMirando++;
+        if(contadorCentesimasJefeMirando == 400)
+        {
+            contadorCentesimasJefeMirando = 0;
+            estadoMirandoFinal = false;
+            document.getElementById("videoJefeMirando").pause;
+            document.getElementById("videoJefeMirando").currentTime = 0;
+            document.getElementById("videoJefeMirando").style.display="none";
+
+            pantallaGameOver();
+        }
+        if(contadorCentesimasJefeMirando == 50)
+        {
+            document.getElementById("sonidoJefeMirando").currentTime = 0;
+            document.getElementById("sonidoJefeMirando").play();
+        }
+    }
+}
+
+function iniciarAgradecimientosFinales()
+{
+    document.getElementById("tienda").style.display = "none";
+    document.getElementById("juegoPesca").style.display = "none";
+    document.getElementById("desbloqueo").style.display="inline";
+    sonidoDick();
+    textoDesbloqueo.innerHTML = "<br>¡Felicidades!";
+    document.getElementById("dickDesbloqueo").removeAttribute("onclick");
+    document.getElementById("dickDesbloqueo").setAttribute('onclick', 'agradecimientosFinales()');
+}
+
+function agradecimientosFinales()
+{
+    switch(contadorAvancesAgradecimiento)
+    {
+    case 0:
+        sonidoDick();
+        textoDesbloqueo.innerHTML = "<br>Yo nunca fuí capaz de pescar una ballena azúl.";
+        break;
+    case 1:
+        sonidoDick();
+        textoDesbloqueo.innerHTML = "<br>Desde el primer día que llegaste al estanque ví potencial en tí.";
+        break;
+    case 2:
+        sonidoDick();
+        textoDesbloqueo.innerHTML = "<br>¡Jaja!, esta sí que ha sido una Pesca Tocha.";
+        break;
+    case 3:
+        sonidoDick();
+        textoDesbloqueo.innerHTML = "<br>¡Gracias por jugar este juego!";
+        break
+    case 4:
+        terminarDesbloqueo()
+        break;
+    }
+    contadorAvancesAgradecimiento++;
+}
+
+function terminarAgradecimienosFinales()
+{
+    contadorAvancesAgradecimiento = 0;
+    document.getElementById("desbloqueo").style.display="none";
+    document.getElementById("juegoPesca").style.display = "inline";
+    document.getElementById("tienda").style.display = "inline";
 }

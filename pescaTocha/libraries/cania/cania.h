@@ -15,6 +15,7 @@ private:
 public:
     Cania();
     ~Cania();
+    //Los tipos de anzuelos que llevaran el conteo de los catalogos
     Ligero anzueloLigero;
     Mediano anzueloMediano;
     Pesado anzueloPesado;

@@ -34,10 +34,12 @@
 #include "anzuelo_inheritance/ligero/ligero.h"
 #include "anzuelo_inheritance/mediano/mediano.h"
 #include "anzuelo_inheritance/pesado/pesado.h"
+//Comando con el que compilamos en el cmd
 //em++ libraries/anzuelo/anzuelo.cpp libraries/anzuelo_inheritance/ligero/ligero.cpp libraries/anzuelo_inheritance/mediano/mediano.cpp libraries/anzuelo_inheritance/pesado/pesado.cpp libraries/cania/cania.cpp libraries/peces/peces.cpp libraries/peces_inheritance/anchoa/anchoa.cpp libraries/peces_inheritance/atun/atun.cpp libraries/peces_inheritance/bagre/bagre.cpp libraries/peces_inheritance/ballena_azul_antartica/ballenaAzulAntartica.cpp libraries/peces_inheritance/cachalote/cachalote.cpp libraries/peces_inheritance/cangrejo/cangrejo.cpp libraries/peces_inheritance/cangrejo_rio/cangrejoRio.cpp libraries/peces_inheritance/carpa/carpa.cpp libraries/peces_inheritance/char/char.cpp libraries/peces_inheritance/esturion/esturion.cpp libraries/peces_inheritance/goldfish/goldfish.cpp libraries/peces_inheritance/koi/koi.cpp libraries/peces_inheritance/lubina/lubina.cpp libraries/peces_inheritance/magikarp/magikarp.cpp libraries/peces_inheritance/mojarra/mojarra.cpp libraries/peces_inheritance/pez_espada/pezEspada.cpp libraries/peces_inheritance/pez_globo/pezGlobo.cpp libraries/peces_inheritance/pez_payaso/pezPayaso.cpp libraries/peces_inheritance/pez_rape/pezRape.cpp libraries/peces_inheritance/pirania/pirania.cpp libraries/peces_inheritance/rana/rana.cpp libraries/peces_inheritance/salmon/salmon.cpp libraries/peces_inheritance/tetra_neon/tetraNeon.cpp libraries/peces_inheritance/tiburon_blanco/tiburonBlanco.cpp libraries/peces_inheritance/tortuga/tortuga.cpp libraries/peces_inheritance/trucha/trucha.cpp libraries/hax.cpp main.cpp -o main.js -s WASM=1 --bind
 using namespace emscripten;
 
 EMSCRIPTEN_BINDINGS(Peces) {
+  //Exportacion de la clase peces y sus funciones, asi como sus herencias
   class_<Peces>("Peces")
     .constructor<>()
     .function("getTamanio", &Peces::getTamanio)
@@ -101,6 +103,7 @@ EMSCRIPTEN_BINDINGS(Peces) {
   class_<Trucha, base<Peces>>("Trucha")
     .constructor<>();
 
+  //Exportacion de la clase cania y sus funciones
   class_<Cania>("Cania")
     .constructor<>()
     .function("setCaniaActual", &Cania::setCaniaActual)
@@ -112,6 +115,7 @@ EMSCRIPTEN_BINDINGS(Peces) {
     .function("getTamanioVector", &Cania::getTamanioVector)
     .function("getIndexVector", &Cania::getIndexVector);
 
+  //Exportacion de la clase anzuelo y sus derivadas
   class_<Anzuelo>("Anzuelo")
     .constructor<>()
     .function("atraparPez", &Anzuelo::atraparPez);
