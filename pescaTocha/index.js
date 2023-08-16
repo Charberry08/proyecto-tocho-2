@@ -3561,9 +3561,13 @@ function entrarCatalogo()
 
 function actualizarCatalogo()
 {
-    for(let i = 0; i < (caniaObjetoActual.getTamanioVector(caniaObjetoActual.getCaniaActual())); i++)
+    for(let j = 0; j < 3; j++)
     {
-        mostrarFotoNegraCatalogo(caniaObjetoActual.getIndexVector(caniaObjetoActual.getCaniaActual(), i));
+        cambiarAnzuelo(j);
+        for(let i = 0; i < (caniaObjetoActual.getTamanioVector(caniaObjetoActual.getCaniaActual())); i++)
+        {
+            mostrarFotoNegraCatalogo(caniaObjetoActual.getIndexVector(caniaObjetoActual.getCaniaActual(), i));
+        }
     }
 }
 
